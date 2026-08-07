@@ -153,8 +153,6 @@ class Candidates(Base):
     longitude = Column(Float)
 
 
-
-
 class FactActivity(Base):
     __tablename__ = "fact_activity"
 
@@ -178,13 +176,12 @@ class FactActivity(Base):
     )
 
 
-    duration_minutes = Column(Integer)
-
-
     distance_meters = Column(Integer)
 
 
-    transport_type = Column(String)
+    activity_type = Column(String)
+
+    activity_probability = Column(Float)
 
 
     start_latitude = Column(Float)
