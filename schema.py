@@ -183,7 +183,6 @@ class FactActivity(Base):
 
     activity_probability = Column(Float)
 
-
     start_latitude = Column(Float)
 
     start_longitude = Column(Float)
@@ -223,7 +222,7 @@ class TimelinePath(Base):
     longitude = Column(Float)
 
 
-    offset_minutes = Column(Integer)
+    duration_minutes_offset = Column(Integer)
 
 
 
