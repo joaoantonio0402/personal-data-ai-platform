@@ -205,15 +205,23 @@ class TimelinePath(Base):
         autoincrement=True
     )
 
+    ###############################TENHO QUE ESTUDAR SE CADA PATH É UM PATH DE UMA ACTIVITY OU SE É UM PATH DE UM VISIT, OU SE É UM PATH DE UM LISTENING, OU SE É UM PATH DE UM CONTEXT EVENT. POR ENQUANTO ESTOU COLOCANDO COMO SE FOSSE UM PATH DE UMA ACTIVITY, MAS TENHO QUE ESTUDAR MELHOR ISSO.###############################
+    # activity_id = Column(
+    #     Integer,
+    #     ForeignKey("fact_activity.activity_id"),
+    #     nullable=False
+    # )
 
-    activity_id = Column(
-        Integer,
-        ForeignKey("fact_activity.activity_id"),
+    start_time = Column(
+        DateTime,
         nullable=False
     )
 
 
-    timestamp = Column(DateTime)
+    end_time = Column(
+        DateTime,
+        nullable=False
+    )
 
 
     latitude = Column(Float)
