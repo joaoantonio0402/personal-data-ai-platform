@@ -1,5 +1,5 @@
 import extract
-import transform
+#import transform
 
 extract.extract_and_save()
 #transform.transform()

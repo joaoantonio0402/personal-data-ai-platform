@@ -21,7 +21,13 @@ Base = declarative_base()
 class DimArtist(Base):
     __tablename__ = "dim_artist"
 
-    artist_id = Column(String, primary_key=True)
+    artist_id = Column(
+            Integer,
+            primary_key=True,
+            autoincrement=True
+        )
+    
+    artist_mbid = Column(String)
     artist_name = Column(String)
     followers = Column(Integer)
     popularity = Column(Integer)
@@ -31,28 +37,43 @@ class DimArtist(Base):
 class DimAlbum(Base):
     __tablename__ = "dim_album"
 
-    album_id = Column(String, primary_key=True)
+    album_id = Column(
+                Integer,
+                primary_key=True,
+                autoincrement=True
+            )
+    album_mbid = Column(String)
     album_name = Column(String)
     release_date = Column(Date)
+    artist_id = Column(
+            Integer,
+            ForeignKey("dim_artist.artist_id"),
+            nullable=False
+        )
 
 
 
 class DimTrack(Base):
     __tablename__ = "dim_track"
 
-    track_id = Column(String, primary_key=True)
-
+    track_id = Column(
+                Integer,
+                primary_key=True,
+                autoincrement=True
+            )
+    track_mbid = Column(String)
     track_name = Column(String)
 
     artist_id = Column(
-        String,
+        Integer,
         ForeignKey("dim_artist.artist_id"),
         nullable=False
     )
 
     album_id = Column(
-        String,
-        ForeignKey("dim_album.album_id")
+        Integer,
+        ForeignKey("dim_album.album_id"),
+        nullable=False
     )
 
     duration_ms = Column(Integer)
@@ -80,8 +101,13 @@ class FactListening(Base):
         nullable=False
     )
 
+    timestamp_uts = Column(
+        Integer,
+        nullable=False
+    )
+
     track_id = Column(
-        String,
+        Integer,
         ForeignKey("dim_track.track_id"),
         nullable=False
     )
