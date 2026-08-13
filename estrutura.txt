@@ -1,0 +1,40 @@
+project/
+│
+├── data/
+│   ├── raw/
+│   │   ├── google/
+│   │   └── spotify/
+│   │
+│   └── processed/
+│
+├── notebooks/
+│   ├── exploration/
+│   │   ├── google_exploration.ipynb
+│   │   └── spotify_exploration.ipynb
+│   │
+│   └── analysis/
+│       └── recommendation_analysis.ipynb
+│
+├── src/
+│   ├── google/
+│   │   ├── extract.py
+│   │   ├── transform.py
+│   │   └── load.py
+│   │
+│   ├── spotify/
+│   │   ├── extract.py
+│   │   ├── transform.py
+│   │   ├── enrichment.py
+│   │   └── load.py
+│   │
+│   └── database/
+│       ├── models.py
+│       └── connection.py
+│
+├── sql/
+│   └── schema.sql
+│
+├── notebooks/
+├── requirements.txt
+├── .env
+└── README.md
