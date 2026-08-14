@@ -1,0 +1,301 @@
+track_name,artist_name,spotify_id,isrc,features
+Professional,The Weeknd,5ZicFGBDAi9J2YCVesboUp,USUM71310341,
+Vampiro,Matuê,6bTdZ7xfKp3NqqADJ8HLyj,BXW922100034,
+Heartbeat,Childish Gambino,5AGQSF0ytihJyt96K5vW9d,USYAH1100351,
+When I’m Home,James Blake,5nigMKgXqeNvaiqEBWwo9s,USQ4E2600373,
+Both (feat. Drake),Gucci Mane,5tFep7dXGd7vEJ668wTPux,USAT21603373,
+Stay Ready (What a Life),Jhené Aiko,5nkUIVKqOqdpB6ApKgEMkv,USUM71312344,
+Jungle,Drake,7JXZq0JgG2zTrSOAgY8VMC,USCM51500037,"{'data': {'isrc': 'USCM51500037', 'title': 'Jungle', 'artist': 'Drake', 'features': {'bpm': 99.9, 'key': 'G', 'key_confidence': 0.8082623, 'energy': 0.7131235, 'danceability': 0.4471175, 'valence': None, 'acousticness': None, 'loudness': -10.9, 'instrumentalness': None, 'speechiness': 0.4068, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_431c6082a1cb'}}"
+Novacane,Frank Ocean,4osgfFTICMkcGbbigdsa53,USUM71107257,
+The Zone,The Weeknd,53qYItjefG5SUf62428dIw,USUM72111952,
+Lose You,Drake,2Na0z2gfN67Rzf0vp74Wi3,USCM51700071,
+Redemption,Drake,4cRBqWBjuccCowYVHFlXK6,USCM51600072,
+Jungle,Tash Sultana,1KTObLMW9mwk2iPjP3daHb,AUBEC1601210,"{'data': {'isrc': 'AUBEC1601210', 'title': 'Jungle', 'artist': 'Tash Sultana', 'features': {'bpm': 146.2, 'key': 'E', 'key_confidence': 0.9568397, 'energy': 0.7166102, 'danceability': 0.3482704, 'valence': None, 'acousticness': None, 'loudness': -11.8, 'instrumentalness': None, 'speechiness': 0.727, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_6e6a8b3b23a8'}}"
+Hide U (Tinlicker Remix),Kosheen,5Xjaq6oqOcPd4NkTL7ITMR,NLF712102759,
+Meet Me Halfway,Black Eyed Peas,3F9ByoUqu31xU0I3G5xfVg,USUM70967700,"{'data': {'isrc': 'USUM70967700', 'title': 'Meet Me Halfway', 'artist': 'The Black Eyed Peas', 'features': {'bpm': 130, 'key': 'F#m', 'key_confidence': 0.5460729, 'energy': 0.7408222, 'danceability': 0.4537848, 'valence': 0.08884735, 'acousticness': 0.1862358, 'loudness': None, 'instrumentalness': 0.06568666, 'speechiness': 0.9343134, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_d5a39d28c597'}}"
+Pretty When You Cry,Lana Del Rey,6PnluwP0fjGnpIBsqTdUTq,GBUM71402191,"{'data': {'isrc': 'GBUM71402191', 'title': 'Pretty When You Cry', 'artist': 'Lana Del Rey', 'features': {'bpm': 109.2, 'key': 'A#m', 'key_confidence': 0.6412471, 'energy': 0.6380752, 'danceability': 0.3530976, 'valence': 0.1563297, 'acousticness': 0.5602422, 'loudness': None, 'instrumentalness': 0.8671713, 'speechiness': 0.1328287, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_e00ac7c51b04'}}"
+Crew Love,Drake,0V4l4GQhgnWQGtCWpvA7va,USCM51100546,
+Gifted,French Montana,7muBxnSg5UXgBXLOyVF96D,USUM71303787,
+THANK GOD,Travis Scott,1PH2MDbcBAU094DlgTIND1,USSM12305005,
+Raindance (feat. Tems),Dave,3oTuTpF1F3A7rEC6RKsMRz,GBUM72506029,
+CHIHIRO,Billie Eilish,7BRD7x5pt8Lqa1eGYC4dzj,USUM72401988,"{'data': {'isrc': 'USUM72401988', 'title': 'CHIHIRO', 'artist': 'Billie Eilish', 'features': {'bpm': 110, 'key': 'Em', 'key_confidence': 0.8640409, 'energy': 0.7131944, 'danceability': 0.4919024, 'valence': None, 'acousticness': None, 'loudness': -10.1, 'instrumentalness': None, 'speechiness': 0.1802, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_b5180d43de81'}}"
+Be Someone,KVSH,0XMl0fVTh3PyPlwyJTn33n,NLM5S2201608,
+Cheyenne,Trilucid,6ry0z6yotxEiqsxoKHpYBO,US83Z2206777,
+Un-thinkable (I'm Ready) (feat. Drake) - Remix,Alicia Keys,4o4wEDRqotccDTXiQ7TORu,USJAY1000062,
+Xerces,Deftones,5hxcxipGOjgTzrPOkfsyyS,USMV20600287,"{'data': {'isrc': 'USMV20600287', 'title': 'Xerces', 'artist': 'Deftones', 'features': {'bpm': 120, 'key': 'Fm', 'key_confidence': 0.5318353, 'energy': 0.8517322, 'danceability': 0.3274828, 'valence': 0.6609002, 'acousticness': 0.09559036, 'loudness': None, 'instrumentalness': 0.9564223, 'speechiness': 0.04357767, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_d8b86163def0'}}"
+Mile High (feat. Travis Scott & Metro Boomin),James Blake,4cQrSREMqBSvJ8ZzBZjVb8,GBUM71807985,
+"Lover, You Should've Come Over - Live at Sin-é, New York, NY - July/August 1993",Jeff Buckley,3B0SrUf3hRsHDOIFbMUWzc,USSM10306400,
+Always,RÜFÜS DU SOL,56jH9iqA8f2kwaoK8103hu,USRE12100629,
+Rehab,Amy Winehouse,1L5tZi0izXsi5Kk5OJf4W0,GBUM70603730,"{'data': {'isrc': 'GBUM70603730', 'title': 'Rehab', 'artist': 'Amy Winehouse', 'features': {'bpm': 145.4, 'key': 'C', 'key_confidence': 0.8005476, 'energy': 0.9708863, 'danceability': 0.4478431, 'valence': 0.7812827, 'acousticness': 0.1378392, 'loudness': None, 'instrumentalness': 0.01906486, 'speechiness': 0.9809352, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_83982a5e1151'}}"
+Back to Black,Amy Winehouse,3FAclTFfvUuQYnEsptbK8w,GBUM70604698,"{'data': {'isrc': 'GBUM70604698', 'title': 'Back to Black', 'artist': 'Amy Winehouse', 'features': {'bpm': 123.6, 'key': 'Dm', 'key_confidence': 0.8854921, 'energy': 0.8585216, 'danceability': 0.3593535, 'valence': 0.6426891, 'acousticness': 0.3285271, 'loudness': None, 'instrumentalness': 0.824469, 'speechiness': 0.175531, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_19be354eb6c1'}}"
+Lovesong,Adele,7nm6DlSzzJTH1rk2e6EgJz,GBBKS1000352,"{'data': {'isrc': 'GBBKS1000352', 'title': 'Lovesong', 'artist': 'Adele', 'features': {'bpm': 117, 'key': 'Cm', 'key_confidence': 0.7338466, 'energy': 0.587905, 'danceability': 0.3700106, 'valence': 0.02026003, 'acousticness': 0.9470437, 'loudness': None, 'instrumentalness': 0.5464317, 'speechiness': 0.4535683, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_16c84ababd4d'}}"
+Set Fire to the Rain,Adele,73CMRj62VK8nUS4ezD2wvi,GBBKS1000348,"{'data': {'isrc': 'GBBKS1000348', 'title': 'Set Fire to the Rain', 'artist': 'Adele', 'features': {'bpm': 108, 'key': 'F', 'key_confidence': 0.705613, 'energy': 0.8970867, 'danceability': 0.3454861, 'valence': 0.75622, 'acousticness': 0.403025, 'loudness': None, 'instrumentalness': 0.8166835, 'speechiness': 0.1833165, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_dd18904202b7'}}"
+Rolling in the Deep,Adele,1c8gk2PeTE04A1pIDH9YMk,GBBKS1000335,"{'data': {'isrc': 'GBBKS1000335', 'title': 'Rolling in the Deep', 'artist': 'Adele', 'features': {'bpm': 104.9, 'key': 'Cm', 'key_confidence': 0.568093, 'energy': 0.5235667, 'danceability': 0.3669091, 'valence': 0.1625566, 'acousticness': 0.3338443, 'loudness': None, 'instrumentalness': 0.7726214, 'speechiness': 0.2273786, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_68a87a200a66'}}"
+Someone Like You,Adele,1zwMYTA5nlNjZxYrvBB2pV,GBBKS1000351,"{'data': {'isrc': 'GBBKS1000351', 'title': 'Someone Like You', 'artist': 'Adele', 'features': {'bpm': 135, 'key': 'A', 'key_confidence': 0.8154073, 'energy': 0.7476559, 'danceability': 0.3340032, 'valence': 0.9961151, 'acousticness': 0.939578, 'loudness': None, 'instrumentalness': 0.01405069, 'speechiness': 0.9859493, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_3e11c3a7e4a0'}}"
+Love in the Dark,Adele,7B5Npv8NjjTCzk8PLpU66h,GBBKS1500221,
+Simply Falling,Iyeoka,3Ydwbd3REFlpWIEhCNI6fC,USVZF1000006,
+505,Arctic Monkeys,0BxE4FqsDD1Ot4YuBXwAPp,GBCEL0700074,
+Stargirl Interlude,The Weeknd,5gDWsRxpJ2lZAffh5p7K0w,USUG11600986,
+Passionfruit,Drake,5mCPDVBb16L4XQwDdbRUpz,USCM51700072,
+Moth to a Flame (with The Weeknd),Swedish House Mafia,0VO8gYVDSwM1Qdd2GsMoYK,USUG12105524,
+And This is Just The Intro,Tory Lanez,4sMmYKC0ot3GTbl2RzHw7T,CA5KR2138591,
+333,Matuê,7zILDYgo1dImCU8fcYuBdj,BXW922400051,
+Clouds,BUNT.,3zPco1u9i9bCjkG5pngR5t,QZTBB2202743,
+HOTEL,Montell Fish,4UgQtwlW2Kd6fyv3y6DQ3e,QZVBE2200009,
+Twenty Eight,The Weeknd,1FJrsh1NbV9eRw5JQt3M4e,USUM71212147,
+STOP TRYING TO BE GOD,Travis Scott,1xYpVRspgaLxdJLOTQkTjg,USSM11806662,
+Sparks,Coldplay,7D0RhFcb3CrfPuTJ0obrod,GBAYE0000569,
+I Miss You,Adele,6QSJvH2m7QLAiFIywwzCVi,GBBKS1500216,
+Fire & Desire,Drake,4BhGTc3Cgay2U1QcTS7vQe,USCM51600092,
+Sex on Fire,Kings of Leon,0ntQJM78wzOLVeCUAW7Y45,USRC10800300,"{'data': {'isrc': 'USRC10800300', 'title': 'Sex on Fire', 'artist': 'Kings Of Leon', 'features': {'bpm': 153.2, 'key': 'E', 'key_confidence': 0.9246184, 'energy': 0.738328, 'danceability': 0.4403718, 'valence': None, 'acousticness': None, 'loudness': -9.5, 'instrumentalness': None, 'speechiness': 0.1098, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_4c96412d14ae'}}"
+When I'm Small,Phantogram,3y1EzRl5UEQxxd1f6Bv2aN,USBS51300075,
+TIL FURTHER NOTICE (feat. James Blake & 21 Savage),Travis Scott,76gcXhY3Zv6wW0BTe9nHJo,USSM12305020,
+4422,Drake,2fkeWbM6iqTw7oGHTYm2lw,USCM51700060,
+Ginza,J Balvin,27OnRI6jSkxN9EAqZEVHjv,MXUM71501907,
+No Me Conoce - Remix,JHAYCO,2beS6dD5rovBxSA1zYoSHR,USUM71908293,
+EYES,The Blaze,0VWfG35i4baw8AbN9hvYpS,FR96X2248260,
+Next To Me,RÜFÜS DU SOL,46haIwbQpVUkpAQj9V84Gp,USRE12100573,
+Be Strong,Spada,0CHh1gF69ZtA0P59c8WmkP,NLF712200092,
+Devotion,RÜFÜS DU SOL,56Qdvab5ordX97OCvgY3ie,USRE12100628,
+More,Jan Blomqvist,3GFeywCUMA1ZsmRPnAxHVQ,NLF711600141,
+Beware,Deftones,2ASygm7048ssav4ekbehPS,USMV20600283,"{'data': {'isrc': 'USMV20600283', 'title': 'Beware', 'artist': 'Deftones', 'features': {'bpm': 141.5, 'key': 'A#', 'key_confidence': 0.5959823, 'energy': 0.7491483, 'danceability': 0.3169388, 'valence': 0.1357526, 'acousticness': 0.09559036, 'loudness': None, 'instrumentalness': 0.9594552, 'speechiness': 0.04054481, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_3467ffd25a9c'}}"
+Disparate Youth,Santigold,6h7IpnPY2C269Gmkz1f9E9,GBAHS1100389,
+Underwater,RÜFÜS DU SOL,5ZvHcR4OSwvEV5IhigbTOT,USRE11800535,
+Odd Look,Kavinsky,3Q6mwJseOFYBJ10d5CXp4o,FRS711300690,
+Self Aware,Temper City,4qW3BbQAwZsrnu8a3ZRdyT,QZHN52696246,
+Nothing Breaks Like a Heart (feat. Miley Cyrus),Mark Ronson,02dRkCEc8Q5ch4TTcnLxOn,GBARL1801571,
+Sign of the Times,Harry Styles,5Ohxk2dO5COHF1krpoPigN,USSM11703595,"{'data': {'isrc': 'USSM11703595', 'title': 'Sign of the Times', 'artist': 'Harry Styles', 'features': {'bpm': 118.5, 'key': 'C', 'key_confidence': 0.9050585, 'energy': 0.7076703, 'danceability': 0.3179375, 'valence': None, 'acousticness': None, 'loudness': -12, 'instrumentalness': None, 'speechiness': 0.7061, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_bea782d441e0'}}"
+Skyfall,Adele,6VObnIkLVruX4UVyxWhlqm,GBBKS1200164,"{'data': {'isrc': 'GBBKS1200164', 'title': 'Skyfall', 'artist': 'Adele', 'features': {'bpm': 151.7, 'key': 'Cm', 'key_confidence': 0.8257703, 'energy': 0.5692587, 'danceability': 0.3082653, 'valence': None, 'acousticness': None, 'loudness': -20.8, 'instrumentalness': None, 'speechiness': 0.5267, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_f7cff58db001'}}"
+It Will Rain,Bruno Mars,0M3HkE321xpCbCYqVKzr1q,USAT21102075,
+He Won't Go,Adele,3uVsdnIglL7aTjm8X08J0M,GBBKS1000353,"{'data': {'isrc': 'GBBKS1000353', 'title': ""He Won't Go"", 'artist': 'Adele', 'features': {'bpm': 161.6, 'key': 'Cm', 'key_confidence': 0.7003626, 'energy': 0.640439, 'danceability': 0.3849328, 'valence': 0.4739296, 'acousticness': 0.5, 'loudness': None, 'instrumentalness': 0.6040217, 'speechiness': 0.3959783, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_a2d17b3ea59a'}}"
+Fallin',Alicia Keys,0KQx6HOpJueiSkztcS0r7D,USJAY0100057,
+What i need,MRK,7LgciBSuvicojX73bjpJe8,SE6SA2484268,
+The Last Day,Moby,170LLz6e7O3hbvYw8zzfTl,GB3AD1300013,
+TV,Billie Eilish,3GYlZ7tbxLOxe6ewMNVTkw,USUM72213724,"{'data': {'isrc': 'USUM72213724', 'title': 'TV', 'artist': 'Billie Eilish', 'features': {'bpm': 139.6, 'key': 'G', 'key_confidence': 0.8858449, 'energy': 0.7132655, 'danceability': 0.3054474, 'valence': None, 'acousticness': None, 'loudness': -11.5, 'instrumentalness': None, 'speechiness': 0.0858, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_dbafaeec35f8'}}"
+idontwannabeyouanymore,Billie Eilish,41zXlQxzTi6cGAjpOXyLYH,USUM71707712,
+Bebendo Vinho,Wander Wildner,1hdlpRiRTVIjO6yGYVLJJp,US7VG1103372,
+Soy Sabalero,Los Palmeras,6MIulZ9FG6Td02EpvFC5ZL,ARF061900219,
+El Bombón,Los Palmeras,68drjp77R32xEkzP1vxlF6,ARF061600397,
+WILDFLOWER,Billie Eilish,3QaPy1KgI7nu9FJEQUgn6h,USUM72401993,"{'data': {'isrc': 'USUM72401993', 'title': 'WILDFLOWER', 'artist': 'Billie Eilish', 'features': {'bpm': 74.5, 'key': 'A', 'key_confidence': 0.8177903, 'energy': 0.6675908, 'danceability': 0.3315327, 'valence': None, 'acousticness': None, 'loudness': -14.4, 'instrumentalness': None, 'speechiness': 0.2003, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_114485db9690'}}"
+Still Loving You,Scorpions,7kjsCbksOZotNNHOvKsJJh,USMR18430334,"{'data': {'isrc': 'USMR18430334', 'title': 'Still Loving You', 'artist': 'Scorpions', 'features': {'bpm': 113.1, 'key': 'Dm', 'key_confidence': 0.7153097, 'energy': 0.6527414, 'danceability': 0.3303205, 'valence': 0.2162488, 'acousticness': 0.09559036, 'loudness': None, 'instrumentalness': 0.9999989, 'speechiness': 1.132488e-06, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_d6763c8702ef'}}"
+bellyache,Billie Eilish,51NFxnQvaosfDDutk0tams,USUM71615103,
+Ain't No Sunshine,Bill Withers,1k1Bqnv2R0uJXQN4u6LKYt,USSM10000372,
+Purple Rain,Prince,1uvyZBs4IZYRebHIB1747m,USWB10001880,"{'data': {'isrc': 'USWB10001880', 'title': 'Purple Rain', 'artist': 'Prince', 'features': {'bpm': 114.3, 'key': 'Bb', 'key_confidence': 0.8382456, 'energy': 0.5591952, 'danceability': 0.3892916, 'valence': None, 'acousticness': None, 'loudness': -20.6, 'instrumentalness': None, 'speechiness': 0.348, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_e2d61a340257'}}"
+"Lover, You Should've Come Over",Jeff Buckley,6Jv7kjGkhY2fT4yuBF3aTz,USSM19400916,"{'data': {'isrc': 'USSM19400916', 'title': ""Lover, You Should've Come Over"", 'artist': 'Jeff Buckley', 'features': {'bpm': 120.3, 'key': 'A', 'key_confidence': 0.6949563, 'energy': 0.7083021, 'danceability': 0.3531406, 'valence': 0.188528, 'acousticness': 0.6051319, 'loudness': None, 'instrumentalness': 0.1828872, 'speechiness': 0.8171128, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_9fa9ad6b2bd4'}}"
+Fade Into You,Mazzy Star,1LzNfuep1bnAUR9skqdHCK,USCA29300105,"{'data': {'isrc': 'USCA29300105', 'title': 'Fade Into You', 'artist': 'Mazzy Star', 'features': {'bpm': 209, 'key': 'E', 'key_confidence': 0.8401032, 'energy': 0.6519139, 'danceability': 0.3420643, 'valence': None, 'acousticness': None, 'loudness': -15.2, 'instrumentalness': None, 'speechiness': 0.1237, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_a1be8f42661b'}}"
+Love Lockdown,Kanye West,1kxeWHF9PrCVZHvVskv8lg,USUM70837229,"{'data': {'isrc': 'USUM70837229', 'title': 'Love Lockdown', 'artist': 'Kanye West', 'features': {'bpm': 117.8, 'key': 'A#m', 'key_confidence': 0.5139629, 'energy': 0.9721612, 'danceability': 0.4290484, 'valence': 0.729066, 'acousticness': 3.531088e-06, 'loudness': None, 'instrumentalness': 0.9901044, 'speechiness': 0.009895563, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_4825729c9ab2'}}"
+Pink Dolphin Sunset (feat. Tee),Tory Lanez,6GGmABM6AMwMzEhK7szqJT,QZTGW2100274,
+Midnight's Interlude,Tory Lanez,31zNgkbLt8McmjDrh6XKY9,QZTGW2100476,
+Belong to the World,The Weeknd,3D7izPzeEcz7lBhcCZJccl,USUM71308530,
+No Church In The Wild,Jaÿ-Z,7r6PigmGzlB3YPB7wvBBbi,USUM71111617,
+American Boy,Estelle,6etwirSInfuJrSOlogS6Sh,USAT20706210,
+Tears in the Rain,The Weeknd,5oAOK7xCJD8hzp9PuxjULL,USUM71310348,
+Enchanted Waterfall,Tory Lanez,4jgB5iZ6YsEqeivh7H6hRI,QZTGW2100273,
+On My Knees,RÜFÜS DU SOL,2ouFrmMwYik8nQX2n9SeZu,USRE12100620,
+Teenage Fever,Drake,6n3HGiq4v35D6eFOSwqYuo,USCM51700048,
+We Are Mirage,Eric Prydz,4tBYxCOPJXS2HefP749FWK,GB6CM1200061,
+Do It,The Noise,03jFlnbWq9ZkrNxovff1OZ,CA5KR0017755,
+Hurt You,The Weeknd,6QdnKD1zwEgyOWtkrdzlOF,USUG11800566,"{'data': {'isrc': 'USUG11800566', 'title': 'Hurt You', 'artist': 'The Weeknd', 'features': {'bpm': 91.9, 'key': 'Bbm', 'key_confidence': 0.8786078, 'energy': 0.7763314, 'danceability': 0.4707426, 'valence': None, 'acousticness': None, 'loudness': -7.3, 'instrumentalness': None, 'speechiness': 0.3078, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_f84c2308d3a8'}}"
+FML,Kanye West,30Zcjs7pgEkmJA1lEbGSWT,USUM71603080,
+One Life,Justin Bieber,3MptiayBkOJblyC8geSXPE,USUM71318562,
+Love Me Harder,Ariana Grande,5J4ZkQpzMUFojo1CtAZYpn,USUM71409728,
+Art Deco,Lana Del Rey,5jqNQZBwbZWQXPWfo0ygZF,GBUM71503925,
+Wanderlust,The Weeknd,6V9TlCdwLeQes4FX5zxz3f,USUM71310345,
+No Pressure,Justin Bieber,23UV8pJEvRnAZd6ZAXBC0H,USUM71516763,
+Bad News,Kanye West,1nNPoG2hygEvrFGlHdhvJ9,USUM70846389,"{'data': {'isrc': 'USUM70846389', 'title': 'Bad News', 'artist': 'Kanye West', 'features': {'bpm': 104.7, 'key': 'A#m', 'key_confidence': 0.3973531, 'energy': 0.9745734, 'danceability': 0.3232751, 'valence': 0.1579081, 'acousticness': 1.715321e-08, 'loudness': None, 'instrumentalness': 1, 'speechiness': 0, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_c817e540c644'}}"
+Un-Thinkable (I'm Ready),Alicia Keys,4o4wEDRqotccDTXiQ7TORu,USJAY1000062,
+Too Late,The Weeknd,2K9Ovn1o2bTGqbsABGC6m3,USUG12000651,
+Ultraviolence,Lana Del Rey,1y3r6RXiJZNBV1EI0NggpS,GBUM71402015,"{'data': {'isrc': 'GBUM71402015', 'title': 'Ultraviolence', 'artist': 'Lana Del Rey', 'features': {'bpm': 109.9, 'key': 'C', 'key_confidence': 0.7190968, 'energy': 0.7545785, 'danceability': 0.3211042, 'valence': 0.212079, 'acousticness': 0.4546205, 'loudness': None, 'instrumentalness': 0.02317918, 'speechiness': 0.9768208, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_77fd6b1efd85'}}"
+NOBLE,F3miii,4Jsus7N4d8hFB2G9gcRdBv,GXJBS2557689,
+Wonderwall,Oasis,5qqabIl2vWzo9ApSC317sa,GBQCP1400109,
+Infinite Source,Deftones,3txlvthoUa9vWvG1zr2Lnr,USRE12500232,
+I Think About You All The Time,Deftones,0M5NH22uVXHSXjSi5SXTXM,USRE12500235,
+Diamond Eyes,Deftones,6nmDEbjMZru5j55HIkX2yZ,USRE11000101,
+Mascara,Deftones,4cLdpErILMO8Db8pQVAVcZ,USMV29700144,
+Entombed,Deftones,4bLCPfBLKlqiONo6TALTh5,USRE11200412,"{'data': {'isrc': 'USRE11200412', 'title': 'Entombed', 'artist': 'Deftones', 'features': {'bpm': 129.8, 'key': 'Bb', 'key_confidence': 0.8489313, 'energy': 0.7850087, 'danceability': 0.3185048, 'valence': None, 'acousticness': None, 'loudness': -7.1, 'instrumentalness': None, 'speechiness': 0.3125, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_3ad10a9450cf'}}"
+Be Quiet and Drive (Far Away),Deftones,4Uiw0Sl9yskBaC6P4DcdVD,USMV29700147,"{'data': {'isrc': 'USMV29700147', 'title': 'Be Quiet and Drive (Far Away)', 'artist': 'Deftones', 'features': {'bpm': 92.7, 'key': 'Fm', 'key_confidence': 0.8634588, 'energy': 0.7461603, 'danceability': 0.5535782, 'valence': None, 'acousticness': None, 'loudness': -7.8, 'instrumentalness': None, 'speechiness': 0.2591, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_4395e863d9b7'}}"
+Lost In You (Falling In Love) - Estiva Remix,Dezza,4FnrhKZ7eBpOZFV9VIxsmX,GBKQU2176310,
+I Am Free,Tinlicker,1JRSuXtaM9ecKdwI91RjRa,GBEWA2105250,
+Far Away Place - Jody Wisternoff & James Grant Remix,Xinobi,2tzT3i3AofX2OAjdGJdBhw,GBEWA1702710,
+Fade Into Black,Tinlicker,6iLmRyoQ1y7zVkWzmXL4nt,AUFF02200143,
+In Vein,Rick Ross,6fUjGXOEVP5dRaMFUO1cqG,USUM71401694,
+The Chase,Emmit Fenn,0SANWT6WZgajOViFe0EkCO,GBKPL2281437,
+Heartless,Kanye West,4EWCNWgDS8707fNSZ1oaA5,USUM70840511,"{'data': {'isrc': 'USUM70840511', 'title': 'Heartless', 'artist': 'Kanye West', 'features': {'bpm': 86.7, 'key': 'A#m', 'key_confidence': 0.7322451, 'energy': 0.9683884, 'danceability': 0.4044859, 'valence': 0.4138307, 'acousticness': 0.05867672, 'loudness': None, 'instrumentalness': 0.4271347, 'speechiness': 0.5728653, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_9d2e086e25ab'}}"
+Can't Feel My Face,The Weeknd,22VdIZQfgXJea34mQxlt81,USUG11500741,"{'data': {'isrc': 'USUG11500741', 'title': ""Can't Feel My Face"", 'artist': 'The Weeknd', 'features': {'bpm': 107.9, 'key': 'Am', 'key_confidence': 0.9488162, 'energy': 0.7574343, 'danceability': 0.4204668, 'valence': None, 'acousticness': None, 'loudness': -8.1, 'instrumentalness': None, 'speechiness': 0.1114, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_6a4f2b373993'}}"
+Why I Love You,Jaÿ-Z,4bDPr2VAjcfgUDmN9dGOC3,USUM71111678,
+Sundress,A$AP Rocky,2aPTvyE09vUCRwVvj0I8WK,USRC11803252,
+Homecoming,Kanye West,4iz9lGMjU1lXS51oPmUmTe,USUM70749093,
+Superstar (feat. Matthew Santos),Lupe Fiasco,7dltD9eEX7X1zk8JJ9BS0e,USAT20704985,
+Gold Digger,Kanye West,1PS1QMdUqOal0ai3Gt7sDQ,USUM70500143,"{'data': {'isrc': 'USUM70500143', 'title': 'Gold Digger', 'artist': 'Kanye West', 'features': {'bpm': 92.6, 'key': 'Abm', 'key_confidence': 0.7684344, 'energy': 0.7596984, 'danceability': 0.5128142, 'valence': None, 'acousticness': None, 'loudness': -8.1, 'instrumentalness': None, 'speechiness': 0.099, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_03c1a45e066b'}}"
+ALL THE LOVE (feat. Andre Troutman),Kanye West,2SjnvpedDUU0Ga69bxnoCa,QZS7J2646936,
+Ghost Town,Kanye West,7vgTNTaEz3CsBZ1N4YQalM,USUM71807761,
+Wicked Game,Chris Isaak,7w5AOd6HrDIHewHfpABEss,USRE19900989,"{'data': {'isrc': 'USRE19900989', 'title': 'Wicked Game', 'artist': 'Chris Isaak', 'features': {'bpm': 112.4, 'key': 'E', 'key_confidence': 0.9762396, 'energy': 0.5680432, 'danceability': 0.3359922, 'valence': None, 'acousticness': None, 'loudness': -20.6, 'instrumentalness': None, 'speechiness': 0.1454, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_bceafde84fac'}}"
+Decode,Paramore,1ZLtE9tSJdaUiIJ9YoKHQe,USAT22103220,
+Risk,Deftones,0lqHgjNrXmtFroWDqwV1iQ,USRE11000116,
+u don't have to tell me,Artemas,6U5AgSYUubKMrMDEazfSsF,QZJ842503748,
+How Many Drinks?,Miguel,4LiQ8uAynrXFWY0vimnAa1,USRC11200937,
+Nonchalant,6LACK,7c3K8ifIoaVZ2MSUuGo0Co,USUM71811804,
+Paris Morton Music,Drake,73IE87H0g2MBmdn41lkVto,USUG11902758,
+Company,Drake,6ImxYXeLDQPIv4qo7bMhSk,USCM51500033,
+Madonna,Drake,6WzRpISELf3YglGAh7TXcG,USUG12303876,"{'data': {'isrc': 'USUG12303876', 'title': 'Popular (From The Idol Vol. 1 Music from the HBO Original Series)', 'artist': 'The Weeknd', 'features': {'bpm': 99, 'key': 'C#', 'key_confidence': 0.850403, 'energy': 0.7401363, 'danceability': 0.4445179, 'valence': None, 'acousticness': None, 'loudness': -9.2, 'instrumentalness': None, 'speechiness': 0.3759, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_668608c449e5'}}"
+The Motion,Drake,3t8pnImpBpOwxdtYBpKvA9,USCM51300760,
+Tell Your Friends,The Weeknd,1mhVXWduD8ReDwusfaHNwU,USUG11500917,
+Favour,Avenoir,7lTUaX0Bs1uE9ALFsmLF8G,USLD91762370,
+Club Paradise,Drake,6MR5IBSNfDmiwnrlQpVw4w,USUG11902754,
+God Gave Me Style,50 Cent,5NoB3TXQDvVClLnC1lXdPt,USIR10500267,
+Window Shopper,50 Cent,0NJu93oln1kkgbHLFzLJ4h,USUM70504267,
+Wish I Never Met You - Prison Tapes,Tory Lanez,7MOjhqpSpGkeRyT4agpg12,QZJ842402111,
+Now & Forever,Drake,4zLOwx1yRJXWkHKt1XzF1p,USCM51500031,
+Right Here,Justin Bieber,2Rmuzh89p29BeTIF63Opwo,USUM71205295,
+"God Is Fair, Sexy Nasty (feat. Kendrick Lamar)",Mac Miller,6hzbRKhJHo6cfCHSnNaDS8,USWB11601442,
+Weak for Your Love,Thee Sacred Souls,3W4xqKFMKBauuU517t8NIb,USA2B2033443,
+Girl With The Tattoo (Enter.Lewd),Miguel,1eUGmzzvahJjOSWgDHuRlv,USJI11000245,
+III. Urn,Childish Gambino,6KqAgoz02Jjga2TGdnCAKy,USYAH1300231,
+Ascension,Mac Miller,19CkkPInDRDIOlqfrz1mVn,USWB11508650,
+ASTROTHUNDER,Travis Scott,4MXhiYIRDMGAuvZc5IFTwC,USSM11806668,
+Preoccupied,Mac DeMarco,6N4WUdbz6HVKy6u6JX1KqK,QZG4T1900005,
+PRBLMS,6LACK,4AtZRwSR8BOTTQg5ihSggt,USUYG1102245,
+Hurt Feelings,Mac Miller,5p7GiBZNL1afJJDUrOA6C8,USWB11801212,
+Buried Alive Interlude,Drake,1ZyudLFv35SRvY5SvTZqJx,USCM51100548,
+Me and Your Mama,Childish Gambino,0NkkbKSzQ50mAoSUbQpgLw,USYAH1600102,
+Sidewalks,The Weeknd,4h90qkbnW1Qq6pBhoPvwko,USUG11601003,
+One More Love Song,Mac DeMarco,2RRDCYAfYlvg9QtIiHvY4W,QMMZN1701307,
+Cinderella (feat. Ty Dolla $ign),Mac Miller,2lpygKqzPFtItQ4ss3cgfb,USWB11601437,
+Por Enquanto,Cássia Eller,6Zo58fraaPpTUUdYHwH0sf,BRMCA0100100,
+relicário - ao vivo,Cássia Eller,6HhXiy5XZ81Pyv3yCZMtj1,BRMCA0100113,
+Eu Amo Você,Tim Maia,04h9o3gtRD7fvGafF7ukJj,BRMCA7000087,
+Preciso Me Encontrar,Cartola,5AKrqJ7RiOCfCaaCuxxGk0,BREMI7600160,
+Outra Vida,Armandinho,1tqNjCuAIoG1kyBfs8DfZE,BRUM70701834,
+Azul Da Cor Do Mar,Tim Maia,6vgKWE1KV4E7p1Dv75z0kL,BRMCA7000090,
+Me Dê Motivo,Tim Maia,2RaGjLBahBx3PW7iPg8Mh0,BRMCA8300166,
+Race My Mind,Drake,2Q3jFbyE61mCjS3SkW4toJ,USUG12104411,
+Hustler's Ambition,50 Cent,5gywetbpQvCD8TqcAdYc0f,USUM70504263,
+Wings,Mac Miller,16umSNZfofRpDqTvf8DIAo,USWB11801216,
+Stranger,Jhené Aiko,7eZXAeqqdLDrAp2MvrPzWn,USUG12100909,"{'data': {'isrc': 'USUG12100909', 'title': 'Stranger', 'artist': 'Jhené Aiko', 'features': {'bpm': 93.2, 'key': 'Fm', 'key_confidence': 0.5976512, 'energy': 0.7168444, 'danceability': 0.3655979, 'valence': 0.08402245, 'acousticness': 0.03747864, 'loudness': None, 'instrumentalness': 0.9999992, 'speechiness': 7.7486e-07, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_bed9b5186e5f'}}"
+AFTER HOURS,Avenoir,2ss03wfWSV9g3DdvDklHH2,USLD91751838,
+Star67,Drake,2mmUoyPxzbxehpfm1TpTRK,USCM51500023,
+LINK UP,Avenoir,04GLL6JKODDRtfmK4uEVlk,USLD91753275,
+Jaded,Drake,4c2xt1trwYZpMqPWY35Xi9,USCM51800227,
+Dia Especial,Tiago Iorc,1fRKUO6PvzxNbwjzp51TW5,BRRGE1500007,
+Own It,Drake,3EJ9ZuqkL1kwgouugqsLu8,USCM51300740,
+Roller Coaster,Justin Bieber,18ws4dUbhpoGB7Uv7U89yp,USUM71318563,
+The Town,The Weeknd,7jGr8wzgwOVLuktY66qM5f,USUM71310342,
+Never Know,6LACK,4bJX21zvsGJELwVNf902qk,USUG11601105,
+"Reflections Laughing (feat. Travis Scott, Florence + The Machine)",The Weeknd,2gyHr9WqZeMtzJOpWGuGo6,USUG12501135,
+Trust Issues,Drake,4Wjhj0WjkyECccfHVIgaTq,USUG11902746,
+Flatline,Justin Bieber,2GBgiuXwY1KzJMA0gSAr9J,USUM71320144,
+Wicked Games,The Weeknd,00aqkszH1FdUiJJWvX6iEl,USUM72104140,
+Family Ties,Rick Ross,0TiT9zrXLHMEs8mt6zF0rj,USUM71415969,
+L.E.S.,Childish Gambino,,,
+Heartbreaker,Justin Bieber,2GCKWEsbb0Xo1oodTOKVi1,USUM71314172,
+Lust for Life (with The Weeknd),Lana Del Rey,0mt02gJ425Xjm7c3jYkOBn,GBUM71701127,
+made for this shit,Gunna,1muR6CRm9uQ76HaJ7YBQaa,USAT22505825,
+All That Matters,Justin Bieber,6CLVh9sekZ1p2G8Tfhhj8h,USUM71314567,
+Same Old Song,The Weeknd,37zSTGaP8bfBDGpJnUmSDl,USUM72121565,
+U With Me?,Drake,03L2AoiRbWhvt7BDMx1jUB,USCM51600065,
+"Bitch, Don’t Kill My Vibe",Kendrick Lamar,0yhMmqax6HRAZxI7udEask,USUM71210774,
+My Mine,Jhené Aiko,2B8Y5LaNSEkuB3LA9okArd,USUG12100902,"{'data': {'isrc': 'USUG12100902', 'title': 'My Mine', 'artist': 'Jhené Aiko', 'features': {'bpm': 147.9, 'key': 'Fm', 'key_confidence': 0.5444964, 'energy': 0.9307042, 'danceability': 0.4356273, 'valence': 0.2591791, 'acousticness': 0.09559036, 'loudness': None, 'instrumentalness': 0.9999999, 'speechiness': 1.19209e-07, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_fbc4da803de0'}}"
+Stay Schemin,Rick Ross,0nq6sfr8z1R5KJ4XUk396e,USUM71203333,
+Weekend (feat. Miguel),Mac Miller,6GnhWMhgJb7uyiiPEiEkDA,USWB11508643,
+Cinnamon Girl,Lana Del Rey,2mdEsXPu8ZmkHRRtAdC09e,GBUM71903147,"{'data': {'isrc': 'GBUM71903147', 'title': 'Cinnamon Girl', 'artist': 'Lana Del Rey', 'features': {'bpm': 137.8, 'key': 'F#m', 'key_confidence': 0.822453, 'energy': 0.7387177, 'danceability': 0.3407265, 'valence': None, 'acousticness': None, 'loudness': -10.3, 'instrumentalness': None, 'speechiness': 0.5715, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_4682c7e141c8'}}"
+Me & U,Tems,31kxPC3ZB9AYwCLyHaqEVX,USRC12302300,
+PRIDE.,Kendrick Lamar,6IZvVAP7VPPnsGX6bvgkqg,USUM71703084,
+Lost,Frank Ocean,3GZD6HmiNUhxXYf8Gch723,USUM71207186,
+Ladders,Mac Miller,39NDBdU5Xkm5pCFGa5kZtI,USWB11801217,"{'data': {'isrc': 'USWB11801217', 'title': 'Ladders', 'artist': 'Mac Miller', 'features': {'bpm': 104.1, 'key': 'Gm', 'key_confidence': 0.8315402, 'energy': 0.7033408, 'danceability': 0.4152049, 'valence': None, 'acousticness': None, 'loudness': -11.6, 'instrumentalness': None, 'speechiness': 0.3256, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_574d3a445012'}}"
+Style,Taylor Swift,0ug5NqcwcFR2xrfTkc7k8e,USCJY1431319,"{'data': {'isrc': 'USCJY1431319', 'title': 'Style', 'artist': 'Taylor Swift', 'features': {'bpm': 95, 'key': 'D', 'key_confidence': 0.9435378, 'energy': 0.7393982, 'danceability': 0.3045266, 'valence': None, 'acousticness': None, 'loudness': -8.9, 'instrumentalness': None, 'speechiness': 0.2583, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_1ef0ca72c0af'}}"
+Feel No Ways,Drake,3cjF2OFRmip8spwZYQRKxP,USCM51600067,
+Woods,Mac Miller,3Qa944OTMZkg8DHjET8JQv,USWB11801015,
+"Call It Fate, Call It Karma",The Strokes,3Y4rUyw7XBCK6hGHCOt6rp,USRC11300085,
+Nude,Radiohead,35YyxFpE0ZTOoqFx5bADW8,GBSTK0700003,"{'data': {'isrc': 'GBSTK0700003', 'title': 'Nude', 'artist': 'Radiohead', 'features': {'bpm': 128.4, 'key': 'Fm', 'key_confidence': 0.5648441, 'energy': 0.6097322, 'danceability': 0.3036225, 'valence': 0.3664557, 'acousticness': 0.09559029, 'loudness': None, 'instrumentalness': 1, 'speechiness': 0, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_8bf7441c68a7'}}"
+You and Whose Army?,Radiohead,7Hg6a7tZsVTkXnBUepjZU6,GBAYE0001580,"{'data': {'isrc': 'GBAYE0001580', 'title': 'You And Whose Army?', 'artist': 'Radiohead', 'features': {'bpm': 141.2, 'key': 'C#m', 'key_confidence': 0.9268607, 'energy': 0.7848573, 'danceability': 0.3499888, 'valence': None, 'acousticness': None, 'loudness': -6.3, 'instrumentalness': None, 'speechiness': 0.2784, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_d7b1e325ebe5'}}"
+Come Back to Earth,Mac Miller,01z2fBGB8Hl3Jd3zXe4IXR,USWB11801211,
+Try Me,The Weeknd,4ppTAJUbNXELZcoUaL90wo,USUG11800562,
+Cherry,Lana Del Rey,1Ym6aMuT5bliaZMC67AmPp,GBUM71702621,
+A Little Death,The Neighbourhood,0pxPNTroZcxXA0w6IDgMQJ,USSM11206332,
+Right My Wrongs,Bryson Tiller,5rgrBsAFYMun6yhtnLKRPz,USRC11502201,
+How to Disappear Completely,Radiohead,2rtGaCAeYtmcIvuZsvgTf6,GBAYE0000813,
+Halley's Comet,Billie Eilish,5XsAal7ZcWg1I5T4NcRjkv,USUM72105930,"{'data': {'isrc': 'USUM72105930', 'title': ""Halley's Comet"", 'artist': 'Billie Eilish', 'features': {'bpm': 71, 'key': 'Abm', 'key_confidence': 0.8393691, 'energy': 0.7066723, 'danceability': 0.3194566, 'valence': None, 'acousticness': None, 'loudness': -11.3, 'instrumentalness': None, 'speechiness': 0.1732, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_ba3f01875df8'}}"
+Forget Her,Jeff Buckley,6UuVONmxXwTKN1ISepuAoQ,USSM10407311,
+Dark But Just a Game,Lana Del Rey,1dBBmAddRRIw6GwF7dPz6z,GBUM72006082,
+Sprinter,Dave,6NYbDTmstd7JSUWl2hVBqR,GBUM72305159,
+BAILE INoLVIDABLE,Bad Bunny,2lTm559tuIvatlT1u0JYG2,QMFMF2447057,
+Hoje Sou Eu Que Não Mais Te Quero,Charlie Brown Jr.,0vgmsxgWglYs52xNkW5Tkh,BRRGE1300286,
+Selfless,The Strokes,2t0wwvR15fc3K1ey8OiOaN,USRC11902727,
+My Kind of Woman,Mac DeMarco,38tfi9dtBQQ5Wyt7EL0G3z,QMMZN1200053,"{'data': {'isrc': 'QMMZN1200053', 'title': 'My Kind of Woman', 'artist': 'Mac DeMarco', 'features': {'bpm': 91.9, 'key': 'C#m', 'key_confidence': 0.8727992, 'energy': 0.745289, 'danceability': 0.3828556, 'valence': None, 'acousticness': None, 'loudness': -9.2, 'instrumentalness': None, 'speechiness': 0.2506, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_9a9bed1bc5ce'}}"
+Futile Devices (Doveman Remix),Sufjan Stevens,5vTSnZTmS1gMiWuA9kDE19,US64G1737301,"{'data': {'isrc': 'US64G1737301', 'title': 'Futile Devices (Doveman Remix)', 'artist': 'Sufjan Stevens', 'features': {'bpm': 136.7, 'key': 'A', 'key_confidence': 0.8427942, 'energy': 0.6139177, 'danceability': 0.3795283, 'valence': None, 'acousticness': None, 'loudness': -17.9, 'instrumentalness': None, 'speechiness': 0.2049, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_93cc8ee88f5a'}}"
+You're So Dark,Arctic Monkeys,40DwUg5zPX8H23WpTdD2iW,GBCEL1300585,
+W.D.Y.W.F.M?,The Neighbourhood,3vooOYHU0Fi3ViCG7Ozh0Y,USSM11300894,
+We Are the People,Empire of the Sun,3zEN0ii6s4DHHBpnTp3RP7,AUEI10800041,
+Matilda,Harry Styles,6uvh0In7u1Xn4HgxOfAn8O,USSM12200615,"{'data': {'isrc': 'USSM12200615', 'title': 'Matilda', 'artist': 'Harry Styles', 'features': {'bpm': 114, 'key': 'D', 'key_confidence': 0.9377663, 'energy': 0.7747533, 'danceability': 0.3522055, 'valence': None, 'acousticness': None, 'loudness': -8, 'instrumentalness': None, 'speechiness': 0.0704, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_0d0378f7dfd2'}}"
+Live Forever,Oasis,1KgfeuVn5OlsBEtoEmBa1t,GBBBN0009485,
+Vienna,Billy Joel,4U45aEWtQhrm8A5mxPaFZ7,USSM17700373,
+Man of War,Radiohead,5HtNvKihacAXt34DDYYxBC,GBBKS1700120,"{'data': {'isrc': 'GBBKS1700120', 'title': 'Man of War', 'artist': 'Radiohead', 'features': {'bpm': 147, 'key': 'Am', 'key_confidence': 0.6732513, 'energy': 0.7146367, 'danceability': 0.3774426, 'valence': None, 'acousticness': None, 'loudness': -10.6, 'instrumentalness': None, 'speechiness': 0.0858, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_28c87cbccaaa'}}"
+A Rush of Blood to the Head,Coldplay,4JJ5zGKnb1IpERyBrfmb1y,GBAYE0200778,"{'data': {'isrc': 'GBAYE0200778', 'title': 'A Rush of Blood to the Head', 'artist': 'Coldplay', 'features': {'bpm': 137.1, 'key': 'C', 'key_confidence': 0.8960454, 'energy': 0.6253431, 'danceability': 0.3000541, 'valence': None, 'acousticness': None, 'loudness': -16.1, 'instrumentalness': None, 'speechiness': 0.6094, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_ecf369565575'}}"
+DtMF,Bad Bunny,3sK8wGT43QFpWrvNQsrQya,QMFMF2447070,"{'data': {'isrc': 'QMFMF2447070', 'title': 'DtMF', 'artist': 'Bad Bunny', 'features': {'bpm': 112.6, 'key': 'E', 'key_confidence': 0.8383474, 'energy': 0.7794027, 'danceability': 0.4640216, 'valence': None, 'acousticness': None, 'loudness': -7.3, 'instrumentalness': None, 'speechiness': 0.2266, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T19:52:20.291Z'}, 'request_id': 'req_180de9a026bf'}}"
+BAND4BAND (feat. Lil Baby),Central Cee,70TGNwQDvF5b6GQWlYPr8p,USSM12404354,
+Remember You,Wiz Khalifa,0g6mKqhGtUIEoLSmV8ozi8,USAT21203908,
+This I Love,Guns N' Roses,2FEWcWHnDmGD6WSqpW4VYu,USUM70842911,
+She's Mine Pt. 2,J. Cole,0HtOJj7Kl74s1Ngf3MWeif,QMJMT1601084,
+The Knowing,The Weeknd,6tjsbysvZh8Pq8DZA5ldrn,USUM72104144,
+Love in the Sky,The Weeknd,3WKYPmiPpJas9j5Aari5iK,USUM71309545,
+Poetic Justice,Kendrick Lamar,5J6CXHvsfRGyyCnQZmVPoE,USUM71211004,
+Parade on Cleveland (feat. Drake),Young Thug,05CTjmZKjZoCKQvM1Ldq9M,USAT22306742,
+Pink Matter,Frank Ocean,1fOkmYW3ZFkkjIdOZSf596,USUM71207190,
+LOYALTY. FEAT. RIHANNA.,Kendrick Lamar,6SwRhMLwNqEi6alNPVG00n,USUM71703086,
+Piledriver Waltz,Arctic Monkeys,4Ai0ANRDYwx6mCD4Uty1WS,GBCEL1100200,
+Linger,The Cranberries,1WYrTfvKjQYaYfVziGG1ET,USIR29300085,"{'data': {'isrc': 'USIR29300085', 'title': 'Linger', 'artist': 'The Cranberries', 'features': {'bpm': 94.8, 'key': 'D', 'key_confidence': 0.8762458, 'energy': 0.681917, 'danceability': 0.382718, 'valence': None, 'acousticness': None, 'loudness': -13.5, 'instrumentalness': None, 'speechiness': 0.2413, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_7fc9d30d0506'}}"
+Vestido da Fendi,KayBlack,0pZIBIJ253pH9gJtXE0Ouf,BCENK2100066,
+Love Is a Losing Game,Amy Winehouse,570ZDO2Lmh6NQChOU5xPUL,GBUM70603489,"{'data': {'isrc': 'GBUM70603489', 'title': 'Love Is a Losing Game', 'artist': 'Amy Winehouse', 'features': {'bpm': 164.7, 'key': 'F', 'key_confidence': 0.8546755, 'energy': 0.7544444, 'danceability': 0.332285, 'valence': 0.2513417, 'acousticness': 0.6169314, 'loudness': None, 'instrumentalness': 0.005784804, 'speechiness': 0.9942152, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:53:37.051Z'}, 'request_id': 'req_f4247ec121bd'}}"
+Best Time,Brent Faiyaz,1zgHn1EqUyA0HqNYMdJ5ia,QZNMY2304784,
+Far Away (feat. A$AP Rocky),Yebba,14qNHvX8h6HoynFuV0RxWS,USRC12002012,
+Language,Paperboy Fabe,4RnvS1tmh1ERhjXX6dxv95,QM24S1701038,
+Knee Socks,Arctic Monkeys,2LGdO5MtFdyphi2EihANZG,GBCEL1300372,
+Prisoner,The Weeknd,1gZADNt16Oh23jWyMYRk4p,USUG11500932,
+O Velho E O Mar,Rubel,7ewJYOXZzeCRWPSnXif0rU,BXRUS1400001,
+Senhor do Tempo,Charlie Brown Jr.,6C6315RjrDrqj1oqaJVGY8,BREMI0501110,
+Primeiro Andar,Los Hermanos,4KVXJPlehnwtOKrCYw0tjN,BRBMG0500153,
+Ainda Gosto de Você,Armandinho,6iyMiQ8WIi5RCD9FsjUiLV,BRTKR1300063,
+We Never Change,Coldplay,5TB6QgrF0RPIxSCGfRDLoe,GBAYE0000571,
+Fez-Se Mar,Los Hermanos,4c0vw1pUU56g8y3ZXuoiT3,BRBMG0500145,
+Spectre,Radiohead,4Nwrh5BlZ8I31znYQULS7G,GBU4B1600050,"{'data': {'isrc': 'GBU4B1600050', 'title': 'Spectre', 'artist': 'Radiohead', 'features': {'bpm': 97.9, 'key': 'Bm', 'key_confidence': 0.909871, 'energy': 0.7650886, 'danceability': 0.3624256, 'valence': None, 'acousticness': None, 'loudness': -8.7, 'instrumentalness': None, 'speechiness': 0.423, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:56:38.936Z'}, 'request_id': 'req_32bac03604aa'}}"
+Everything in Its Right Place,Radiohead,2kRFrWaLWiKq48YYVdGcm8,GBAYE0000810,"{'data': {'isrc': 'GBAYE0000810', 'title': 'Everything in Its Right Place', 'artist': 'Radiohead', 'features': {'bpm': 123.6, 'key': 'Fm', 'key_confidence': 0.4398742, 'energy': 0.9524986, 'danceability': 0.363176, 'valence': 0.8644249, 'acousticness': 0.09559036, 'loudness': None, 'instrumentalness': 1, 'speechiness': 0, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:56:39.874Z'}, 'request_id': 'req_4f7c8fbdb48b'}}"
+Nutshell,Alice in Chains,2JuasWPUodaUxf5nwNpciQ,USSM10025671,"{'data': {'isrc': 'USSM10025671', 'title': 'Nutshell', 'artist': 'Alice In Chains', 'features': {'bpm': 132.6, 'key': 'F#', 'key_confidence': 0.8702078, 'energy': 0.7081464, 'danceability': 0.3234357, 'valence': None, 'acousticness': None, 'loudness': -12.2, 'instrumentalness': None, 'speechiness': 0.215, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:56:42.095Z'}, 'request_id': 'req_10d90a159aea'}}"
+Breathe (In the Air),Pink Floyd,2ctvdKmETyOzPb2GiJJT53,GBN9Y1100077,"{'data': {'isrc': 'GBN9Y1100077', 'title': 'Breathe', 'artist': 'Pink Floyd', 'features': {'bpm': 128.5, 'key': 'Am', 'key_confidence': 0.7375417, 'energy': 0.8428568, 'danceability': 0.3669567, 'valence': 0.1508443, 'acousticness': 0.9646438, 'loudness': None, 'instrumentalness': 0.2575838, 'speechiness': 0.7424162, 'liveness': None, 'time_signature': None}, 'analysis_version': 'ab_1.1+recovered', 'source': 'acousticbrainz_archive'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:56:43.409Z'}, 'request_id': 'req_741835cef17c'}}"
+Can I Love You (Interlude),prxz,6cDUmUYEF1KflLiJ3aGwqz,CA5KR2294503,
+i just wanna feel your love again,Montell Fish,2EZKAd2j1jEZrYN783MXoG,QZVBE2200023,
+Mockingbird,Eminem,561jH07mF1jHuk7KlaeF0s,USIR10400813,
+listen before i go,Billie Eilish,0tMSssfxAL2oV8Vri0mFHE,USUM71900772,
+Say Yes to Heaven,Lana Del Rey,6GGtHZgBycCgGBUhZo81xe,GBUM72304301,"{'data': {'isrc': 'GBUM72304301', 'title': 'Say Yes To Heaven', 'artist': 'Lana Del Rey', 'features': {'bpm': 99.9, 'key': 'F#m', 'key_confidence': 0.9310796, 'energy': 0.7312779, 'danceability': 0.4092509, 'valence': None, 'acousticness': None, 'loudness': -10.1, 'instrumentalness': None, 'speechiness': 0.0588, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:56:48.161Z'}, 'request_id': 'req_2de6ccc86431'}}"
+Love on the Brain,Rihanna,5oO3drDxtziYU2H1X23ZIp,QM5FT1600120,
+Fallin Out of Love With You,Montell Fish,4TiiNnlxF2Kr1IXe9ngpM0,QZVBE2200006,
+Fix You,Coldplay,7LVHVU3tWfcxj5aiPFEW4Q,GBAYE0500605,"{'data': {'isrc': 'GBAYE0500605', 'title': 'Fix You', 'artist': 'Coldplay', 'features': {'bpm': 115.5, 'key': 'Eb', 'key_confidence': 0.9354451, 'energy': 0.6754641, 'danceability': 0.2808875, 'valence': None, 'acousticness': None, 'loudness': -15.1, 'instrumentalness': None, 'speechiness': 0.7711, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:56:50.973Z'}, 'request_id': 'req_6ebdbbe4abd2'}}"
+Him & I (with Halsey),G-Eazy,5k38wzpLb15YgncyWdTZE4,USRC11701867,"{'data': {'isrc': 'USRC11701867', 'title': 'Him & I', 'artist': 'G-Eazy', 'features': {'bpm': 88, 'key': 'Dm', 'key_confidence': 0.7958562, 'energy': 0.7544936, 'danceability': 0.515322, 'valence': None, 'acousticness': None, 'loudness': -8.7, 'instrumentalness': None, 'speechiness': 0.0688, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:56:51.881Z'}, 'request_id': 'req_dd4c1910b9fa'}}"
+Pretty,The Weeknd,0ei3uNcwJOiUocuks1vWcb,USUM71310347,
+Live For,The Weeknd,3kgqHVqfiabABjaFi9Tnhn,USUM71310344,
+Adaptation,The Weeknd,4pHQ9RYFhn3W0ha5KEuMnj,USUM71310343,
+THE GREATEST,Billie Eilish,6TGd66r0nlPaYm3KIoI7ET,USUM72401992,"{'data': {'isrc': 'USUM72401992', 'title': 'THE GREATEST', 'artist': 'Billie Eilish', 'features': {'bpm': 130.3, 'key': 'G', 'key_confidence': 0.8310453, 'energy': 0.6453221, 'danceability': 0.3399284, 'valence': None, 'acousticness': None, 'loudness': -15.7, 'instrumentalness': None, 'speechiness': 0.5886, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:56:55.706Z'}, 'request_id': 'req_ea5c3fa719b5'}}"
+Remember You (feat. The Weeknd),Wiz Khalifa,5XJrWePMleGbMmwNQ9Cdrq,USAT21203908,
+cross my heart,Artemas,1GnTBbaFtxNkHEjUsWEdNu,QZTAZ2311089,
+Softcore,The Neighbourhood,2K7xn816oNHJZ0aVqdQsha,USSM11800523,"{'data': {'isrc': 'USSM11800523', 'title': 'Softcore', 'artist': 'The Neighbourhood', 'features': {'bpm': 93.9, 'key': 'Dm', 'key_confidence': 0.8308043, 'energy': 0.768195, 'danceability': 0.479534, 'valence': None, 'acousticness': None, 'loudness': -7.6, 'instrumentalness': None, 'speechiness': 0.266, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:56:58.461Z'}, 'request_id': 'req_b4a236bdcda7'}}"
+Hide Behind My Disguise,Cleffy,7yqCXB1u5eWVWzx0A9HNyn,TCAHM2333388,
+Meet you at the Graveyard,Cleffy,2vXSHAPCNpWZ7DNFDkEDMz,TCAHM2333379,
+Enjoy The Show (feat. Future),The Weeknd,637oNhilCI9UlkWkUW4Grt,USUG12501136,
+HOT N COLD - HARDSTYLE,Poseidon,3oSqxg7c8p2PQJmYeBtvlO,GX89G2296107,
+THE ONE THAT GOT AWAY - HARDSTYLE,Poseidon,1WYTE8rKAIUjKP2Shv9399,GX38U2308794,
+House of Balloons / Glass Table Girls,The Weeknd,2r7BPog74oaTG5shNYiUnV,USUM72104130,
+Shot for Me,Drake,6Z01gUquJsjJC67uNWm6P0,USCM51100545,
+So Low,Cloke,6UPWpKFmVwebHCgT5JmbNG,CA5KR2340055,
+Marvins Room,Drake,047fCsbO4NdmwCBn8pcUXl,USCM51100267,
+CN TOWER,PARTYNEXTDOOR,4u43I0LP2Xf85OAS85eG0R,USLD91772019,
+Rolling Stone,The Weeknd,4dXnS1YXBkn4oAIxRLPJcK,USUM72111984,
+Swim Good,Frank Ocean,3CgZCQyuyxHRMWB9BTwmni,USUM71112758,
+Shameless,Avenoir,2MJlhN2OockKCadeGS4AEP,QZMEP2209127,
+She Will,Lil' Wayne,78O33U6jbQtNiNfbkZudpd,USCM51100309,
+I Mean It (feat. Remo),G-Eazy,6jmTHeoWvBaSrwWttr8Xvu,USRC11400730,"{'data': {'isrc': 'USRC11400730', 'title': 'I Mean It (feat. Remo)', 'artist': 'G-Eazy', 'features': {'bpm': 139.6, 'key': 'Eb', 'key_confidence': 0.8894892, 'energy': 0.7124833, 'danceability': 0.4483712, 'valence': None, 'acousticness': None, 'loudness': -11, 'instrumentalness': None, 'speechiness': 0.4501, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:57:12.967Z'}, 'request_id': 'req_0e7265fa6818'}}"
+Destroy Myself Just For You,Montell Fish,3rmwnuqtLg5858xoXprtnq,QZNWT2190406,
+Fine Line,Harry Styles,6VzcQuzTNTMFnJ6rBSaLH9,USSM11912596,"{'data': {'isrc': 'USSM11912596', 'title': 'Fine Line', 'artist': 'Harry Styles', 'features': {'bpm': 120.7, 'key': 'Bm', 'key_confidence': 0.8799176, 'energy': 0.6221553, 'danceability': 0.2844441, 'valence': None, 'acousticness': None, 'loudness': -16.8, 'instrumentalness': None, 'speechiness': 0.5228, 'liveness': None, 'time_signature': 4}, 'analysis_version': '1.2', 'source': 'essentia'}, 'meta': {'quota': {'used': 0, 'limit': None, 'resets_at': '2026-09-12T20:57:14.809Z'}, 'request_id': 'req_e6326c10f797'}}"
+Escape from LA,The Weeknd,1sOW4PuG5X3Ie3EXUhAopJ,USUG12000655,
+Scared to Live,The Weeknd,4BGZF4oLbTL0pWm7C18pbv,USUG12000653,
+Zóio de Lula,Charlie Brown Jr.,0AsfpL8bzbmEyJsfbPPYnj,BREMI9900064,
+Me & You (feat. Iro),Alok,2WTCoQLkQ9FPdvThkf8nN1,USAT21602322,
+Alone Again,The Weeknd,6b5P51m8xx2XA6U7sdNZ5E,USUG12000650,
