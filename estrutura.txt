@@ -1,40 +1,41 @@
-project/
+spotify-data-platform/
 │
 ├── data/
 │   ├── raw/
-│   │   ├── google/
-│   │   └── spotify/
+│   │   ├── spotify/
+│   │   └── google/
 │   │
 │   └── processed/
 │
+├── src/
+│   ├── ingestion/
+│   │   ├── spotify.py
+│   │   └── google.py
+│   │
+│   ├── transformation/
+│   │   ├── spotify.py
+│   │   └── google.py
+│   │
+│   ├── enrichment/
+│   │   └── spotify.py
+│   │
+│   ├── database/
+│   │   ├── connection.py
+│   │   └── models.py
+│   │
+│   └── pipelines/
+│       ├── spotify_pipeline.py
+│       └── google_pipeline.py
+│
 ├── notebooks/
 │   ├── exploration/
-│   │   ├── google_exploration.ipynb
-│   │   └── spotify_exploration.ipynb
-│   │
-│   └── analysis/
-│       └── recommendation_analysis.ipynb
-│
-├── src/
-│   ├── google/
-│   │   ├── extract.py
-│   │   ├── transform.py
-│   │   └── load.py
-│   │
-│   ├── spotify/
-│   │   ├── extract.py
-│   │   ├── transform.py
-│   │   ├── enrichment.py
-│   │   └── load.py
-│   │
-│   └── database/
-│       ├── models.py
-│       └── connection.py
+│   └── recommendation/
 │
 ├── sql/
 │   └── schema.sql
 │
-├── notebooks/
+├── tests/
+│
+├── README.md
 ├── requirements.txt
-├── .env
-└── README.md
+└── .env

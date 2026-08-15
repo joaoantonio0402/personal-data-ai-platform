@@ -1,21 +1,9 @@
-from sqlalchemy import create_engine
+from src.database.connection import connect_to_database
 
-from schema import Base
-
-
-DATABASE_URL = (
-    "postgresql://postgres:1234"
-    "@localhost:5432/google_and_spotify"
-)
-
-
-engine = create_engine(
-    DATABASE_URL
-)
-
+from src.database.schema import Base
 
 print("Creating tables...")
 
-Base.metadata.create_all(engine)
+Base.metadata.create_all(connect_to_database())
 
 print("Done!")
