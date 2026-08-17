@@ -83,9 +83,9 @@ def transform_data_from_raw_json(id = None):
 
     dim_album_df = (
         df[
-            ["album_mbid", "album_name"]
+            ["album_mbid", "album_name", "artist_name"]
         ]
-        .drop_duplicates(subset="album_name")
+        .drop_duplicates(subset=["album_name", "artist_name"])
         .copy()
     )
 
@@ -113,9 +113,9 @@ def transform_data_from_raw_json(id = None):
 
     dim_tracks_df = (
         df[
-            ["track_mbid", "track_name"]
+            ["track_mbid", "track_name", "artist_name"]
         ]
-        .drop_duplicates(subset="track_name")
+        .drop_duplicates(subset=["track_name", "artist_name"])
         .copy()
     )
 
@@ -139,4 +139,4 @@ def transform_data_from_raw_json(id = None):
     dim_tracks_df.to_csv(f"data/processed/spotify/dim_tracks.csv", index=False)
 
 
-transform_data_from_raw_json(id="17_48-2026-08-15")
+transform_data_from_raw_json(id="20260817_112459")

@@ -74,5 +74,5 @@ def extract_lastfm_data_from_date(start_date=None, end_date=None):
     return str(today_id)
 
 
-if __name__ == "__main__":
-    extract_lastfm_data_from_date(start_date=int(datetime.now(timezone.utc).timestamp()) - 86400)
+# if __name__ == "__main__":
+#     extract_lastfm_data_from_date(start_date=int(datetime.now(timezone.utc).timestamp()) - 86400)
