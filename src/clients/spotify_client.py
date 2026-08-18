@@ -3,8 +3,6 @@ import os
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-
-
 def create_spotify_client(client_id, client_secret):
     return spotipy.Spotify(
         auth_manager=SpotifyClientCredentials(
@@ -121,23 +119,36 @@ def get_track_data(song_name, artist_name, sp):
 
     track = tracks[0]
 
+    artists = track["artists"]
+
+    # Remove o artista principal da lista
+    featured_artists = [
+        {
+            "artist_id": artist["id"],
+            "artist_name": artist["name"]
+        }
+        for artist in artists
+        if artist["name"].lower() != artist_name.lower()
+    ]
+
     return {
         "track_id": track["id"],
         "isrc": track["external_ids"].get("isrc"),
-        #"track_name": track["name"],
-        #"artist_id": track["artists"][0]["id"] if track["artists"] else None,
-        #"artist_name": track["artists"][0]["name"] if track["artists"] else None,
-        #"album_id": track["album"]["id"] if track["album"] else None,
-        #"album_name": track["album"]["name"] if track["album"] else None,
-        #"album_type": track["album"]["album_type"] if track["album"] else None,
-        "release_date": track["album"]["release_date"] if track["album"] else None,
+
+        "has_feat": len(featured_artists) > 0,
+        "artist_count": len(featured_artists),
+        "featured_artists": featured_artists,
+
+        "release_date": (
+            track["album"]["release_date"]
+            if track["album"]
+            else None
+        ),
         "duration_ms": track["duration_ms"],
         "explicit": track["explicit"],
         "track_number": track["track_number"],
         "disc_number": track["disc_number"],
         "popularity": track["popularity"],
         "track_url": track["external_urls"].get("spotify"),
-        #"track_uri": track["uri"],
-        #"preview_url": track["preview_url"]
     }
 

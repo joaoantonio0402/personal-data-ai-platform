@@ -1,6 +1,7 @@
 import requests
 import os
 
+# API_KEY = os.getenv("MELODATA_API_KEY")
 
 BASE_URL = "https://melodata1.p.rapidapi.com"
 
@@ -8,9 +9,8 @@ HEADERS = {
     "Content-Type": "application/json",
     "x-rapidapi-host": "melodata1.p.rapidapi.com"
 }
-api_key = os.getenv(MELODATA_API_KEY)
 
-def get_track_features(isrc):
+def get_track_features(api_key, isrc):
     """
     Retrieve audio features for a track using its ISRC.
 
@@ -39,7 +39,7 @@ def get_track_features(isrc):
     return response.json()
 
 
-def search_track(song_name, api_key, limit=10, offset=0):
+def search_track(song_name, limit=10, offset=0):
     """
     Search for tracks on Melodata.
 
@@ -63,7 +63,7 @@ def search_track(song_name, api_key, limit=10, offset=0):
 
     headers = {
         **HEADERS,
-        "x-rapidapi-key": api_key
+        "x-rapidapi-key": API_KEY
     }
 
     response = requests.get(
