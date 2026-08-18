@@ -46,7 +46,8 @@ def get_audio_features(track_id):
         track_id: ReccoBeats track ID.
 
     Returns:
-        JSON response containing audio features.
+        Dictionary containing ReccoBeats audio features with
+        `reccobeats_` prefixes.
     """
 
     url = f"{BASE_URL}/track/{track_id}/audio-features"
@@ -58,10 +59,28 @@ def get_audio_features(track_id):
 
     response.raise_for_status()
 
-    return response.json()
+    data = response.json()
+
+    return {
+        "reccobeats_id": data.get("id"),
+        "reccobeats_href": data.get("href"),
+        "reccobeats_isrc": data.get("isrc"),
+
+        "reccobeats_acousticness": data.get("acousticness"),
+        "reccobeats_danceability": data.get("danceability"),
+        "reccobeats_energy": data.get("energy"),
+        "reccobeats_instrumentalness": data.get("instrumentalness"),
+        "reccobeats_key": data.get("key"),
+        "reccobeats_liveness": data.get("liveness"),
+        "reccobeats_loudness": data.get("loudness"),
+        "reccobeats_mode": data.get("mode"),
+        "reccobeats_speechiness": data.get("speechiness"),
+        "reccobeats_tempo": data.get("tempo"),
+        "reccobeats_valence": data.get("valence"),
+    }
 
 
-
+# print(get_audio_features(track_id="24bb9d1d-40ce-4f42-9516-c4f40b1e4fd6"))
 
 
 

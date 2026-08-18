@@ -5,7 +5,8 @@ from sqlalchemy import (
     Float,
     Date,
     DateTime,
-    ForeignKey
+    ForeignKey,
+    Boolean
 )
 
 from sqlalchemy.orm import declarative_base
@@ -24,13 +25,12 @@ class DimArtist(Base):
     artist_id = Column(Integer, primary_key=True, autoincrement=True)
     
     artist_mbid = Column(String)
-    artist_id_spotify = Column(String)  # Mapped from 'artist_id' in CSV
+    spotify_artist_id = Column(String)  # Mapped from 'artist_id' in CSV
     artist_name = Column(String)
-    artist_url = Column(String)
-    artist_uri = Column(String)
-    followers = Column(Integer)
-    popularity = Column(Integer)
-    genres = Column(String)
+    spotify_artist_url = Column(String)
+    spotify_followers = Column(Integer)
+    spotify_popularity = Column(Integer)
+    spotify_genres = Column(String)
 
 
 class DimAlbum(Base):
@@ -38,15 +38,16 @@ class DimAlbum(Base):
 
     album_id = Column(Integer, primary_key=True, autoincrement=True)
     artist_id = Column(Integer, ForeignKey("dim_artist.artist_id"), nullable=False)
+    album_name = Column(String)
     
     album_mbid = Column(String)
-    album_id_spotify = Column(String)  # Mapped from 'album_id' in CSV
-    album_name = Column(String)
-    album_type = Column(String)
-    total_tracks = Column(Integer)
-    release_date = Column(String)      # String to accommodate precision variations
-    release_date_precision = Column(String)
-    album_url = Column(String)
+    spotify_album_id = Column(String)  # Mapped from 'album_id' in CSV
+    #spotify_album_name = Column(String)
+    spotify_album_type = Column(String)
+    spotify_total_tracks = Column(Integer)
+    spotify_release_date = Column(String)      # String to accommodate precision variations
+    spotify_release_date_precision = Column(String)
+    spotify_album_url = Column(String)
 
 
 class DimTrack(Base):
@@ -55,32 +56,63 @@ class DimTrack(Base):
     track_id = Column(Integer, primary_key=True, autoincrement=True)
     artist_id = Column(Integer, ForeignKey("dim_artist.artist_id"), nullable=False)
     album_id = Column(Integer, ForeignKey("dim_album.album_id"), nullable=False)
-
-    track_mbid = Column(String)
-    track_id_spotify = Column(String)  # Mapped from 'track_id' in CSV
     track_name = Column(String)
-    isrc = Column(String)
-    has_feat = Column(Boolean)
-    artist_count = Column(Integer)
-    featured_artists = Column(String)
-    release_date = Column(String)
-    duration_ms = Column(Integer)
-    explicit = Column(Boolean)
-    track_number = Column(Integer)
-    disc_number = Column(Integer)
-    popularity = Column(Integer)
-    track_url = Column(String)
+    artist_name = Column(String)
+    track_mbid = Column(String)
+    spotify_track_id = Column(String)  # Mapped from 'track_id' in CSV
+    spotify_isrc = Column(String)
+    spotify_has_feat = Column(Boolean)
+    spotify_artist_count = Column(Integer)
+    spotify_featured_artists = Column(String)
+    spotify_release_date = Column(String)
+    spotify_duration_ms = Column(Integer)
+    spotify_explicit = Column(Boolean)
+    spotify_track_number = Column(Integer)
+    spotify_disc_number = Column(Integer)
+    spotify_popularity = Column(Integer)
+    spotify_track_url = Column(String)
     recco_track_id = Column(String)
+
+
+    # Melodata
+
+    melodata_isrc = Column(String(20))
+
+    melodata_title = Column(String(255))
+    melodata_artist = Column(String(255))
+
+    melodata_bpm = Column(Integer)
+    melodata_key = Column(String(10))
+    melodata_key_confidence = Column(Float)
+
+    melodata_energy = Column(Float)
+    melodata_danceability = Column(Float)
+    melodata_valence = Column(Float)
+    melodata_acousticness = Column(Float)
+    melodata_loudness = Column(Float)
+    melodata_instrumentalness = Column(Float)
+    melodata_speechiness = Column(Float)
+    melodata_liveness = Column(Float)
+
+    melodata_time_signature = Column(Integer)
+
+    melodata_analysis_version = Column(String(100))
+    melodata_source = Column(String(100))
     
     # Enriched audio features from reccobeats
+    reccobeats_id = Column(String(50))
+    reccobeats_href = Column(String(255))
+    reccobeats_isrc = Column(String(20))
+
     reccobeats_acousticness = Column(Float)
     reccobeats_danceability = Column(Float)
     reccobeats_energy = Column(Float)
     reccobeats_instrumentalness = Column(Float)
-    reccobeats_key = Column(Float)
+
+    reccobeats_key = Column(Integer)
     reccobeats_liveness = Column(Float)
     reccobeats_loudness = Column(Float)
-    reccobeats_mode = Column(Float)
+    reccobeats_mode = Column(Integer)
     reccobeats_speechiness = Column(Float)
     reccobeats_tempo = Column(Float)
     reccobeats_valence = Column(Float)
@@ -95,7 +127,7 @@ class FactListening(Base):
     timestamp_utc = Column(DateTime, nullable=False)
     timestamp_uts = Column(Integer, nullable=False)
     track_url = Column(String)
-    streamable = Column(Integer)
+    # streamable = Column(Integer)
 
 
 

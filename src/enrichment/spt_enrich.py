@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 
 def enrich_melodata(row):
     try:
-        if pd.isna(row["isrc"]):
+        if pd.isna(row["spotify_isrc"]):
             logger.warning(
                 f"Melodata skipped | "
                 f"track={row['track_name']} | "
@@ -50,7 +50,7 @@ def enrich_melodata(row):
 
         return melodata_client.get_track_features(
             MELODATA_API_KEY,
-            row["isrc"]
+            row["spotify_isrc"]
         )
 
     except Exception as e:
@@ -58,7 +58,7 @@ def enrich_melodata(row):
             f"Melodata failed | "
             f"track={row['track_name']} | "
             f"artist={row['artist_name']} | "
-            f"isrc={row['isrc']} | "
+            f"isrc={row['spotify_isrc']} | "
             f"error={e}"
         )
 
@@ -148,6 +148,10 @@ def enrich_data():
     # ------------------------------------------------------------------
 
     try:
+
+        df_new_streams = pd.read_csv(
+            new_records_dir / "new_streams.csv"
+        ).head(10)
 
         df_new_artists = pd.read_csv(
             new_records_dir / "new_artists.csv"
@@ -475,6 +479,13 @@ def enrich_data():
     try:
 
         logger.info("Saving enriched data")
+
+        df_new_streams = df_new_streams[["timestamp_utc", "timestamp_uts", "track_url"]]
+
+        df_new_streams.to_csv(
+            new_records_dir / "new_streams_enriched.csv",
+            index=False
+        )        
 
         df_new_artists.to_csv(
             new_records_dir / "new_artists_enriched.csv",

@@ -53,7 +53,8 @@ def get_artist_data(artist_name, sp):
         type="artist",
         limit=1
     )
-
+    
+    
     artists = results["artists"]["items"]
 
     if not artists:
@@ -61,14 +62,14 @@ def get_artist_data(artist_name, sp):
 
     artist = artists[0]
 
+    # return results
     return {
-        "artist_id_spotify": artist["id"],
+        "spotify_artist_id": artist["id"],
         #"artist_name": artist["name"],
-        "artist_url": artist["external_urls"].get("spotify"),
-        "followers": artist["followers"]["total"],
-        "popularity": artist["popularity"],
-        "genres": artist["genres"],
-        "artist_uri": artist["uri"]
+        "spotify_artist_url": artist["external_urls"].get("spotify"),
+        #"spotify_followers": artist["followers"]["total"],
+        #"spotify_popularity": artist["popularity"],
+        #"spotify_genres": artist["genres"],
     }
 
 
@@ -90,15 +91,15 @@ def get_album_data(album_name, artist_name, sp):
     album = albums[0]
 
     return {
-        "album_id": album["id"],
+        "spotify_album_id": album["id"],
         #"album_name": album["name"],
-        "album_type": album["album_type"],
-        "total_tracks": album["total_tracks"],
-        "release_date": album["release_date"],
-        "release_date_precision": album["release_date_precision"],
+        "spotify_album_type": album["album_type"],
+        "spotify_total_tracks": album["total_tracks"],
+        "spotify_release_date": album["release_date"],
+        "spotify_release_date_precision": album["release_date_precision"],
         #"artist_id": album["artists"][0]["id"] if album["artists"] else None,
         #"artist_name": album["artists"][0]["name"] if album["artists"] else None,
-        "album_url": album["external_urls"].get("spotify"),
+        "spotify_album_url": album["external_urls"].get("spotify"),
         #"album_uri": album["uri"],
         #"image_url": album["images"][0]["url"] if album["images"] else None
     }
@@ -132,23 +133,85 @@ def get_track_data(song_name, artist_name, sp):
     ]
 
     return {
-        "track_id": track["id"],
-        "isrc": track["external_ids"].get("isrc"),
+        "spotify_track_id": track["id"],
+        "spotify_isrc": track["external_ids"].get("isrc"),
 
-        "has_feat": len(featured_artists) > 0,
-        "artist_count": len(featured_artists),
-        "featured_artists": featured_artists,
+        "spotify_has_feat": len(featured_artists) > 0,
+        "spotify_artist_count": len(featured_artists),
+        "spotify_featured_artists": featured_artists,
 
-        "release_date": (
+        "spotify_release_date": (
             track["album"]["release_date"]
             if track["album"]
             else None
         ),
-        "duration_ms": track["duration_ms"],
-        "explicit": track["explicit"],
-        "track_number": track["track_number"],
-        "disc_number": track["disc_number"],
-        "popularity": track["popularity"],
-        "track_url": track["external_urls"].get("spotify"),
+        "spotify_duration_ms": track["duration_ms"],
+        "spotify_explicit": track["explicit"],
+        "spotify_track_number": track["track_number"],
+        "spotify_disc_number": track["disc_number"],
+        #"spotify_popularity": track["popularity"],
+        "spotify_track_url": track["external_urls"].get("spotify"),
     }
 
+
+
+
+
+# import time
+# import random
+# import spotipy
+# from spotipy.exceptions import SpotifyException
+
+
+# def search_track_(sp, artist_name, song_name, max_retries=5):
+
+#     query = f"track:{song_name} artist:{artist_name}"
+
+#     for attempt in range(max_retries):
+
+#         try:
+
+#             results = sp.search(
+#                 q=query,
+#                 type="track",
+#                 limit=1
+#             )
+
+#             tracks = results["tracks"]["items"]
+
+#             if not tracks:
+#                 return None
+
+#             return tracks[0]
+
+#         except SpotifyException as e:
+
+#             if e.http_status == 429:
+
+#                 retry_after = 5
+
+#                 if e.headers:
+#                     retry_after = int(
+#                         e.headers.get("Retry-After", retry_after)
+#                     )
+
+#                 print(
+#                     f"Rate limit. Esperando {retry_after}s..."
+#                 )
+
+#                 time.sleep(retry_after)
+
+#             else:
+#                 raise
+
+#     raise RuntimeError(
+#         f"Não foi possível buscar: {artist_name} - {song_name}"
+#     )
+
+
+
+
+# sp = create_spotify_client(client_id="c1d9c36c51a44689844d5e5485d88693", client_secret="ac2fb90076cf4536b425298e692d19b8")
+# print(get_artist_data(artist_name="J cole", sp=sp))
+# print("----------------------------------------")
+# print(sp.artist(artist_id="0TnOYISbd1XYRBk9myaseg"))

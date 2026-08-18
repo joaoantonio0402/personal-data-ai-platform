@@ -1,4 +1,4 @@
-album_mbid,album_name,artist_name,album_id,album_type,total_tracks,release_date,release_date_precision,album_url
+album_mbid,album_name,artist_name,spotify_album_id,spotify_album_type,spotify_total_tracks,spotify_release_date,spotify_release_date_precision,spotify_album_url
 29f224ac-498d-4dcb-9a07-22b1293288ae,21,Adele,0Lg1uZvI312TPqxNWShFXL,album,11,2011-01-24,day,https://open.spotify.com/album/0Lg1uZvI312TPqxNWShFXL
 32ef7c3f-96bb-44a3-aa4d-7aa8c9640cf9,2014 Forest Hills Drive,J. Cole,0UMMIkurRUmkruZ3KGBLtG,album,13,2014-12-09,day,https://open.spotify.com/album/0UMMIkurRUmkruZ3KGBLtG
 ,Take Care (Deluxe),Drake,6X1x82kppWZmDzlXXK3y3q,album,19,2011-11-15,day,https://open.spotify.com/album/6X1x82kppWZmDzlXXK3y3q

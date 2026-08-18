@@ -15,11 +15,12 @@ def get_track_features(api_key, isrc):
     Retrieve audio features for a track using its ISRC.
 
     Args:
-        isrc: International Standard Recording Code.
         api_key: RapidAPI key.
+        isrc: International Standard Recording Code.
 
     Returns:
-        JSON response containing track features.
+        Dictionary containing Melodata track features with
+        `melodata_` prefixes.
     """
 
     url = f"{BASE_URL}/tracks/{isrc}/features"
@@ -36,10 +37,33 @@ def get_track_features(api_key, isrc):
 
     response.raise_for_status()
 
-    return response.json()
+    data = response.json()["data"]
+    features = data["features"]
+
+    return {
+        "melodata_isrc": data.get("isrc"),
+        "melodata_title": data.get("title"),
+        "melodata_artist": data.get("artist"),
+
+        "melodata_bpm": features.get("bpm"),
+        "melodata_key": features.get("key"),
+        "melodata_key_confidence": features.get("key_confidence"),
+        "melodata_energy": features.get("energy"),
+        "melodata_danceability": features.get("danceability"),
+        "melodata_valence": features.get("valence"),
+        "melodata_acousticness": features.get("acousticness"),
+        "melodata_loudness": features.get("loudness"),
+        "melodata_instrumentalness": features.get("instrumentalness"),
+        "melodata_speechiness": features.get("speechiness"),
+        "melodata_liveness": features.get("liveness"),
+        "melodata_time_signature": features.get("time_signature"),
+
+        "melodata_analysis_version": data.get("analysis_version"),
+        "melodata_source": data.get("source"),
+    }
 
 
-def search_track(song_name, limit=10, offset=0):
+def search_track(api_key, song_name, limit=10, offset=0):
     """
     Search for tracks on Melodata.
 
@@ -63,7 +87,7 @@ def search_track(song_name, limit=10, offset=0):
 
     headers = {
         **HEADERS,
-        "x-rapidapi-key": API_KEY
+        "x-rapidapi-key": api_key
     }
 
     response = requests.get(
@@ -76,13 +100,7 @@ def search_track(song_name, limit=10, offset=0):
 
     return response.json()
 
-
-
-
-
-
-
-
+# print(get_track_features(api_key="dbcd34ab68mshbdcca93581f9718p1c56b8jsn2fe95019b903", isrc="GBBKS1000352"))
 
 
 
