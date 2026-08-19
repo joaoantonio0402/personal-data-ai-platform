@@ -83,7 +83,7 @@ def get_pending_track_keys(engine):
                 EnrichmentJob.status.in_(("pending", "failed"))
             )
         )
-    return {row[0] for row in rows}
+    return {row[0] for row in rows} 
 
 
 def get_pending_tracks(engine):
@@ -98,7 +98,30 @@ def get_pending_tracks(engine):
         )
 
 
-def mark_jobs_completed(engine, track_keys):
+def mark_jobs_completed(engine, track_keys, provider=None):
+    if not track_keys:
+        return 0
+
+    with engine.begin() as connection:
+        conditions = [
+            EnrichmentJob.track_key.in_(track_keys),
+            EnrichmentJob.status.in_(("pending", "failed")),
+        ]
+        if provider:
+            conditions.append(EnrichmentJob.provider == provider)
+        result = connection.execute(
+            update(EnrichmentJob)
+            .where(*conditions)
+            .values(
+                status="completed",
+                enriched_at=datetime.now(timezone.utc).replace(tzinfo=None),
+                last_error=None,
+            )
+        )
+    return result.rowcount
+
+
+def mark_jobs_failed(engine, track_keys, provider, error="provider returned no data"):
     if not track_keys:
         return 0
 
@@ -107,12 +130,13 @@ def mark_jobs_completed(engine, track_keys):
             update(EnrichmentJob)
             .where(
                 EnrichmentJob.track_key.in_(track_keys),
+                EnrichmentJob.provider == provider,
                 EnrichmentJob.status.in_(("pending", "failed")),
             )
             .values(
-                status="completed",
-                enriched_at=datetime.now(timezone.utc).replace(tzinfo=None),
-                last_error=None,
+                status="failed",
+                attempts=EnrichmentJob.attempts + 1,
+                last_error=error,
             )
         )
     return result.rowcount

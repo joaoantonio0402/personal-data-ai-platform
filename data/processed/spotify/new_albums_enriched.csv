@@ -1,11 +1,6 @@
-album_mbid,album_name,artist_name,spotify_album_id,spotify_album_type,spotify_total_tracks,spotify_release_date,spotify_release_date_precision,spotify_album_url
-29f224ac-498d-4dcb-9a07-22b1293288ae,21,Adele,0Lg1uZvI312TPqxNWShFXL,album,11,2011-01-24,day,https://open.spotify.com/album/0Lg1uZvI312TPqxNWShFXL
-32ef7c3f-96bb-44a3-aa4d-7aa8c9640cf9,2014 Forest Hills Drive,J. Cole,0UMMIkurRUmkruZ3KGBLtG,album,13,2014-12-09,day,https://open.spotify.com/album/0UMMIkurRUmkruZ3KGBLtG
-,Take Care (Deluxe),Drake,6X1x82kppWZmDzlXXK3y3q,album,19,2011-11-15,day,https://open.spotify.com/album/6X1x82kppWZmDzlXXK3y3q
-16a0fd7d-307d-4721-9c2b-ddb0d1d847d8,What You Heard,Sonder,10WCcQKzXZot04kzENu62Z,single,1,2019-02-22,day,https://open.spotify.com/album/10WCcQKzXZot04kzENu62Z
-,Snow On Tha Bluff,J. Cole,0MXpE6m0mEK0r3TuERb9Yd,single,1,2020-06-16,day,https://open.spotify.com/album/0MXpE6m0mEK0r3TuERb9Yd
-620e4932-cae3-49d0-9d87-a2685bd4c9c0,4 Your Eyez Only,J. Cole,3CCnGldVQ90c26aFATC1PW,album,10,2016-12-09,day,https://open.spotify.com/album/3CCnGldVQ90c26aFATC1PW
-4e102cda-b8f6-4242-b4ae-ce2d16a5eac7,Say Yes to Heaven,Lana Del Rey,6jVg0POvGYH1Pt6lISl3ok,single,2,2023-05-19,day,https://open.spotify.com/album/6jVg0POvGYH1Pt6lISl3ok
-,Born to Die - The Paradise Edition,Lana Del Rey,5VoeRuTrGhTbKelUfwymwu,album,23,2012-01-01,day,https://open.spotify.com/album/5VoeRuTrGhTbKelUfwymwu
-,Ultraviolence (Deluxe),Lana Del Rey,1ORxRsK3MrSLvh7VQTF01F,album,14,2014-01-01,day,https://open.spotify.com/album/1ORxRsK3MrSLvh7VQTF01F
-0c6272c4-f50a-4f80-a302-497038a7f5a0,Young and Beautiful,Lana Del Rey,1D92WOHWUI2AGQCCdplcXL,single,1,2013-01-01,day,https://open.spotify.com/album/1D92WOHWUI2AGQCCdplcXL
+album_mbid,album_name,artist_name,album_key,artist_key,spotify_album_id,spotify_album_type,spotify_total_tracks,spotify_release_date,spotify_release_date_precision,spotify_album_url
+,Nothing Was the Same (Deluxe),Drake,nothing was the same (deluxe)||drake,drake,2ZUFSbIkmFkGag000RWOpA,album,16,2013-01-01,day,https://open.spotify.com/album/2ZUFSbIkmFkGag000RWOpA
+5d4d0579-202b-4b63-9e3b-e2d22c3c1cb5,Friday Night Lights,J. Cole,friday night lights||j. cole,j. cole,4ghGEhWzY5ffry2IqgrnRg,album,19,2010-11-12,day,https://open.spotify.com/album/4ghGEhWzY5ffry2IqgrnRg
+32ef7c3f-96bb-44a3-aa4d-7aa8c9640cf9,2014 Forest Hills Drive,J. Cole,2014 forest hills drive||j. cole,j. cole,0UMMIkurRUmkruZ3KGBLtG,album,13,2014-12-09,day,https://open.spotify.com/album/0UMMIkurRUmkruZ3KGBLtG
+399f294f-a7a1-4cd4-a19b-7f32afa7dd13,Scorpion,Drake,scorpion||drake,drake,1ATL5GLyefJaxhQzSPVrLX,album,25,2018-06-29,day,https://open.spotify.com/album/1ATL5GLyefJaxhQzSPVrLX
+,Mute,Jan Blomqvist,mute||jan blomqvist,jan blomqvist,26sV7udefE7gHkUjlFStfN,album,12,2025-02-14,day,https://open.spotify.com/album/26sV7udefE7gHkUjlFStfN

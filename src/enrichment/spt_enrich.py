@@ -27,10 +27,26 @@ from src.clients import spotify_client
 from src.clients import melodata_client
 from src.clients import reccobeats_client
 from src.database.connection import connect_to_database
-from src.database.staging import get_pending_tracks, mark_jobs_completed
+from src.database.staging import (
+    get_pending_tracks,
+    mark_jobs_completed,
+    mark_jobs_failed,
+)
+from src.database.schema import Base
+from src.load.spt_enriched_load import load_enriched_data
 
 
 logger = logging.getLogger(__name__)
+
+
+def log_progress(entity, current, total, name):
+    logger.info(
+        "%s enrichment progress | %s/%s | %s",
+        entity,
+        current,
+        total,
+        name,
+    )
 
 
 def enrich_melodata(row):
@@ -144,6 +160,7 @@ def enrich_data():
 
     logger.info("Starting enrichment pipeline")
     engine = connect_to_database()
+    Base.metadata.create_all(engine)
 
     # ------------------------------------------------------------------
     # LOAD
@@ -153,14 +170,24 @@ def enrich_data():
 
         df_new_streams = get_pending_tracks(engine)
         print(df_new_streams.shape)
+        df_new_streams = df_new_streams.head(5)
+        if df_new_streams.empty:
+            logger.info("No pending track enrichment jobs")
+            return
         df_new_tracks = df_new_streams[
-            ["track_mbid", "track_name", "artist_name", "track_key"]
+            [
+                "track_mbid", "track_name", "artist_name", "track_key",
+                "artist_key", "album_key", "album_name",
+            ]
         ].drop_duplicates("track_key")
         df_new_artists = df_new_streams[
             ["artist_mbid", "artist_name", "artist_key"]
         ].drop_duplicates("artist_key")
         df_new_albums = df_new_streams[
-            ["album_mbid", "album_name", "artist_name", "album_key"]
+            [
+                "album_mbid", "album_name", "artist_name", "album_key",
+                "artist_key",
+            ]
         ].drop_duplicates("album_key")
 
         logger.info(
@@ -178,9 +205,6 @@ def enrich_data():
 
         return
 
-    if df_new_tracks.empty:
-        logger.info("No pending track enrichment jobs")
-        return
     # ------------------------------------------------------------------
     # SPOTIFY
     # ------------------------------------------------------------------
@@ -212,7 +236,16 @@ def enrich_data():
 
     artist_results = []
 
-    for _, row in df_new_artists.iterrows():
+    total_artists = len(df_new_artists)
+    for current_artist, (_, row) in enumerate(
+        df_new_artists.iterrows(), start=1
+    ):
+        log_progress(
+            "Artist",
+            current_artist,
+            total_artists,
+            row["artist_name"],
+        )
 
         try:
 
@@ -262,7 +295,16 @@ def enrich_data():
 
     album_results = []
 
-    for _, row in df_new_albums.iterrows():
+    total_albums = len(df_new_albums)
+    for current_album, (_, row) in enumerate(
+        df_new_albums.iterrows(), start=1
+    ):
+        log_progress(
+            "Album",
+            current_album,
+            total_albums,
+            f"{row['album_name']} | artist={row['artist_name']}",
+        )
 
         try:
 
@@ -314,8 +356,18 @@ def enrich_data():
     logger.info("Starting Spotify track enrichment")
 
     track_results = []
+    spotify_success = []
 
-    for _, row in df_new_tracks.iterrows():
+    total_tracks = len(df_new_tracks)
+    for current_track, (_, row) in enumerate(
+        df_new_tracks.iterrows(), start=1
+    ):
+        log_progress(
+            "Track",
+            current_track,
+            total_tracks,
+            f"{row['track_name']} | artist={row['artist_name']}",
+        )
 
         try:
 
@@ -332,6 +384,7 @@ def enrich_data():
             )
 
             track_results.append(result)
+            spotify_success.append(result is not None)
 
         except Exception as e:
 
@@ -343,8 +396,10 @@ def enrich_data():
             )
 
             track_results.append(None)
+            spotify_success.append(False)
 
     df_new_tracks["spotify_data"] = track_results
+    df_new_tracks["spotify_success"] = spotify_success
 
     track_data_spotify = pd.json_normalize(
         df_new_tracks["spotify_data"]
@@ -369,6 +424,9 @@ def enrich_data():
     df_new_tracks["melodata_audio_features"] = df_new_tracks.apply(
         enrich_melodata,
         axis=1
+    )
+    df_new_tracks["melodata_success"] = df_new_tracks["melodata_audio_features"].apply(
+        lambda value: isinstance(value, dict) and bool(value)
     )
 
     logger.info("Melodata enrichment completed")
@@ -421,6 +479,9 @@ def enrich_data():
     df_new_tracks["recco_audio_features"] = df_new_tracks.apply(
         get_recco_audio_features_safe,
         axis=1
+    )
+    df_new_tracks["recco_success"] = df_new_tracks["recco_audio_features"].apply(
+        lambda value: isinstance(value, dict) and bool(value)
     )
 
     logger.info(
@@ -481,7 +542,13 @@ def enrich_data():
 
         logger.info("Saving enriched data")
 
-        df_new_streams = df_new_streams[["timestamp_utc", "timestamp_uts", "track_url"]]
+        streams_to_load = df_new_streams.copy()
+        df_new_streams = df_new_streams[
+            [
+                "source_event_id", "track_key", "timestamp_utc",
+                "timestamp_uts", "track_url",
+            ]
+        ]
 
         df_new_streams.to_csv(
             new_records_dir / "new_streams_enriched.csv",
@@ -507,8 +574,20 @@ def enrich_data():
             "Enriched data saved successfully"
         )
 
-    except Exception as e:
+        loaded = load_enriched_data(
+            engine=engine,
+            streams=streams_to_load,
+            artists=df_new_artists,
+            albums=df_new_albums,
+            tracks=df_new_tracks,
+        )
+        logger.info(
+            "Enriched data loaded into database | artists=%s albums=%s tracks=%s streams=%s",
+            loaded["artists"], loaded["albums"], loaded["tracks"], loaded["streams"],
+        )
 
+    except Exception as e:
+        print(df_new_artists)
         logger.exception(
             f"Failed to save enriched data | error={e}"
         )
@@ -517,9 +596,44 @@ def enrich_data():
 
     completed = mark_jobs_completed(
         engine,
-        df_new_tracks["track_key"].dropna().unique().tolist(),
+        df_new_tracks.loc[df_new_tracks["spotify_success"], "track_key"]
+        .dropna().unique().tolist(),
+        provider="spotify",
     )
-    logger.info("Enrichment jobs completed | count=%s", completed)
+    track_keys = df_new_tracks["track_key"].dropna().unique().tolist()
+    failed = {
+        "spotify": mark_jobs_failed(
+            engine,
+            df_new_tracks.loc[~df_new_tracks["spotify_success"], "track_key"]
+            .dropna().unique().tolist(),
+            "spotify",
+        ),
+        "melodata": mark_jobs_completed(
+            engine,
+            df_new_tracks.loc[df_new_tracks["melodata_success"], "track_key"]
+            .dropna().unique().tolist(),
+            provider="melodata",
+        ),
+        "reccobeats": mark_jobs_completed(
+            engine,
+            df_new_tracks.loc[df_new_tracks["recco_success"], "track_key"]
+            .dropna().unique().tolist(),
+            provider="reccobeats",
+        ),
+    }
+    failed["melodata_failed"] = mark_jobs_failed(
+        engine,
+        df_new_tracks.loc[~df_new_tracks["melodata_success"], "track_key"]
+        .dropna().unique().tolist(),
+        "melodata",
+    )
+    failed["reccobeats_failed"] = mark_jobs_failed(
+        engine,
+        df_new_tracks.loc[~df_new_tracks["recco_success"], "track_key"]
+        .dropna().unique().tolist(),
+        "reccobeats",
+    )
+    logger.info("Enrichment jobs completed=%s statuses=%s", completed, failed)
 
     logger.info(
         "Enrichment pipeline completed successfully"

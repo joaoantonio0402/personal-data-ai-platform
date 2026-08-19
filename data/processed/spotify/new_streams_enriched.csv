@@ -1,11 +1,6 @@
-timestamp_utc,timestamp_uts,track_url
-2026-08-17 13:05:08+00:00,1786971908,https://www.last.fm/music/Adele/_/Lovesong
-2026-08-17 13:04:59+00:00,1786971899,https://www.last.fm/music/J.+Cole/_/Apparently
-2026-08-17 11:15:27+00:00,1786965327,https://www.last.fm/music/Drake/_/Cameras+%2F+Good+Ones+Go+Interlude+-+Medley
-2026-08-17 11:11:06+00:00,1786965066,https://www.last.fm/music/Sonder/_/What+You+Heard
-2026-08-17 11:07:06+00:00,1786964826,https://www.last.fm/music/J.+Cole/_/Snow+On+Tha+Bluff
-2026-08-17 10:58:25+00:00,1786964305,https://www.last.fm/music/J.+Cole/_/4+Your+Eyez+Only
-2026-08-17 10:53:45+00:00,1786964025,https://www.last.fm/music/J.+Cole/_/She%27s+Mine+Pt.+2
-2026-08-17 10:48:29+00:00,1786963709,https://www.last.fm/music/J.+Cole/_/Foldin+Clothes
-2026-08-17 10:44:52+00:00,1786963492,https://www.last.fm/music/J.+Cole/_/Neighbors
-2026-08-17 10:39:20+00:00,1786963160,https://www.last.fm/music/J.+Cole/_/Change
+source_event_id,track_key,timestamp_utc,timestamp_uts,track_url
+lastfm:1787146492:96c4a14d-7b15-4cd5-b163-627b39725a33:https://www.last.fm/music/Drake/_/Too+Much,too much||drake,2026-08-19 13:34:52,1787146492,https://www.last.fm/music/Drake/_/Too+Much
+lastfm:1787144398:2b9b7f95-c461-3593-be49-616601db24e2:https://www.last.fm/music/J.+Cole/_/Too+Deep+for+the+Intro,too deep for the intro||j. cole,2026-08-19 12:59:58,1787144398,https://www.last.fm/music/J.+Cole/_/Too+Deep+for+the+Intro
+lastfm:1787144218:39310b1b-f3d4-4b65-b552-be2f7c0a8d59:https://www.last.fm/music/J.+Cole/_/Love+Yourz,love yourz||j. cole,2026-08-19 12:56:58,1787144218,https://www.last.fm/music/J.+Cole/_/Love+Yourz
+lastfm:1787058937:don’t matter to me (with michael jackson)||drake:https://www.last.fm/music/Drake/_/Don%E2%80%99t+Matter+To+Me+(with+Michael+Jackson),don’t matter to me (with michael jackson)||drake,2026-08-18 13:15:37,1787058937,https://www.last.fm/music/Drake/_/Don%E2%80%99t+Matter+To+Me+(with+Michael+Jackson)
+lastfm:1787058651:disappear again||jan blomqvist:https://www.last.fm/music/Jan+Blomqvist/_/Disappear+Again,disappear again||jan blomqvist,2026-08-18 13:10:51,1787058651,https://www.last.fm/music/Jan+Blomqvist/_/Disappear+Again

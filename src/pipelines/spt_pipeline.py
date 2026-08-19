@@ -11,6 +11,7 @@ from src.transformation.spt_transform import transform_data_from_raw_json
 from src.database.connection import connect_to_database
 from src.database.schema import Base
 from src.database.staging import get_last_stream_timestamp, stage_streams
+from src.enrichment.spt_enrich import enrich_data
 
 
 def get_last_run_date_from_db():
@@ -28,6 +29,7 @@ def main():
     streams = transform_data_from_raw_json(id=today_id)
     inserted = stage_streams(streams, source_run_id=today_id, engine=engine)
     print(f"Streams novas aceitas no staging: {inserted}")
+    #enrich_data()
 
 
 if __name__ == "__main__":
