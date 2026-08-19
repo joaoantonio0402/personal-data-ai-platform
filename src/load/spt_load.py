@@ -1,43 +1,25 @@
+import os
 from pathlib import Path
-import sys
-import pandas as pd
-from sqlalchemy.orm import sessionmaker
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
+import pandas as pd
 
 from src.database.connection import connect_to_database
-
-engine = connect_to_database()
-
-with engine.connect() as conn:
-    print("Conectado!")
-
-    SessionLocal = sessionmaker(
-    bind=engine,
-    autoflush=False,
-    autocommit=False
-)
-
-project_root = Path(__file__).resolve().parents[2]
-
-new_records_dir = (
-        project_root
-        / "data"
-        / "processed"
-        / "spotify"
-    )
-
-dim_artists_df = pd.read_csv(new_records_dir / "new_artists_enriched.csv")
-dim_albums_df = pd.read_csv(new_records_dir / "new_albums_enriched.csv").drop("artist_name", axis=1)
-dim_tracks_df = pd.read_csv(new_records_dir / "new_tracks_enriched.csv").drop("artist_name", axis=1)
-fact_listening_df = pd.read_csv(new_records_dir / "new_streams.csv")
+from src.database.schema import Base
+from src.database.staging import stage_streams
 
 
+def load_staged_streams(source_run_id=None):
+    """Load transformed streams without inserting duplicate events."""
+    project_root = Path(__file__).resolve().parents[2]
+    streams_path = project_root / "data" / "processed" / "spotify" / "new_streams.csv"
+    streams = pd.read_csv(streams_path)
+    engine = connect_to_database()
+    Base.metadata.create_all(engine)
+
+    run_id = source_run_id or os.getenv("PIPELINE_RUN_ID", "manual")
+    return stage_streams(streams, source_run_id=run_id, engine=engine)
 
 
-dim_artists_df.to_sql("dim_artist", con=engine, if_exists="append", index=False)
-dim_albums_df.to_sql("dim_album", con=engine, if_exists="append", index=False)
-dim_tracks_df.to_sql("dim_track", con=engine, if_exists="append", index=False)
-fact_listening_df.to_sql("dim_track", con=engine, if_exists="append", index=False)
+if __name__ == "__main__":
+    inserted = load_staged_streams()
+    print(f"Streams novas aceitas no staging: {inserted}")

@@ -6,7 +6,8 @@ from sqlalchemy import (
     Date,
     DateTime,
     ForeignKey,
-    Boolean
+    Boolean,
+    UniqueConstraint,
 )
 
 from sqlalchemy.orm import declarative_base
@@ -25,6 +26,7 @@ class DimArtist(Base):
     artist_id = Column(Integer, primary_key=True, autoincrement=True)
     
     artist_mbid = Column(String)
+    artist_key = Column(String, unique=True)
     spotify_artist_id = Column(String)  # Mapped from 'artist_id' in CSV
     artist_name = Column(String)
     spotify_artist_url = Column(String)
@@ -39,6 +41,7 @@ class DimAlbum(Base):
     album_id = Column(Integer, primary_key=True, autoincrement=True)
     artist_id = Column(Integer, ForeignKey("dim_artist.artist_id"), nullable=False)
     album_name = Column(String)
+    album_key = Column(String, unique=True)
     
     album_mbid = Column(String)
     spotify_album_id = Column(String)  # Mapped from 'album_id' in CSV
@@ -58,6 +61,7 @@ class DimTrack(Base):
     album_id = Column(Integer, ForeignKey("dim_album.album_id"), nullable=False)
     track_name = Column(String)
     artist_name = Column(String)
+    track_key = Column(String, unique=True)
     track_mbid = Column(String)
     spotify_track_id = Column(String)  # Mapped from 'track_id' in CSV
     spotify_isrc = Column(String)
@@ -123,11 +127,49 @@ class FactListening(Base):
 
     listening_id = Column(Integer, primary_key=True, autoincrement=True)
     track_id = Column(Integer, ForeignKey("dim_track.track_id"), nullable=False)
+    source_event_id = Column(String, unique=True, nullable=False)
 
     timestamp_utc = Column(DateTime, nullable=False)
     timestamp_uts = Column(Integer, nullable=False)
     track_url = Column(String)
     # streamable = Column(Integer)
+
+
+class StgStream(Base):
+    __tablename__ = "stg_stream"
+
+    staging_id = Column(Integer, primary_key=True, autoincrement=True)
+    source_event_id = Column(String, unique=True, nullable=False)
+    source_run_id = Column(String, nullable=False)
+    track_mbid = Column(String)
+    track_name = Column(String, nullable=False)
+    artist_mbid = Column(String)
+    artist_name = Column(String, nullable=False)
+    album_mbid = Column(String)
+    album_name = Column(String)
+    track_key = Column(String, nullable=False)
+    artist_key = Column(String, nullable=False)
+    album_key = Column(String)
+    timestamp_utc = Column(DateTime, nullable=False)
+    timestamp_uts = Column(Integer, nullable=False)
+    track_url = Column(String)
+    streamable = Column(String)
+
+
+class EnrichmentJob(Base):
+    __tablename__ = "enrichment_job"
+    __table_args__ = (
+        UniqueConstraint("track_key", "provider", name="uq_enrichment_track_provider"),
+    )
+
+    job_id = Column(Integer, primary_key=True, autoincrement=True)
+    track_key = Column(String, nullable=False)
+    provider = Column(String, nullable=False)
+    status = Column(String, nullable=False, default="pending")
+    attempts = Column(Integer, nullable=False, default=0)
+    last_error = Column(String)
+    next_retry_at = Column(DateTime)
+    enriched_at = Column(DateTime)
 
 
 

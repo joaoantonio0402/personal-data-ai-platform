@@ -8,18 +8,26 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.ingestion.spt_extract import extract_lastfm_data_from_date
 from src.transformation.spt_transform import transform_data_from_raw_json
+from src.database.connection import connect_to_database
+from src.database.schema import Base
+from src.database.staging import get_last_stream_timestamp, stage_streams
 
 
 def get_last_run_date_from_db():
-    return 0
-    # return int(datetime.now(timezone.utc).timestamp())
+    engine = connect_to_database()
+    Base.metadata.create_all(engine)
+    return get_last_stream_timestamp(engine)
 
 
 def main():
-    last_run = get_last_run_date_from_db()
-    today_id = extract_lastfm_data_from_date(start_date=last_run)
+    engine = connect_to_database()
+    Base.metadata.create_all(engine)
+    last_run = get_last_stream_timestamp(engine)
+    today_id = extract_lastfm_data_from_date(start_date=last_run + 1)
     print(f"Data extraída e salva em: {today_id}")
-    transform_data_from_raw_json(today_id=today_id)
+    streams = transform_data_from_raw_json(id=today_id)
+    inserted = stage_streams(streams, source_run_id=today_id, engine=engine)
+    print(f"Streams novas aceitas no staging: {inserted}")
 
 
 if __name__ == "__main__":

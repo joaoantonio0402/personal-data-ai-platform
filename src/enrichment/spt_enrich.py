@@ -26,6 +26,8 @@ import pandas as pd
 from src.clients import spotify_client
 from src.clients import melodata_client
 from src.clients import reccobeats_client
+from src.database.connection import connect_to_database
+from src.database.staging import get_pending_tracks, mark_jobs_completed
 
 
 logger = logging.getLogger(__name__)
@@ -129,7 +131,6 @@ def get_recco_audio_features_safe(row):
 
         return None
 
-
 def enrich_data():
 
     project_root = Path(__file__).resolve().parents[2]
@@ -142,6 +143,7 @@ def enrich_data():
     )
 
     logger.info("Starting enrichment pipeline")
+    engine = connect_to_database()
 
     # ------------------------------------------------------------------
     # LOAD
@@ -149,21 +151,17 @@ def enrich_data():
 
     try:
 
-        df_new_streams = pd.read_csv(
-            new_records_dir / "new_streams.csv"
-        ).head(10)
-
-        df_new_artists = pd.read_csv(
-            new_records_dir / "new_artists.csv"
-        ).head(10)
-
-        df_new_albums = pd.read_csv(
-            new_records_dir / "new_albums.csv"
-        ).head(10)
-
-        df_new_tracks = pd.read_csv(
-            new_records_dir / "new_tracks.csv"
-        ).head(10)
+        df_new_streams = get_pending_tracks(engine)
+        print(df_new_streams.shape)
+        df_new_tracks = df_new_streams[
+            ["track_mbid", "track_name", "artist_name", "track_key"]
+        ].drop_duplicates("track_key")
+        df_new_artists = df_new_streams[
+            ["artist_mbid", "artist_name", "artist_key"]
+        ].drop_duplicates("artist_key")
+        df_new_albums = df_new_streams[
+            ["album_mbid", "album_name", "artist_name", "album_key"]
+        ].drop_duplicates("album_key")
 
         logger.info(
             f"Input loaded | "
@@ -180,6 +178,9 @@ def enrich_data():
 
         return
 
+    if df_new_tracks.empty:
+        logger.info("No pending track enrichment jobs")
+        return
     # ------------------------------------------------------------------
     # SPOTIFY
     # ------------------------------------------------------------------
@@ -513,6 +514,12 @@ def enrich_data():
         )
 
         return
+
+    completed = mark_jobs_completed(
+        engine,
+        df_new_tracks["track_key"].dropna().unique().tolist(),
+    )
+    logger.info("Enrichment jobs completed | count=%s", completed)
 
     logger.info(
         "Enrichment pipeline completed successfully"

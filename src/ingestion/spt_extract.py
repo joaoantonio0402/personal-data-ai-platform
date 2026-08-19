@@ -1,9 +1,12 @@
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 import requests
 
+load_dotenv()
 
 def extract_lastfm_data_from_date(start_date=None, end_date=None):
     if end_date is None:
@@ -25,7 +28,7 @@ def extract_lastfm_data_from_date(start_date=None, end_date=None):
         "from": start_timestamp,
         "to": end_timestamp,
         "extended": 0,
-        "api_key": "71d883bfc3d9583a390b78c46f19f2e4",
+        "api_key": os.getenv("LASTFM_API_KEY"),
         "format": "json",
     }
     response = requests.get(URL, params=params)
