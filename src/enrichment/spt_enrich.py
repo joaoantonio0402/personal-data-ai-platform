@@ -5,13 +5,14 @@ import sys
 import os
 from dotenv import load_dotenv
 import logging
+from sqlalchemy import select
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.clients import spotify_client, melodata_client, reccobeats_client
-
+from src.database.connection import connect_to_database
 load_dotenv()
 
 CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
@@ -26,6 +27,7 @@ import pandas as pd
 from src.clients import spotify_client
 from src.clients import melodata_client
 from src.clients import reccobeats_client
+from src.database.schema import EnrichmentQueue, StgStream
 
 
 logger = logging.getLogger(__name__)
@@ -129,17 +131,75 @@ def get_recco_audio_features_safe(row):
 
         return None
 
+def get_data_to_enrich_from_db():
+    engine = connect_to_database()
+
+    with engine.connect() as connection:
+        queue_df = pd.read_sql(
+            select(
+                EnrichmentQueue.enrichment_name,
+                EnrichmentQueue.type,
+                EnrichmentQueue.method,
+            ).where(EnrichmentQueue.status == "pending"),
+            connection,
+        )
+        streams_df = pd.read_sql(
+            select(
+                StgStream.track_mbid,
+                StgStream.track_name,
+                StgStream.artist_mbid,
+                StgStream.artist_name,
+                StgStream.album_mbid,
+                StgStream.album_name,
+                StgStream.timestamp_uts,
+                StgStream.timestamp_utc,
+                StgStream.track_url,
+                StgStream.streamable,
+            ),
+            connection,
+        )
+
+    pending_artists = set(
+        queue_df.loc[
+            (queue_df["type"] == "artist")
+            & (queue_df["method"] == "spotify"),
+            "enrichment_name",
+        ]
+    )
+    pending_albums = set(
+        queue_df.loc[
+            (queue_df["type"] == "album")
+            & (queue_df["method"] == "spotify"),
+            "enrichment_name",
+        ]
+    )
+    pending_tracks = set(
+        queue_df.loc[queue_df["type"] == "track", "enrichment_name"]
+    )
+
+    df_new_artists = streams_df.loc[
+        streams_df["artist_name"].isin(pending_artists),
+        ["artist_mbid", "artist_name"],
+    ].drop_duplicates(subset=["artist_name"])
+    df_new_albums = streams_df.loc[
+        streams_df["album_name"].isin(pending_albums),
+        ["album_mbid", "album_name", "artist_name"],
+    ].drop_duplicates(subset=["album_name"])
+    df_new_tracks = streams_df.loc[
+        streams_df["track_name"].isin(pending_tracks),
+        ["track_mbid", "track_name", "artist_name", "album_name"],
+    ].drop_duplicates(subset=["track_name"])
+
+    df_new_artists = df_new_artists.head(10)
+    df_new_albums = df_new_albums.head(10)
+    df_new_tracks = df_new_tracks.head(10)
+
+    return streams_df, df_new_artists, df_new_albums, df_new_tracks
+
 
 def enrich_data():
-
     project_root = Path(__file__).resolve().parents[2]
-
-    new_records_dir = (
-        project_root
-        / "data"
-        / "processed"
-        / "spotify"
-    )
+    new_records_dir = project_root / "data" / "processed" / "spotify"
 
     logger.info("Starting enrichment pipeline")
 
@@ -149,21 +209,12 @@ def enrich_data():
 
     try:
 
-        df_new_streams = pd.read_csv(
-            new_records_dir / "new_streams.csv"
-        ).head(10)
-
-        df_new_artists = pd.read_csv(
-            new_records_dir / "new_artists.csv"
-        ).head(10)
-
-        df_new_albums = pd.read_csv(
-            new_records_dir / "new_albums.csv"
-        ).head(10)
-
-        df_new_tracks = pd.read_csv(
-            new_records_dir / "new_tracks.csv"
-        ).head(10)
+        (
+            df_new_streams,
+            df_new_artists,
+            df_new_albums,
+            df_new_tracks,
+        ) = get_data_to_enrich_from_db()
 
         logger.info(
             f"Input loaded | "
@@ -171,6 +222,10 @@ def enrich_data():
             f"albums={len(df_new_albums)} | "
             f"tracks={len(df_new_tracks)}"
         )
+
+        df_new_artists = df_new_artists.reset_index(drop=True)
+        df_new_albums = df_new_albums.reset_index(drop=True)
+        df_new_tracks = df_new_tracks.reset_index(drop=True)
 
     except Exception as e:
 
@@ -211,12 +266,13 @@ def enrich_data():
 
     artist_results = []
 
-    for _, row in df_new_artists.iterrows():
+    total_artists = len(df_new_artists)
+    for position, (_, row) in enumerate(df_new_artists.iterrows(), start=1):
 
         try:
 
             logger.info(
-                f"Spotify artist | "
+                f"Spotify artist {position}/{total_artists} | "
                 f"artist={row['artist_name']}"
             )
 
@@ -261,12 +317,13 @@ def enrich_data():
 
     album_results = []
 
-    for _, row in df_new_albums.iterrows():
+    total_albums = len(df_new_albums)
+    for position, (_, row) in enumerate(df_new_albums.iterrows(), start=1):
 
         try:
 
             logger.info(
-                f"Spotify album | "
+                f"Spotify album {position}/{total_albums} | "
                 f"album={row['album_name']} | "
                 f"artist={row['artist_name']}"
             )
@@ -314,12 +371,13 @@ def enrich_data():
 
     track_results = []
 
-    for _, row in df_new_tracks.iterrows():
+    total_tracks = len(df_new_tracks)
+    for position, (_, row) in enumerate(df_new_tracks.iterrows(), start=1):
 
         try:
 
             logger.info(
-                f"Spotify track | "
+                f"Spotify track {position}/{total_tracks} | "
                 f"track={row['track_name']} | "
                 f"artist={row['artist_name']}"
             )
@@ -365,10 +423,14 @@ def enrich_data():
 
     logger.info("Starting Melodata enrichment")
 
-    df_new_tracks["melodata_audio_features"] = df_new_tracks.apply(
-        enrich_melodata,
-        axis=1
-    )
+    melodata_results = []
+    for position, (_, row) in enumerate(df_new_tracks.iterrows(), start=1):
+        logger.info(
+            f"Melodata track {position}/{total_tracks} | "
+            f"track={row['track_name']} | artist={row['artist_name']}"
+        )
+        melodata_results.append(enrich_melodata(row))
+    df_new_tracks["melodata_audio_features"] = melodata_results
 
     logger.info("Melodata enrichment completed")
 
@@ -378,10 +440,14 @@ def enrich_data():
 
     logger.info("Starting ReccoBeats track search")
 
-    df_new_tracks["recco_search_result"] = df_new_tracks.apply(
-        search_recco_track,
-        axis=1
-    )
+    recco_search_results = []
+    for position, (_, row) in enumerate(df_new_tracks.iterrows(), start=1):
+        logger.info(
+            f"ReccoBeats search track {position}/{total_tracks} | "
+            f"track={row['track_name']} | artist={row['artist_name']}"
+        )
+        recco_search_results.append(search_recco_track(row))
+    df_new_tracks["recco_search_result"] = recco_search_results
 
     # Extract ReccoBeats ID
     def extract_recco_id(result):
@@ -391,7 +457,7 @@ def enrich_data():
             if not result:
                 return None
 
-            content = result.get("content", [])
+            content = result.get("content") or result.get("items") or []
 
             if not content:
                 return None
@@ -417,10 +483,14 @@ def enrich_data():
         "Starting ReccoBeats audio features enrichment"
     )
 
-    df_new_tracks["recco_audio_features"] = df_new_tracks.apply(
-        get_recco_audio_features_safe,
-        axis=1
-    )
+    recco_features = []
+    for position, (_, row) in enumerate(df_new_tracks.iterrows(), start=1):
+        logger.info(
+            f"ReccoBeats audio features track {position}/{total_tracks} | "
+            f"track={row['track_name']}"
+        )
+        recco_features.append(get_recco_audio_features_safe(row))
+    df_new_tracks["recco_audio_features"] = recco_features
 
     logger.info(
         "ReccoBeats audio features enrichment completed"
@@ -442,9 +512,6 @@ def enrich_data():
     melodata_features = pd.json_normalize(
         df_new_tracks["melodata_audio_features"]
     )
-    melodata_features.columns = [
-        f"melodata_{col}" for col in melodata_features.columns
-    ]
 
     df_new_tracks = pd.concat(
         [
@@ -458,9 +525,6 @@ def enrich_data():
     reccobeats_features = pd.json_normalize(
         df_new_tracks["recco_audio_features"]
     )
-    reccobeats_features.columns = [
-        f"reccobeats_{col}" for col in reccobeats_features.columns
-    ]
 
     df_new_tracks = pd.concat(
         [
@@ -480,7 +544,15 @@ def enrich_data():
 
         logger.info("Saving enriched data")
 
-        df_new_streams = df_new_streams[["timestamp_utc", "timestamp_uts", "track_url"]]
+        df_new_streams = df_new_streams[
+            [
+                "timestamp_utc",
+                "timestamp_uts",
+                "track_url",
+                "track_name",
+                "artist_name",
+            ]
+        ]
 
         df_new_streams.to_csv(
             new_records_dir / "new_streams_enriched.csv",
@@ -517,6 +589,7 @@ def enrich_data():
     logger.info(
         "Enrichment pipeline completed successfully"
     )
+    return {"streams":df_new_streams, "artists": df_new_artists, "albums": df_new_albums, "tracks": df_new_tracks}
 
 
 if __name__ == "__main__":

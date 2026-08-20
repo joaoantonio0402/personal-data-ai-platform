@@ -6,7 +6,8 @@ from sqlalchemy import (
     Date,
     DateTime,
     ForeignKey,
-    Boolean
+    Boolean,
+    UniqueConstraint
 )
 
 from sqlalchemy.orm import declarative_base
@@ -18,6 +19,24 @@ Base = declarative_base()
 # ==========================
 # Spotify
 # ==========================
+
+
+class StgStream(Base):
+    __tablename__ = "stg_stream"
+
+    listening_id = Column(Integer, primary_key=True, autoincrement=True)
+
+    track_mbid = Column(String)
+    track_name = Column(String)
+    album_mbid = Column(String)
+    album_name = Column(String)
+    artist_mbid = Column(String)
+    artist_name = Column(String)
+    timestamp_utc = Column(DateTime, nullable=False)
+    timestamp_uts = Column(Integer, nullable=False)
+    track_url = Column(String)
+    streamable = Column(Integer)
+
 
 class DimArtist(Base):
     __tablename__ = "dim_artist"
@@ -116,6 +135,26 @@ class DimTrack(Base):
     reccobeats_speechiness = Column(Float)
     reccobeats_tempo = Column(Float)
     reccobeats_valence = Column(Float)
+
+
+class EnrichmentQueue(Base):
+    __tablename__ = "enrichment_queue"
+    __table_args__ = (
+        UniqueConstraint(
+            "enrichment_name",
+            "type",
+            "method",
+            name="uq_enrichment_queue_name_type_method",
+        ),
+    )
+
+    enrichment_id = Column(Integer, primary_key=True, autoincrement=True)
+    enrichment_name = Column(String, nullable=False)
+    type = Column(String, nullable=False)
+    method = Column(String, nullable=False)
+    info = Column(String)
+    enriched_at = Column(DateTime)
+    status = Column(String, nullable=False, default="pending")
 
 
 class FactListening(Base):

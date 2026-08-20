@@ -26,13 +26,13 @@ def parse_track(track):
         "streamable": track.get("streamable"),
     }
 
-def transform_data_from_raw_json(id = None):
+def transform_data_from_raw_json(run_id = None):
 
-    if id is None:
+    if run_id is None:
         print("Nenhum ID fornecido.")
         return
     else:
-        raw_dir = Path(f"data/raw/spotify/{id}/pages")
+        raw_dir = Path(f"data/raw/spotify/{run_id}/pages")
 
     rows = []
     
@@ -49,7 +49,10 @@ def transform_data_from_raw_json(id = None):
             rows.append(parse_track(track))
 
     df = pd.DataFrame(rows)
+
     df.to_csv(f"data/processed/spotify/new_streams.csv", index=False)
+
+    return df
 
     dim_artist_df = (
         df[
@@ -139,4 +142,5 @@ def transform_data_from_raw_json(id = None):
     dim_tracks_df.to_csv(f"data/processed/spotify/dim_tracks.csv", index=False)
 
 
-transform_data_from_raw_json(id="20260817_112459")
+
+# transform_data_from_raw_json(run_id = "")
