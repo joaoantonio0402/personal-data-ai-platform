@@ -14,7 +14,10 @@ from src.transformation.spt_transform import transform_data_from_raw_json
 from src.database.connection import connect_to_database
 from src.database.schema import Base
 from src.staging.stage import stage_streams
-from src.control.enrichment_control import control_enrichment_queue
+from src.control.enrichment_control import (
+    control_enrichment_queue,
+    mark_enrichments_completed,
+)
 from src.database.create_tables import create_tables
 from src.enrichment.spt_enrich import enrich_data
 from src.load.spt_load import load_enriched_data
@@ -55,15 +58,17 @@ def main():
     stage_streams(streams)
     streams.to_csv("streams.csv")
     control_enrichment_queue()
-    enriched_data = enrich_data()
+    enriched_data = enrich_data(reprocess_failed=True)
+    dimensions = {
+        "artist": enriched_data["artists"],
+        "album": enriched_data["albums"],
+        "track": enriched_data["tracks"],
+    }
     load_enriched_data(
         fact_listening=enriched_data["streams"],
-        dim={
-            "artist": enriched_data["artists"],
-            "album": enriched_data["albums"],
-            "track": enriched_data["tracks"],
-        },
+        dim=dimensions,
     )
+    mark_enrichments_completed(dimensions)
 
 
 if __name__ == "__main__":

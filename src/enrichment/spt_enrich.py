@@ -131,8 +131,9 @@ def get_recco_audio_features_safe(row):
 
         return None
 
-def get_data_to_enrich_from_db():
+def get_data_to_enrich_from_db(reprocess_failed=False):
     engine = connect_to_database()
+    statuses = ["pending", "failed"] if reprocess_failed else ["pending"]
 
     with engine.connect() as connection:
         queue_df = pd.read_sql(
@@ -140,7 +141,7 @@ def get_data_to_enrich_from_db():
                 EnrichmentQueue.enrichment_name,
                 EnrichmentQueue.type,
                 EnrichmentQueue.method,
-            ).where(EnrichmentQueue.status == "pending"),
+            ).where(EnrichmentQueue.status.in_(statuses)),
             connection,
         )
         streams_df = pd.read_sql(
@@ -190,14 +191,14 @@ def get_data_to_enrich_from_db():
         ["track_mbid", "track_name", "artist_name", "album_name"],
     ].drop_duplicates(subset=["track_name"])
 
-    df_new_artists = df_new_artists.head(10)
-    df_new_albums = df_new_albums.head(10)
-    df_new_tracks = df_new_tracks.head(10)
+    # df_new_artists = df_new_artists.head(10)
+    # df_new_albums = df_new_albums.head(10)
+    # df_new_tracks = df_new_tracks.head(10)
 
     return streams_df, df_new_artists, df_new_albums, df_new_tracks
 
 
-def enrich_data():
+def enrich_data(reprocess_failed=False):
     project_root = Path(__file__).resolve().parents[2]
     new_records_dir = project_root / "data" / "processed" / "spotify"
 
@@ -214,7 +215,7 @@ def enrich_data():
             df_new_artists,
             df_new_albums,
             df_new_tracks,
-        ) = get_data_to_enrich_from_db()
+        ) = get_data_to_enrich_from_db(reprocess_failed=reprocess_failed)
 
         logger.info(
             f"Input loaded | "

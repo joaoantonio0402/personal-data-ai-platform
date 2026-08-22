@@ -1,7 +1,8 @@
 from pathlib import Path
 import sys
+from datetime import datetime, timezone
 import pandas as pd
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
@@ -98,4 +99,48 @@ def control_enrichment_queue():
     return new_enrichments_df.reset_index(drop=True)
 
 
-control_enrichment_queue()
+def mark_enrichments_completed(dim):
+    """Mark processed queue entries as completed or failed."""
+    engine = connect_to_database()
+    processed_at = datetime.now(timezone.utc)
+
+    enrichment_specs = [
+        ("artist", "spotify", dim["artist"], "artist_name", "spotify_artist_id"),
+        ("album", "spotify", dim["album"], "album_name", "spotify_album_id"),
+        ("track", "spotify", dim["track"], "track_name", "spotify_track_id"),
+        ("track", "melodata", dim["track"], "track_name", "melodata_isrc"),
+        ("track", "reccobeats", dim["track"], "track_name", "reccobeats_id"),
+    ]
+
+    with engine.begin() as connection:
+        for enrichment_type, method, dataframe, name_column, result_column in enrichment_specs:
+            if name_column not in dataframe:
+                continue
+
+            names = dataframe[name_column].fillna("").astype(str).str.strip()
+            succeeded = (
+                dataframe[result_column]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+                .ne("")
+                if result_column in dataframe
+                else pd.Series(False, index=dataframe.index)
+            )
+
+            for name, success in zip(names, succeeded):
+                if not name:
+                    continue
+                connection.execute(
+                    update(EnrichmentQueue)
+                    .where(
+                        EnrichmentQueue.enrichment_name == name,
+                        EnrichmentQueue.type == enrichment_type,
+                        EnrichmentQueue.method == method,
+                        EnrichmentQueue.status.in_(["pending", "failed"]),
+                    )
+                    .values(
+                        status="completed" if success else "failed",
+                        enriched_at=processed_at,
+                    )
+                )

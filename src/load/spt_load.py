@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
 import pandas as pd
-from sqlalchemy import select
+from sqlalchemy import and_, select
 import logging
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -25,6 +25,43 @@ new_records_dir = (
 # fact_listening_df = pd.read_csv(new_records_dir / "new_streams.csv")
 
 
+def _upsert_dimension(dataframe, model, key_columns):
+    columns = [column.name for column in model.__table__.columns]
+    dataframe = dataframe.drop_duplicates(subset=key_columns).copy()
+    dataframe = dataframe[[column for column in columns if column in dataframe]]
+
+    if dataframe.empty:
+        return dataframe
+
+    engine = connect_to_database()
+    primary_key = model.__table__.primary_key.columns[0]
+    rows = dataframe.where(pd.notna(dataframe), None).to_dict(orient="records")
+
+    with engine.begin() as connection:
+        for row in rows:
+            filters = [getattr(model, column) == row[column] for column in key_columns]
+            existing_id = connection.execute(
+                select(primary_key).where(and_(*filters))
+            ).scalar_one_or_none()
+
+            if existing_id is None:
+                connection.execute(model.__table__.insert().values(**row))
+            else:
+                values = {
+                    column: value
+                    for column, value in row.items()
+                    if column != primary_key.name and column not in key_columns
+                }
+                if values:
+                    connection.execute(
+                        model.__table__.update()
+                        .where(primary_key == existing_id)
+                        .values(**values)
+                    )
+
+    return dataframe
+
+
 def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
     """Load enriched dimensions and listening facts into the database."""
     required_dimensions = {"artist", "album", "track"}
@@ -44,7 +81,7 @@ def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
     artist_columns = [column.name for column in DimArtist.__table__.columns]
     artist_columns.remove("artist_id")
     artists = artists[[column for column in artist_columns if column in artists]]
-    artists.to_sql(DimArtist.__tablename__, con=engine, if_exists="append", index=False)
+    _upsert_dimension(artists, DimArtist, ["artist_name"])
 
     with engine.connect() as connection:
         artist_ids = pd.read_sql(
@@ -56,7 +93,7 @@ def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
     album_columns = [column.name for column in DimAlbum.__table__.columns]
     album_columns.remove("album_id")
     albums = albums[[column for column in album_columns if column in albums]]
-    albums.to_sql(DimAlbum.__tablename__, con=engine, if_exists="append", index=False)
+    _upsert_dimension(albums, DimAlbum, ["album_name", "artist_id"])
 
     with engine.connect() as connection:
         album_ids = pd.read_sql(
@@ -83,7 +120,11 @@ def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
         columns=["spotify_featured_artists"],
         errors="ignore"
     )
-    tracks.to_sql(DimTrack.__tablename__, con=engine, if_exists="append", index=False)
+    _upsert_dimension(
+        tracks,
+        DimTrack,
+        ["track_name", "artist_id", "album_id"],
+    )
 
     with engine.connect() as connection:
         track_ids = pd.read_sql(

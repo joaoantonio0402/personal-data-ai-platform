@@ -28,13 +28,6 @@ def extract_lastfm_data_from_date(start_date=None, end_date=None):
         "api_key": "71d883bfc3d9583a390b78c46f19f2e4",
         "format": "json",
     }
-    response = requests.get(URL, params=params)
-    data = response.json()
-
-    total_pages = int(data["recenttracks"]["@attr"]["totalPages"])
-
-    print("Total pages:", total_pages)
-
     PROJECT_ROOT = Path(__file__).resolve().parents[2]
     today_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -42,17 +35,26 @@ def extract_lastfm_data_from_date(start_date=None, end_date=None):
     pages_dir = raw_dir / "pages"
     pages_dir.mkdir(parents=True, exist_ok=True)
 
-    for page in range(1, total_pages + 1):
-        print(f"Buscando página {page}/{total_pages}")
-        params["page"] = page
-
+    try:
         response = requests.get(URL, params=params)
         response.raise_for_status()
-
         data = response.json()
+        total_pages = int(data["recenttracks"]["@attr"]["totalPages"])
 
-        with open(pages_dir / f"lastfm_page_{page}.json", "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        print("Total pages:", total_pages)
+
+        for page in range(total_pages, 0, -1):
+            print(f"Buscando página {page}/{total_pages}")
+            params["page"] = page
+
+            response = requests.get(URL, params=params)
+            response.raise_for_status()
+            data = response.json()
+
+            with open(pages_dir / f"lastfm_page_{page}.json", "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+    except (requests.RequestException, ValueError, KeyError) as error:
+        print(f"Problema ao buscar dados da API: {error}")
 
     json_files = sorted(pages_dir.glob("*.json"))
     print(f"Arquivos encontrados: {len(json_files)}")
