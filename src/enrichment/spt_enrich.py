@@ -27,7 +27,7 @@ import pandas as pd
 from src.clients import spotify_client
 from src.clients import melodata_client
 from src.clients import reccobeats_client
-from src.database.schema import EnrichmentQueue, StgStream
+from src.database.schema import DimTrack, EnrichmentQueue, StgStream
 
 
 logger = logging.getLogger(__name__)
@@ -159,6 +159,18 @@ def get_data_to_enrich_from_db(reprocess_failed=False):
             ),
             connection,
         )
+        existing_tracks_df = pd.read_sql(
+            select(
+                DimTrack.track_name,
+                DimTrack.artist_name,
+                DimTrack.spotify_isrc,
+                DimTrack.recco_track_id,
+            ),
+            connection,
+        )
+        existing_tracks_df = existing_tracks_df.drop_duplicates(
+            subset=["track_name", "artist_name"]
+        )
 
     pending_artists = set(
         queue_df.loc[
@@ -174,22 +186,43 @@ def get_data_to_enrich_from_db(reprocess_failed=False):
             "enrichment_name",
         ]
     )
-    pending_tracks = set(
-        queue_df.loc[queue_df["type"] == "track", "enrichment_name"]
-    )
+    pending_tracks = set(queue_df.loc[queue_df["type"] == "track", "enrichment_name"])
+    spotify_tracks = set(queue_df.loc[
+        (queue_df["type"] == "track") & (queue_df["method"] == "spotify"),
+        "enrichment_name",
+    ])
+    melodata_tracks = set(queue_df.loc[
+        (queue_df["type"] == "track") & (queue_df["method"] == "melodata"),
+        "enrichment_name",
+    ])
+    reccobeats_tracks = set(queue_df.loc[
+        (queue_df["type"] == "track") & (queue_df["method"] == "reccobeats"),
+        "enrichment_name",
+    ])
 
     df_new_artists = streams_df.loc[
         streams_df["artist_name"].isin(pending_artists),
         ["artist_mbid", "artist_name"],
-    ].drop_duplicates(subset=["artist_name"])
+    ].drop_duplicates(subset=["artist_name"]).assign(spotify_required=True)
     df_new_albums = streams_df.loc[
         streams_df["album_name"].isin(pending_albums),
         ["album_mbid", "album_name", "artist_name"],
-    ].drop_duplicates(subset=["album_name"])
+    ].drop_duplicates(subset=["album_name"]).assign(spotify_required=True)
     df_new_tracks = streams_df.loc[
         streams_df["track_name"].isin(pending_tracks),
         ["track_mbid", "track_name", "artist_name", "album_name"],
     ].drop_duplicates(subset=["track_name"])
+    df_new_tracks = df_new_tracks.merge(
+        existing_tracks_df,
+        on=["track_name", "artist_name"],
+        how="left",
+        suffixes=("", "_existing"),
+    )
+    df_new_tracks = df_new_tracks.assign(
+        spotify_required=df_new_tracks["track_name"].isin(spotify_tracks),
+        melodata_required=df_new_tracks["track_name"].isin(melodata_tracks),
+        reccobeats_required=df_new_tracks["track_name"].isin(reccobeats_tracks),
+    )
 
     # df_new_artists = df_new_artists.head(10)
     # df_new_albums = df_new_albums.head(10)
@@ -198,7 +231,10 @@ def get_data_to_enrich_from_db(reprocess_failed=False):
     return streams_df, df_new_artists, df_new_albums, df_new_tracks
 
 
-def enrich_data(reprocess_failed=False):
+def _enrich_batch(
+    reprocess_failed=False,
+    input_data=None,
+):
     project_root = Path(__file__).resolve().parents[2]
     new_records_dir = project_root / "data" / "processed" / "spotify"
 
@@ -210,12 +246,17 @@ def enrich_data(reprocess_failed=False):
 
     try:
 
+        if input_data is None:
+            input_data = get_data_to_enrich_from_db(
+                reprocess_failed=reprocess_failed
+            )
+
         (
             df_new_streams,
             df_new_artists,
             df_new_albums,
             df_new_tracks,
-        ) = get_data_to_enrich_from_db(reprocess_failed=reprocess_failed)
+        ) = input_data
 
         logger.info(
             f"Input loaded | "
@@ -383,10 +424,14 @@ def enrich_data(reprocess_failed=False):
                 f"artist={row['artist_name']}"
             )
 
-            result = spotify_client.get_track_data(
-                row["track_name"],
-                row["artist_name"],
-                sp
+            result = (
+                spotify_client.get_track_data(
+                    row["track_name"],
+                    row["artist_name"],
+                    sp
+                )
+                if row["spotify_required"]
+                else None
             )
 
             track_results.append(result)
@@ -430,7 +475,9 @@ def enrich_data(reprocess_failed=False):
             f"Melodata track {position}/{total_tracks} | "
             f"track={row['track_name']} | artist={row['artist_name']}"
         )
-        melodata_results.append(enrich_melodata(row))
+        melodata_results.append(
+            enrich_melodata(row) if row["melodata_required"] else None
+        )
     df_new_tracks["melodata_audio_features"] = melodata_results
 
     logger.info("Melodata enrichment completed")
@@ -447,7 +494,9 @@ def enrich_data(reprocess_failed=False):
             f"ReccoBeats search track {position}/{total_tracks} | "
             f"track={row['track_name']} | artist={row['artist_name']}"
         )
-        recco_search_results.append(search_recco_track(row))
+        recco_search_results.append(
+            search_recco_track(row) if row["reccobeats_required"] else None
+        )
     df_new_tracks["recco_search_result"] = recco_search_results
 
     # Extract ReccoBeats ID
@@ -469,9 +518,10 @@ def enrich_data(reprocess_failed=False):
 
             return None
 
-    df_new_tracks["recco_track_id"] = (
-        df_new_tracks["recco_search_result"]
-        .apply(extract_recco_id)
+    recco_ids = df_new_tracks["recco_search_result"].apply(extract_recco_id)
+    df_new_tracks["recco_track_id"] = recco_ids.where(
+        df_new_tracks["reccobeats_required"],
+        df_new_tracks["recco_track_id"],
     )
 
     logger.info("ReccoBeats search completed")
@@ -490,7 +540,11 @@ def enrich_data(reprocess_failed=False):
             f"ReccoBeats audio features track {position}/{total_tracks} | "
             f"track={row['track_name']}"
         )
-        recco_features.append(get_recco_audio_features_safe(row))
+        recco_features.append(
+            get_recco_audio_features_safe(row)
+            if row["reccobeats_required"]
+            else None
+        )
     df_new_tracks["recco_audio_features"] = recco_features
 
     logger.info(
@@ -591,6 +645,60 @@ def enrich_data(reprocess_failed=False):
         "Enrichment pipeline completed successfully"
     )
     return {"streams":df_new_streams, "artists": df_new_artists, "albums": df_new_albums, "tracks": df_new_tracks}
+
+
+def enrich_data(reprocess_failed=False, chunk_size=100):
+    """Enrich, load, and mark records in chunks."""
+    from src.control.enrichment_control import mark_enrichments_completed
+    from src.load.spt_load import load_enriched_data
+
+    if chunk_size <= 0:
+        raise ValueError("chunk_size must be greater than zero")
+
+    data = get_data_to_enrich_from_db(reprocess_failed=reprocess_failed)
+    streams_df, artists_df, albums_df, tracks_df = data
+    tracks_df = tracks_df.reset_index(drop=True)
+    summaries = []
+
+    for start in range(0, len(tracks_df), chunk_size):
+        tracks_chunk = tracks_df.iloc[start:start + chunk_size].copy()
+        track_names = set(tracks_chunk["track_name"])
+        artist_names = set(tracks_chunk["artist_name"])
+        album_names = set(tracks_chunk["album_name"])
+        batch_data = (
+            streams_df[streams_df["track_name"].isin(track_names)],
+            artists_df[artists_df["artist_name"].isin(artist_names)],
+            albums_df[albums_df["album_name"].isin(album_names)],
+            tracks_chunk,
+        )
+
+        logger.info(
+            "Processing enrichment batch %s-%s/%s",
+            start + 1,
+            start + len(tracks_chunk),
+            len(tracks_df),
+        )
+        enriched_data = _enrich_batch(
+            reprocess_failed=reprocess_failed,
+            input_data=batch_data,
+        )
+        if not enriched_data:
+            logger.error("Enrichment batch failed; continuing with next batch")
+            continue
+
+        dimensions = {
+            "artist": enriched_data["artists"],
+            "album": enriched_data["albums"],
+            "track": enriched_data["tracks"],
+        }
+        summary = load_enriched_data(
+            fact_listening=enriched_data["streams"],
+            dim=dimensions,
+        )
+        mark_enrichments_completed(dimensions)
+        summaries.append(summary)
+
+    return summaries
 
 
 if __name__ == "__main__":

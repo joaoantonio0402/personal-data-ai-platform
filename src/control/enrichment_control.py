@@ -105,19 +105,20 @@ def mark_enrichments_completed(dim):
     processed_at = datetime.now(timezone.utc)
 
     enrichment_specs = [
-        ("artist", "spotify", dim["artist"], "artist_name", "spotify_artist_id"),
-        ("album", "spotify", dim["album"], "album_name", "spotify_album_id"),
-        ("track", "spotify", dim["track"], "track_name", "spotify_track_id"),
-        ("track", "melodata", dim["track"], "track_name", "melodata_isrc"),
-        ("track", "reccobeats", dim["track"], "track_name", "reccobeats_id"),
+        ("artist", "spotify", dim["artist"], "artist_name", "spotify_artist_id", "spotify_required"),
+        ("album", "spotify", dim["album"], "album_name", "spotify_album_id", "spotify_required"),
+        ("track", "spotify", dim["track"], "track_name", "spotify_track_id", "spotify_required"),
+        ("track", "melodata", dim["track"], "track_name", "melodata_isrc", "melodata_required"),
+        ("track", "reccobeats", dim["track"], "track_name", "reccobeats_id", "reccobeats_required"),
     ]
 
     with engine.begin() as connection:
-        for enrichment_type, method, dataframe, name_column, result_column in enrichment_specs:
+        for enrichment_type, method, dataframe, name_column, result_column, required_column in enrichment_specs:
             if name_column not in dataframe:
                 continue
 
             names = dataframe[name_column].fillna("").astype(str).str.strip()
+            required = dataframe[required_column] if required_column in dataframe else True
             succeeded = (
                 dataframe[result_column]
                 .fillna("")
@@ -128,8 +129,8 @@ def mark_enrichments_completed(dim):
                 else pd.Series(False, index=dataframe.index)
             )
 
-            for name, success in zip(names, succeeded):
-                if not name:
+            for name, should_process, success in zip(names, required, succeeded):
+                if not name or not should_process:
                     continue
                 connection.execute(
                     update(EnrichmentQueue)

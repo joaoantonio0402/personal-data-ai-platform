@@ -35,7 +35,11 @@ def _upsert_dimension(dataframe, model, key_columns):
 
     engine = connect_to_database()
     primary_key = model.__table__.primary_key.columns[0]
-    rows = dataframe.where(pd.notna(dataframe), None).to_dict(orient="records")
+    rows = (
+        dataframe.astype(object)
+        .where(pd.notna(dataframe), None)
+        .to_dict(orient="records")
+    )
 
     with engine.begin() as connection:
         for row in rows:
@@ -50,7 +54,11 @@ def _upsert_dimension(dataframe, model, key_columns):
                 values = {
                     column: value
                     for column, value in row.items()
-                    if column != primary_key.name and column not in key_columns
+                    if (
+                        column != primary_key.name
+                        and column not in key_columns
+                        and value is not None
+                    )
                 }
                 if values:
                     connection.execute(
@@ -116,10 +124,6 @@ def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
     track_columns = [column.name for column in DimTrack.__table__.columns]
     track_columns.remove("track_id")
     tracks = tracks[[column for column in track_columns if column in tracks]]
-    tracks = tracks.drop(
-        columns=["spotify_featured_artists"],
-        errors="ignore"
-    )
     _upsert_dimension(
         tracks,
         DimTrack,

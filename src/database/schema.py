@@ -11,6 +11,7 @@ from sqlalchemy import (
 )
 
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.dialects.postgresql import JSONB
 
 
 Base = declarative_base()
@@ -82,7 +83,7 @@ class DimTrack(Base):
     spotify_isrc = Column(String)
     spotify_has_feat = Column(Boolean)
     spotify_artist_count = Column(Integer)
-    spotify_featured_artists = Column(String)
+    spotify_featured_artists = Column(JSONB)
     spotify_release_date = Column(String)
     spotify_duration_ms = Column(Integer)
     spotify_explicit = Column(Boolean)
