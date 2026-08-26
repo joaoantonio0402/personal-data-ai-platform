@@ -27,6 +27,7 @@ new_records_dir = (
 
 def _upsert_dimension(dataframe, model, key_columns):
     columns = [column.name for column in model.__table__.columns]
+    dataframe = dataframe.loc[:, ~dataframe.columns.duplicated()].copy()
     dataframe = dataframe.drop_duplicates(subset=key_columns).copy()
     dataframe = dataframe[[column for column in columns if column in dataframe]]
 

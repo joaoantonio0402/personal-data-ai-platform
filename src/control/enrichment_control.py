@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import json
 from datetime import datetime, timezone
 import pandas as pd
 from sqlalchemy import select, update
@@ -31,7 +32,7 @@ def parse_stream_to_enrich_df(row):
     add_enrichment(row.get("artist_name"), "artist", "spotify")
     add_enrichment(row.get("album_name"), "album", "spotify")
     add_enrichment(row.get("track_name"), "track", "spotify")
-    add_enrichment(row.get("track_name"), "track", "melodata")
+    # add_enrichment(row.get("track_name"), "track", "melodata")
     add_enrichment(row.get("track_name"), "track", "reccobeats")
 
     return pd.DataFrame(enrichments, columns=columns)
@@ -99,21 +100,27 @@ def control_enrichment_queue():
     return new_enrichments_df.reset_index(drop=True)
 
 
+def serialize_api_response(value):
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return None
+    return json.dumps(value, ensure_ascii=False, default=str)
+
+
 def mark_enrichments_completed(dim):
     """Mark processed queue entries as completed or failed."""
     engine = connect_to_database()
     processed_at = datetime.now(timezone.utc)
 
     enrichment_specs = [
-        ("artist", "spotify", dim["artist"], "artist_name", "spotify_artist_id", "spotify_required"),
-        ("album", "spotify", dim["album"], "album_name", "spotify_album_id", "spotify_required"),
-        ("track", "spotify", dim["track"], "track_name", "spotify_track_id", "spotify_required"),
-        ("track", "melodata", dim["track"], "track_name", "melodata_isrc", "melodata_required"),
-        ("track", "reccobeats", dim["track"], "track_name", "reccobeats_id", "reccobeats_required"),
+        ("artist", "spotify", dim["artist"], "artist_name", "spotify_artist_id", "spotify_required", "spotify_api_response"),
+        ("album", "spotify", dim["album"], "album_name", "spotify_album_id", "spotify_required", "spotify_api_response"),
+        ("track", "spotify", dim["track"], "track_name", "spotify_track_id", "spotify_required", "spotify_api_response"),
+        # ("track", "melodata", dim["track"], "track_name", "melodata_isrc", "melodata_required"),
+        ("track", "reccobeats", dim["track"], "track_name", "reccobeats_id", "reccobeats_required", "reccobeats_api_response"),
     ]
 
     with engine.begin() as connection:
-        for enrichment_type, method, dataframe, name_column, result_column, required_column in enrichment_specs:
+        for enrichment_type, method, dataframe, name_column, result_column, required_column, response_column in enrichment_specs:
             if name_column not in dataframe:
                 continue
 
@@ -129,7 +136,7 @@ def mark_enrichments_completed(dim):
                 else pd.Series(False, index=dataframe.index)
             )
 
-            for name, should_process, success in zip(names, required, succeeded):
+            for (_, row), name, should_process, success in zip(dataframe.iterrows(), names, required, succeeded):
                 if not name or not should_process:
                     continue
                 connection.execute(
@@ -143,5 +150,6 @@ def mark_enrichments_completed(dim):
                     .values(
                         status="completed" if success else "failed",
                         enriched_at=processed_at,
+                        info=serialize_api_response(row.get(response_column)),
                     )
                 )

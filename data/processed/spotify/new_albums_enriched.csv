@@ -1,2 +1,1 @@
-album_mbid,album_name,artist_name,spotify_required
-,Armada Deep - Ibiza 2019,Avoure,True
+album_mbid,album_name,artist_name,spotify_required,spotify_api_response
