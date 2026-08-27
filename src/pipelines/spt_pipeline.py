@@ -14,6 +14,7 @@ from src.transformation.spt_transform import transform_data_from_raw_json
 from src.database.connection import connect_to_database
 from src.database.schema import Base
 from src.staging.stage import stage_streams
+from src.load.spt_load import load_dimensions
 from src.control.enrichment_control import control_enrichment_queue
 from src.database.create_tables import create_tables
 from src.enrichment.spt_enrich import enrich_data
@@ -51,10 +52,14 @@ def main():
     run_id = extract_lastfm_data_from_date(start_date=last_run + 1)
     print(f"Data extraída e salva em: {run_id}")
     streams = transform_data_from_raw_json(run_id=run_id)
-    stage_streams(streams)
-    streams.to_csv("streams.csv")
+    if streams is None or streams.empty:
+        logger.info("Nenhum novo stream encontrado; pulando carga das dimensões.")
+    else:
+        stage_streams(streams)
+        load_dimensions(streams)
+        streams.to_csv("streams.csv")
     control_enrichment_queue()
-    enrich_data(reprocess_failed=True, chunk_size=10)
+    enrich_data(reprocess_failed=False, chunk_size=10)
 
 
 if __name__ == "__main__":

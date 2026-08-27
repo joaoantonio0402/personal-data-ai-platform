@@ -1,6 +1,5 @@
 import pandas as pd
 from pathlib import Path
-import pandas as pd
 import sys
 import os
 from dotenv import load_dotenv
@@ -17,12 +16,6 @@ load_dotenv()
 
 CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
-# MELODATA_API_KEY = os.getenv("MELODATA_API_KEY")
-
-import logging
-from pathlib import Path
-
-import pandas as pd
 
 from src.clients import spotify_client
 from src.clients import reccobeats_client
@@ -30,40 +23,6 @@ from src.database.schema import DimTrack, EnrichmentQueue, StgStream
 
 
 logger = logging.getLogger(__name__)
-
-
-# def enrich_melodata(row):
-#     try:
-#         if pd.isna(row["spotify_isrc"]):
-#             logger.warning(
-#                 f"Melodata skipped | "
-#                 f"track={row['track_name']} | "
-#                 f"artist={row['artist_name']} | "
-#                 f"reason=missing ISRC"
-#             )
-#             return None
-#
-#         logger.info(
-#             f"Melodata | "
-#             f"track={row['track_name']} | "
-#             f"artist={row['artist_name']}"
-#         )
-#
-#         return melodata_client.get_track_features(
-#             MELODATA_API_KEY,
-#             row["spotify_isrc"]
-#         )
-#
-#     except Exception as e:
-#         logger.error(
-#             f"Melodata failed | "
-#             f"track={row['track_name']} | "
-#             f"artist={row['artist_name']} | "
-#             f"isrc={row['spotify_isrc']} | "
-#             f"error={e}"
-#         )
-#
-#         return None
 
 
 def search_recco_track(row):
@@ -142,7 +101,6 @@ def get_data_to_enrich_from_db(reprocess_failed=False):
                 EnrichmentQueue.method,
             ).where(
                 EnrichmentQueue.status.in_(statuses),
-                EnrichmentQueue.method != "melodata",
             ),
             connection,
         )
@@ -193,10 +151,6 @@ def get_data_to_enrich_from_db(reprocess_failed=False):
         (queue_df["type"] == "track") & (queue_df["method"] == "spotify"),
         "enrichment_name",
     ])
-    # melodata_tracks = set(queue_df.loc[
-    #     (queue_df["type"] == "track") & (queue_df["method"] == "melodata"),
-    #     "enrichment_name",
-    # ])
     reccobeats_tracks = set(queue_df.loc[
         (queue_df["type"] == "track") & (queue_df["method"] == "reccobeats"),
         "enrichment_name",
@@ -222,7 +176,6 @@ def get_data_to_enrich_from_db(reprocess_failed=False):
     )
     df_new_tracks = df_new_tracks.assign(
         spotify_required=df_new_tracks["track_name"].isin(spotify_tracks),
-        # melodata_required=df_new_tracks["track_name"].isin(melodata_tracks),
         reccobeats_required=df_new_tracks["track_name"].isin(reccobeats_tracks),
     )
 
@@ -469,25 +422,6 @@ def _enrich_batch(
     logger.info("Spotify track enrichment completed")
 
     # ------------------------------------------------------------------
-    # MELODATA (temporarily disabled)
-    # ------------------------------------------------------------------
-
-    # logger.info("Starting Melodata enrichment")
-    #
-    # melodata_results = []
-    # for position, (_, row) in enumerate(df_new_tracks.iterrows(), start=1):
-    #     logger.info(
-    #         f"Melodata track {position}/{total_tracks} | "
-    #         f"track={row['track_name']} | artist={row['artist_name']}"
-    #     )
-    #     melodata_results.append(
-    #         enrich_melodata(row) if row["melodata_required"] else None
-    #     )
-    # df_new_tracks["melodata_audio_features"] = melodata_results
-    #
-    # logger.info("Melodata enrichment completed")
-
-    # ------------------------------------------------------------------
     # RECCOBEATS - SEARCH
     # ------------------------------------------------------------------
 
@@ -504,29 +438,41 @@ def _enrich_batch(
         )
     df_new_tracks["recco_search_result"] = recco_search_results
 
-    # Extract ReccoBeats ID
+    def get_recco_search_track(result):
+        if not result:
+            return None
+
+        content = result.get("content") or result.get("items") or []
+        return content[0] if content else None
+
     def extract_recco_id(result):
 
         try:
-
-            if not result:
-                return None
-
-            content = result.get("content") or result.get("items") or []
-
-            if not content:
-                return None
-
-            return content[0].get("id")
+            track = get_recco_search_track(result)
+            return track.get("id") if track else None
 
         except Exception:
 
             return None
 
+    def extract_recco_popularity(result):
+        try:
+            track = get_recco_search_track(result)
+            return track.get("popularity") if track else None
+        except Exception:
+            return None
+
     recco_ids = df_new_tracks["recco_search_result"].apply(extract_recco_id)
+    recco_popularity = df_new_tracks["recco_search_result"].apply(
+        extract_recco_popularity
+    )
     df_new_tracks["recco_track_id"] = recco_ids.where(
         df_new_tracks["reccobeats_required"],
         df_new_tracks["recco_track_id"],
+    )
+    df_new_tracks["reccobeats_popularity"] = recco_popularity.where(
+        df_new_tracks["reccobeats_required"],
+        None,
     )
 
     logger.info("ReccoBeats search completed")
@@ -577,19 +523,6 @@ def _enrich_batch(
     # ------------------------------------------------------------------
 
     logger.info("Normalizing audio features columns")
-
-    # Normalize Melodata features (temporarily disabled)
-    # melodata_features = pd.json_normalize(
-    #     df_new_tracks["melodata_audio_features"]
-    # )
-    #
-    # df_new_tracks = pd.concat(
-    #     [
-    #         df_new_tracks.drop(columns=["melodata_audio_features"]),
-    #         melodata_features
-    #     ],
-    #     axis=1
-    # )
 
     # Normalize ReccoBeats features
     reccobeats_features = pd.json_normalize(

@@ -9,7 +9,14 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.database.connection import connect_to_database
-from src.database.schema import Base, DimAlbum, DimArtist, DimTrack, FactListening
+from src.database.schema import (
+    Base,
+    DimAlbum,
+    DimArtist,
+    DimTrack,
+    FactListening,
+    TrackAudioFeatures,
+)
 project_root = Path(__file__).resolve().parents[2]
 
 new_records_dir = (
@@ -71,8 +78,8 @@ def _upsert_dimension(dataframe, model, key_columns):
     return dataframe
 
 
-def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
-    """Load enriched dimensions and listening facts into the database."""
+def _load_dimensions(dim: dict):
+    """Insert or update the base dimensions and return their database keys."""
     required_dimensions = {"artist", "album", "track"}
     missing_dimensions = required_dimensions - dim.keys()
     if missing_dimensions:
@@ -136,6 +143,87 @@ def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
             select(DimTrack.track_id, DimTrack.track_name, DimTrack.artist_name),
             connection,
         )
+
+    return {
+        "artists": artists,
+        "albums": albums,
+        "tracks": tracks,
+        "track_ids": track_ids,
+    }
+
+
+def load_dimensions(streams: pd.DataFrame):
+    """Load the raw artist, album, and track dimensions before enrichment."""
+    dimensions = {
+        "artist": streams[["artist_mbid", "artist_name"]]
+        .drop_duplicates(subset=["artist_name"]),
+        "album": streams[["album_mbid", "album_name", "artist_name"]]
+        .drop_duplicates(subset=["album_name", "artist_name"]),
+        "track": streams[["track_mbid", "track_name", "artist_name", "album_name"]]
+        .drop_duplicates(subset=["track_name", "artist_name"]),
+    }
+    return _load_dimensions(dimensions)
+
+
+def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
+    """Load enriched dimensions and listening facts into the database."""
+    engine = connect_to_database()
+    enriched_tracks = dim["track"].copy()
+    loaded_dimensions = _load_dimensions(dim)
+    artists = loaded_dimensions["artists"]
+    albums = loaded_dimensions["albums"]
+    tracks = loaded_dimensions["tracks"]
+    track_ids = loaded_dimensions["track_ids"]
+
+    features = enriched_tracks.copy()
+    features = features.merge(
+        track_ids,
+        on=["track_name", "artist_name"],
+        how="inner",
+    )
+    features["provider"] = "reccobeats"
+    features["provider_track_id"] = features.get(
+        "reccobeats_id",
+        pd.Series(index=features.index, dtype=object),
+    )
+    if "recco_track_id" in features:
+        features["provider_track_id"] = features["provider_track_id"].fillna(
+            features["recco_track_id"]
+        )
+    features["provider_href"] = features.get("reccobeats_href")
+    features["provider_isrc"] = features.get("reccobeats_isrc")
+    features = features.rename(
+        columns={
+            "reccobeats_popularity": "popularity",
+            "reccobeats_acousticness": "acousticness",
+            "reccobeats_danceability": "danceability",
+            "reccobeats_energy": "energy",
+            "reccobeats_instrumentalness": "instrumentalness",
+            "reccobeats_key": "key",
+            "reccobeats_liveness": "liveness",
+            "reccobeats_loudness": "loudness",
+            "reccobeats_mode": "mode",
+            "reccobeats_speechiness": "speechiness",
+            "reccobeats_tempo": "tempo",
+            "reccobeats_valence": "valence",
+            "reccobeats_api_response": "raw_response",
+        }
+    )
+    feature_columns = [
+        column.name
+        for column in TrackAudioFeatures.__table__.columns
+        if column.name != "feature_id"
+    ]
+    features = features[[column for column in feature_columns if column in features]]
+    features = features.loc[
+        features["provider_track_id"].notna()
+        | features["raw_response"].notna()
+    ]
+    _upsert_dimension(
+        features,
+        TrackAudioFeatures,
+        ["track_id", "provider"],
+    )
 
     facts = fact_listening.merge(
         track_ids,

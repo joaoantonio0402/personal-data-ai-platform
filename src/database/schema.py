@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from sqlalchemy import (
     Column,
     Integer,
@@ -94,48 +96,36 @@ class DimTrack(Base):
     recco_track_id = Column(String)
 
 
-    # Melodata
+class TrackAudioFeatures(Base):
+    __tablename__ = "track_audio_features"
+    __table_args__ = (
+        UniqueConstraint(
+            "track_id",
+            "provider",
+            name="uq_track_audio_features_track_provider",
+        ),
+    )
 
-    melodata_isrc = Column(String(20))
-
-    melodata_title = Column(String(255))
-    melodata_artist = Column(String(255))
-
-    melodata_bpm = Column(Integer)
-    melodata_key = Column(String(10))
-    melodata_key_confidence = Column(Float)
-
-    melodata_energy = Column(Float)
-    melodata_danceability = Column(Float)
-    melodata_valence = Column(Float)
-    melodata_acousticness = Column(Float)
-    melodata_loudness = Column(Float)
-    melodata_instrumentalness = Column(Float)
-    melodata_speechiness = Column(Float)
-    melodata_liveness = Column(Float)
-
-    melodata_time_signature = Column(Integer)
-
-    melodata_analysis_version = Column(String(100))
-    melodata_source = Column(String(100))
-    
-    # Enriched audio features from reccobeats
-    reccobeats_id = Column(String(50))
-    reccobeats_href = Column(String(255))
-    reccobeats_isrc = Column(String(20))
-
-    reccobeats_acousticness = Column(Float)
-    reccobeats_danceability = Column(Float)
-    reccobeats_energy = Column(Float)
-    reccobeats_instrumentalness = Column(Float)
-
-    reccobeats_key = Column(Integer)
-    reccobeats_liveness = Column(Float)
-    reccobeats_loudness = Column(Float)
-    reccobeats_mode = Column(Integer)
-    reccobeats_speechiness = Column(Float)
-    reccobeats_tempo = Column(Float)
-    reccobeats_valence = Column(Float)
+    feature_id = Column(Integer, primary_key=True, autoincrement=True)
+    track_id = Column(Integer, ForeignKey("dim_track.track_id"), nullable=False)
+    provider = Column(String, nullable=False)
+    provider_track_id = Column(String)
+    provider_href = Column(String)
+    provider_isrc = Column(String(20))
+    popularity = Column(Integer)
+    acousticness = Column(Float)
+    danceability = Column(Float)
+    energy = Column(Float)
+    instrumentalness = Column(Float)
+    key = Column(Integer)
+    liveness = Column(Float)
+    loudness = Column(Float)
+    mode = Column(Integer)
+    speechiness = Column(Float)
+    tempo = Column(Float)
+    valence = Column(Float)
+    raw_response = Column(JSONB)
+    fetched_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 
 class EnrichmentQueue(Base):
