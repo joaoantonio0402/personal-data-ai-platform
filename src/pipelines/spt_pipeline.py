@@ -59,7 +59,7 @@ def main():
         load_dimensions(streams)
         streams.to_csv("streams.csv")
     control_enrichment_queue()
-    enrich_data(reprocess_failed=False, chunk_size=10)
+    enrich_data(reprocess_failed=True, chunk_size=10)
 
 
 if __name__ == "__main__":

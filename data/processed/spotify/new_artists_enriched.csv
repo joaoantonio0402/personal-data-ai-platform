@@ -1,6 +1,0 @@
-artist_mbid,artist_name,spotify_required,spotify_api_response,spotify_artist_id,spotify_artist_url
-3d254f1e-7d18-431b-baeb-68e57695dfdb,Blood Orange,True,"{'spotify_artist_id': '6LEeAFiJF8OuPx747e1wxR', 'spotify_artist_url': 'https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR'}",6LEeAFiJF8OuPx747e1wxR,https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR
-e0140a67-e4d1-4f13-8a01-364355bee46e,Justin Bieber,True,"{'spotify_artist_id': '1uNFoZAHBGtllmzznpCI3s', 'spotify_artist_url': 'https://open.spotify.com/artist/1uNFoZAHBGtllmzznpCI3s'}",1uNFoZAHBGtllmzznpCI3s,https://open.spotify.com/artist/1uNFoZAHBGtllmzznpCI3s
-,Frank Sinatra,True,"{'spotify_artist_id': '1Mxqyy3pSjf8kZZL4QVxS0', 'spotify_artist_url': 'https://open.spotify.com/artist/1Mxqyy3pSjf8kZZL4QVxS0'}",1Mxqyy3pSjf8kZZL4QVxS0,https://open.spotify.com/artist/1Mxqyy3pSjf8kZZL4QVxS0
-7a8dbe84-f4c0-4457-bfa3-edced1f8cde0,Antônio Carlos Jobim,True,"{'spotify_artist_id': '3pO5VjZ4wOHCMBXOvbMISG', 'spotify_artist_url': 'https://open.spotify.com/artist/3pO5VjZ4wOHCMBXOvbMISG'}",3pO5VjZ4wOHCMBXOvbMISG,https://open.spotify.com/artist/3pO5VjZ4wOHCMBXOvbMISG
-,The Flamingos,True,"{'spotify_artist_id': '6iygtKnPG7TRvDaTYcLOd6', 'spotify_artist_url': 'https://open.spotify.com/artist/6iygtKnPG7TRvDaTYcLOd6'}",6iygtKnPG7TRvDaTYcLOd6,https://open.spotify.com/artist/6iygtKnPG7TRvDaTYcLOd6
