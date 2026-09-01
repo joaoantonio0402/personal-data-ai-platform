@@ -1,0 +1,11 @@
+track_mbid,track_name,artist_name,album_name,spotify_isrc,recco_track_id,spotify_required,reccobeats_required,spotify_api_response,reccobeats_popularity,reccobeats_api_response
+,Olha pra Cara de Quem Te...,MC LUUKY,Olha pra Cara de Quem Te...,,,False,True,,,"{'search': None, 'audio_features': None}"
+27a74d2e-870f-4348-89d3-f2da0a0bca77,Goodbye (feat. Soap&Skin),Apparat,The Devil's Walk,,,True,True,,,"{'search': None, 'audio_features': None}"
+,Nossas Fotos,Felipe Amorim,Nossas Fotos,,25bdb96b-3a66-4011-a255-6d5d83533a75,True,False,,,"{'search': None, 'audio_features': None}"
+,PIMMIE'S DILEMMA,Pimmie,$ome $exy $ongs 4 U,,,False,True,,,"{'search': None, 'audio_features': None}"
+,EU SEI QUE NÃO É VERDADE,dnovaees,EU SEI QUE NÃO É VERDADE,,,False,True,,,"{'search': None, 'audio_features': None}"
+,do i clench my fists?,ridgeclub,do i clench my fists?,,,False,True,,,"{'search': None, 'audio_features': None}"
+,It's Snowing Like It's the End of the World,Stylix,It's Snowing Like It's the End of the World,,,False,True,,,"{'search': None, 'audio_features': None}"
+,What i need,MRK,What i need,,,False,True,,,"{'search': None, 'audio_features': None}"
+,When I’m Home,James Blake,The Odyssey (Original Motion Picture Soundtrack),,,False,True,,,"{'search': None, 'audio_features': None}"
+193366fa-8408-419c-aa70-e3ee5ceef046,Lose You,Drake,More Life,,,False,True,,,"{'search': None, 'audio_features': None}"

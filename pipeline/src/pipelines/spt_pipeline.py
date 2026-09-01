@@ -4,6 +4,7 @@ from pathlib import Path
 from sqlalchemy import func, select, update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
+import os
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
@@ -49,7 +50,7 @@ def main():
 
     create_tables()
     last_run = get_last_run_date_from_db()
-    run_id = extract_lastfm_data_from_date(start_date=last_run + 1)
+    run_id = extract_lastfm_data_from_date(start_date=last_run + 1, api_key=os.getenv("LASTFM_API_KEY"))
     print(f"Data extraída e salva em: {run_id}")
     streams = transform_data_from_raw_json(run_id=run_id)
     if streams is None or streams.empty:

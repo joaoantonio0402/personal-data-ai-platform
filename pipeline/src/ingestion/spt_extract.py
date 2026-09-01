@@ -1,11 +1,13 @@
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import os
 
 import requests
 
+API_KEY = os.getenv("LASTFM_API_KEY")
 
-def extract_lastfm_data_from_date(start_date=None, end_date=None):
+def extract_lastfm_data_from_date(start_date=None, end_date=None, api_key=None):
     if end_date is None:
         end_date = int(datetime.now(timezone.utc).timestamp())
 
@@ -25,7 +27,7 @@ def extract_lastfm_data_from_date(start_date=None, end_date=None):
         "from": start_timestamp,
         "to": end_timestamp,
         "extended": 0,
-        "api_key": "71d883bfc3d9583a390b78c46f19f2e4",
+        "api_key": api_key,
         "format": "json",
     }
     PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -37,6 +39,7 @@ def extract_lastfm_data_from_date(start_date=None, end_date=None):
 
     try:
         response = requests.get(URL, params=params)
+        print(params)
         response.raise_for_status()
         data = response.json()
         total_pages = int(data["recenttracks"]["@attr"]["totalPages"])

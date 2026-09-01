@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 import logging
 from sqlalchemy import select
+import requests
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
@@ -12,14 +13,12 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.clients import spotify_client, reccobeats_client
 from src.database.connection import connect_to_database
+from src.database.schema import DimTrack, EnrichmentQueue, StgStream
+
 load_dotenv()
 
 CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
-
-from src.clients import spotify_client
-from src.clients import reccobeats_client
-from src.database.schema import DimTrack, EnrichmentQueue, StgStream
 
 
 logger = logging.getLogger(__name__)
@@ -35,18 +34,28 @@ def search_recco_track(row):
 
         result = reccobeats_client.search_track(
             row["track_name"],
-            row["artist_name"]
+            row["artist_name"],
         )
 
-        if not result:
+        if result is None:
             logger.warning(
-                f"ReccoBeats returned no result | "
+                f"ReccoBeats track not found | "
                 f"track={row['track_name']} | "
                 f"artist={row['artist_name']}"
             )
             return None
 
         return result
+
+    except requests.RequestException as e:
+        logger.error(
+            f"ReccoBeats API request failed | "
+            f"track={row['track_name']} | "
+            f"artist={row['artist_name']} | "
+            f"error={e}"
+        )
+
+        return None
 
     except Exception as e:
         logger.error(
@@ -61,7 +70,8 @@ def search_recco_track(row):
 
 def get_recco_audio_features_safe(row):
     try:
-        if pd.isna(row["recco_track_id"]):
+        track_id = row.get("recco_track_id")
+        if pd.isna(track_id) or track_id is None or str(track_id).strip() == "":
             logger.warning(
                 f"ReccoBeats features skipped | "
                 f"track={row['track_name']} | "
@@ -72,12 +82,17 @@ def get_recco_audio_features_safe(row):
         logger.info(
             f"ReccoBeats features | "
             f"track={row['track_name']} | "
-            f"recco_id={row['recco_track_id']}"
+            f"recco_id={track_id}"
         )
 
-        return reccobeats_client.get_audio_features(
-            row["recco_track_id"]
-        )
+        features = reccobeats_client.get_audio_features(track_id)
+        if features is None:
+            logger.warning(
+                f"ReccoBeats features not found | "
+                f"track={row['track_name']} | "
+                f"recco_id={track_id}"
+            )
+        return features
 
     except Exception as e:
         logger.error(
@@ -442,23 +457,43 @@ def _enrich_batch(
         if not result:
             return None
 
-        content = result.get("content") or result.get("items") or []
-        return content[0] if content else None
+        if isinstance(result, dict):
+            if any(key in result for key in ("id", "track_id", "trackId")):
+                return result
+
+            if isinstance(result.get("search"), dict):
+                return result["search"]
+
+            for key in ("content", "items", "tracks", "data"):
+                value = result.get(key)
+                if isinstance(value, list) and value:
+                    first = value[0]
+                    if isinstance(first, dict):
+                        return first
+                if isinstance(value, dict):
+                    nested = value.get("search")
+                    if isinstance(nested, dict):
+                        return nested
+
+        return None
 
     def extract_recco_id(result):
-
         try:
             track = get_recco_search_track(result)
-            return track.get("id") if track else None
-
+            if not isinstance(track, dict):
+                return None
+            return (
+                track.get("id")
+                or track.get("track_id")
+                or track.get("trackId")
+            )
         except Exception:
-
             return None
 
     def extract_recco_popularity(result):
         try:
             track = get_recco_search_track(result)
-            return track.get("popularity") if track else None
+            return track.get("popularity") if isinstance(track, dict) else None
         except Exception:
             return None
 
@@ -608,15 +643,59 @@ def enrich_data(reprocess_failed=False, chunk_size=100):
     tracks_df = tracks_df.reset_index(drop=True)
     summaries = []
 
+    if tracks_df.empty:
+        if artists_df.empty and albums_df.empty:
+            logger.info("Nenhuma fila pendente de artist, album ou track para processar.")
+            return summaries
+
+        artist_names = set(artists_df["artist_name"].dropna().astype(str))
+        album_names = set(albums_df["album_name"].dropna().astype(str))
+        filtered_streams = streams_df[
+            streams_df["artist_name"].fillna("").astype(str).isin(artist_names)
+            | streams_df["album_name"].fillna("").astype(str).isin(album_names)
+        ]
+        batch_data = (
+            filtered_streams,
+            artists_df,
+            albums_df,
+            tracks_df,
+        )
+
+        logger.info("Processing enrichment batch for artist/album-only queue")
+        enriched_data = _enrich_batch(
+            reprocess_failed=reprocess_failed,
+            input_data=batch_data,
+        )
+        if not enriched_data:
+            logger.error("Enrichment batch failed; continuing with next batch")
+            return summaries
+
+        dimensions = {
+            "artist": enriched_data["artists"],
+            "album": enriched_data["albums"],
+            "track": enriched_data["tracks"],
+        }
+        summary = load_enriched_data(
+            fact_listening=enriched_data["streams"],
+            dim=dimensions,
+        )
+        mark_enrichments_completed(dimensions)
+        summaries.append(summary)
+        return summaries
+
     for start in range(0, len(tracks_df), chunk_size):
         tracks_chunk = tracks_df.iloc[start:start + chunk_size].copy()
-        track_names = set(tracks_chunk["track_name"])
-        artist_names = set(tracks_chunk["artist_name"])
-        album_names = set(tracks_chunk["album_name"])
+        track_names = set(tracks_chunk["track_name"].dropna().astype(str))
+        artist_names = set(tracks_chunk["artist_name"].dropna().astype(str))
+        album_names = set(tracks_chunk["album_name"].dropna().astype(str))
         batch_data = (
-            streams_df[streams_df["track_name"].isin(track_names)],
-            artists_df[artists_df["artist_name"].isin(artist_names)],
-            albums_df[albums_df["album_name"].isin(album_names)],
+            streams_df[
+                streams_df["track_name"].fillna("").astype(str).isin(track_names)
+                | streams_df["artist_name"].fillna("").astype(str).isin(artist_names)
+                | streams_df["album_name"].fillna("").astype(str).isin(album_names)
+            ],
+            artists_df[artists_df["artist_name"].fillna("").astype(str).isin(artist_names)],
+            albums_df[albums_df["album_name"].fillna("").astype(str).isin(album_names)],
             tracks_chunk,
         )
 

@@ -32,7 +32,7 @@ def transform_data_from_raw_json(run_id = None):
         print("Nenhum ID fornecido.")
         return
     else:
-        raw_dir = Path(f"data/raw/spotify/{run_id}/pages")
+        raw_dir = Path(f"pipeline/data/raw/spotify/{run_id}/pages")
 
     rows = []
     
@@ -50,7 +50,7 @@ def transform_data_from_raw_json(run_id = None):
 
     df = pd.DataFrame(rows)
 
-    df.to_csv(f"data/processed/spotify/new_streams.csv", index=False)
+    df.to_csv(f"pipeline/data/processed/spotify/new_streams.csv", index=False)
 
     return df
 
@@ -63,8 +63,8 @@ def transform_data_from_raw_json(run_id = None):
     )
 
     dim_artist_last_saved = (
-        pd.read_csv("data/processed/spotify/dim_artist.csv")
-        if Path("data/processed/spotify/dim_artist.csv").exists() else pd.DataFrame(columns=["artist_mbid", "artist_name"])
+        pd.read_csv("pipeline/data/processed/spotify/dim_artist.csv")
+        if Path("pipeline/data/processed/spotify/dim_artist.csv").exists() else pd.DataFrame(columns=["artist_mbid", "artist_name"])
     )
 
     new_artists = dim_artist_df[
@@ -78,8 +78,8 @@ def transform_data_from_raw_json(run_id = None):
         ignore_index=True
     )
 
-    new_artists.to_csv(f"data/processed/spotify/new_artists.csv", index=False)
-    dim_artist_df.to_csv(f"data/processed/spotify/dim_artist.csv", index=False)
+    new_artists.to_csv(f"pipeline/data/processed/spotify/new_artists.csv", index=False)
+    dim_artist_df.to_csv(f"pipeline/data/processed/spotify/dim_artist.csv", index=False)
 
 
 
@@ -93,8 +93,8 @@ def transform_data_from_raw_json(run_id = None):
     )
 
     dim_album_last_saved = (
-        pd.read_csv("data/processed/spotify/dim_album.csv")
-        if Path("data/processed/spotify/dim_album.csv").exists() else pd.DataFrame(columns=["album_mbid", "album_name"])
+        pd.read_csv("pipeline/data/processed/spotify/dim_album.csv")
+        if Path("pipeline/data/processed/spotify/dim_album.csv").exists() else pd.DataFrame(columns=["album_mbid", "album_name"])
     )
 
     new_albums = dim_album_df[
@@ -108,8 +108,8 @@ def transform_data_from_raw_json(run_id = None):
         ignore_index=True
     )
 
-    new_albums.to_csv(f"data/processed/spotify/new_albums.csv", index=False)
-    dim_album_df.to_csv(f"data/processed/spotify/dim_album.csv", index=False)
+    new_albums.to_csv(f"pipeline/data/processed/spotify/new_albums.csv", index=False)
+    dim_album_df.to_csv(f"pipeline/data/processed/spotify/dim_album.csv", index=False)
 
 
 
@@ -123,8 +123,8 @@ def transform_data_from_raw_json(run_id = None):
     )
 
     dim_tracks_last_saved = (
-        pd.read_csv("data/processed/spotify/dim_tracks.csv")
-        if Path("data/processed/spotify/dim_tracks.csv").exists() else pd.DataFrame(columns=["track_mbid", "track_name"])
+        pd.read_csv("pipeline/data/processed/spotify/dim_tracks.csv")
+        if Path("pipeline/data/processed/spotify/dim_tracks.csv").exists() else pd.DataFrame(columns=["track_mbid", "track_name"])
     )
 
     new_tracks = dim_tracks_df[
@@ -138,8 +138,8 @@ def transform_data_from_raw_json(run_id = None):
         ignore_index=True
     )
 
-    new_tracks.to_csv(f"data/processed/spotify/new_tracks.csv", index=False)
-    dim_tracks_df.to_csv(f"data/processed/spotify/dim_tracks.csv", index=False)
+    new_tracks.to_csv(f"pipeline/data/processed/spotify/new_tracks.csv", index=False)
+    dim_tracks_df.to_csv(f"pipeline/data/processed/spotify/dim_tracks.csv", index=False)
 
 
 
