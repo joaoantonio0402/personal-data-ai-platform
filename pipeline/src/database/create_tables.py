@@ -124,6 +124,24 @@ def create_tables():
         )
         connection.execute(
             text(
+                "ALTER TABLE timeline_path "
+                "ADD COLUMN IF NOT EXISTS activity_id INTEGER"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE timeline_path "
+                "DROP CONSTRAINT IF EXISTS timeline_path_activity_id_fkey"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE timeline_path "
+                "ALTER COLUMN activity_id DROP NOT NULL"
+            )
+        )
+        connection.execute(
+            text(
                 "UPDATE track_audio_features AS features "
                 "SET provider_track_id = tracks.recco_track_id "
                 "FROM dim_track AS tracks "

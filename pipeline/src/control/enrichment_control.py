@@ -10,7 +10,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.database.connection import connect_to_database
-from src.database.schema import Base, EnrichmentQueue, StgStream
+from src.database.schema import Base, Candidates, EnrichmentQueue, StgStream
 
 def parse_stream_to_enrich_df(row):
     columns = ["enrichment_name", "type", "method", "info", "enriched_at", "status"]
@@ -51,6 +51,10 @@ def control_enrichment_queue():
             ).distinct(),
             connection,
         )
+        candidates_df = pd.read_sql(
+            select(Candidates.candidate_id),
+            connection,
+        )
 
     parsed_frames = [
         parse_stream_to_enrich_df(row)
@@ -60,6 +64,19 @@ def control_enrichment_queue():
         pd.concat(parsed_frames, ignore_index=True)
         if parsed_frames
         else pd.DataFrame(columns=columns)
+    )
+    google_enrichments_df = pd.DataFrame(
+        {
+            "enrichment_name": candidates_df["candidate_id"],
+            "type": "candidate",
+            "method": "google",
+            "info": None,
+            "enriched_at": None,
+            "status": "pending",
+        }
+    )
+    enrichments_df = pd.concat(
+        [enrichments_df, google_enrichments_df], ignore_index=True
     )
     enrichments_df = enrichments_df.drop_duplicates(
         subset=["enrichment_name", "type", "method"]

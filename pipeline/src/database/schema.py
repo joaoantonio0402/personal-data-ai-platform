@@ -220,6 +220,9 @@ class Candidates(Base):
 
 
     longitude = Column(Float)
+    url_google_maps_id = Column(String)
+    url_google_maps_coord = Column(String)
+    name = Column(String)
 
 
 class FactActivity(Base):
@@ -274,12 +277,13 @@ class TimelinePath(Base):
         autoincrement=True
     )
 
-    ###############################TENHO QUE ESTUDAR SE CADA PATH É UM PATH DE UMA ACTIVITY OU SE É UM PATH DE UM VISIT, OU SE É UM PATH DE UM LISTENING, OU SE É UM PATH DE UM CONTEXT EVENT. POR ENQUANTO ESTOU COLOCANDO COMO SE FOSSE UM PATH DE UMA ACTIVITY, MAS TENHO QUE ESTUDAR MELHOR ISSO.###############################
-    # activity_id = Column(
-    #     Integer,
-    #     ForeignKey("fact_activity.activity_id"),
-    #     nullable=False
-    # )
+    # The Google timeline path is a raw geographic trace and does not always map
+    # one-to-one to a fact_activity row. Keeping this column nullable avoids false
+    # FK violations while preserving the raw path metadata.
+    activity_id = Column(
+        Integer,
+        nullable=True
+    )
 
     start_time = Column(
         DateTime,
