@@ -223,6 +223,11 @@ class Candidates(Base):
     url_google_maps_id = Column(String)
     url_google_maps_coord = Column(String)
     name = Column(String)
+    city = Column(String)
+    state = Column(String)
+    state_code = Column(String)
+    country = Column(String)
+    country_code = Column(String)
 
 
 class FactActivity(Base):
