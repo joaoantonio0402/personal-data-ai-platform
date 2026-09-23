@@ -158,6 +158,7 @@ def get_data_to_enrich_from_db(reprocess_failed=False):
 			).where(
 				EnrichmentQueue.type == "candidate",
 				EnrichmentQueue.method == "google",
+				EnrichmentQueue.status.in_(statuses),
 			),
 			connection,
 		)
@@ -216,6 +217,13 @@ def _maps_urls(place_id, latitude, longitude):
 	return coords_url, place_url
 
 
+def _has_complete_google_enrichment(name, google_maps_url, location_info):
+	"""Return whether Google returned every field required for completion."""
+	if not name or not google_maps_url or not location_info:
+		return False
+	return all(location_info.get(column) for column in LOCATION_COLUMNS)
+
+
 def _enrich_batch(candidates_df):
 	"""Enrich and persist one batch in a single database transaction."""
 	if candidates_df is None or candidates_df.empty:
@@ -246,6 +254,11 @@ def _enrich_batch(candidates_df):
 					row["latitude"],
 					row["longitude"],
 				)
+				is_complete = _has_complete_google_enrichment(
+					name,
+					google_maps_url,
+					location_info,
+				)
 				coords_url, place_url = _maps_urls(
 					place_id, row["latitude"], row["longitude"]
 				)
@@ -259,6 +272,14 @@ def _enrich_batch(candidates_df):
 						**(location_info or {}),
 					)
 				)
+				if not is_complete:
+					logger.warning(
+						"Google candidate incomplete | place_id=%s | name=%s | maps_url=%s | location_info=%s",
+						place_id,
+						bool(name),
+						bool(google_maps_url),
+						location_info,
+					)
 				connection.execute(
 					update(EnrichmentQueue)
 					.where(
@@ -268,14 +289,15 @@ def _enrich_batch(candidates_df):
 						EnrichmentQueue.status.in_(["pending", "failed"]),
 					)
 					.values(
-						status="completed",
+						status="completed" if is_complete else "failed",
 						enriched_at=processed_at,
 						info=google_maps_url,
 					)
 				)
-				results.append(True)
+				results.append(is_complete)
 				logger.info(
-					"Google candidate completed | place_id=%s | name=%s",
+					"Google candidate %s | place_id=%s | name=%s",
+					"completed" if is_complete else "failed",
 					place_id,
 					name,
 				)

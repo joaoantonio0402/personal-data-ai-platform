@@ -39,7 +39,7 @@ def main():
     else:
         logger.info("No new Google timeline data; processing pending enrichment queue")
     control_enrichment_queue()
-    summary["google_enrichment"] = enrich_data(chunk_size=10, reprocess_failed=True)
+    summary["google_enrichment"] = enrich_data(chunk_size=10, reprocess_failed=False)
     logger.info("Google pipeline completed | summary=%s", summary)
     return summary
 

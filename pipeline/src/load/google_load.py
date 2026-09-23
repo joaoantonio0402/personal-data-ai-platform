@@ -42,20 +42,56 @@ def _filter_new_rows_by_start_time(engine, table_name: str, df: pd.DataFrame) ->
     return df[df["start_time"] > max_ts].copy()
 
 
+def _filter_existing_fact_visits(engine, df: pd.DataFrame) -> pd.DataFrame:
+    unique_columns = ["start_time", "end_time", "candidate_id"]
+    if df is None or df.empty:
+        return df
+
+    with engine.begin() as connection:
+        existing = pd.read_sql(
+            text(
+                "SELECT start_time, end_time, candidate_id "
+                "FROM fact_visit"
+            ),
+            connection,
+        )
+
+    def build_keys(frame):
+        normalized = frame.copy()
+        for column in ["start_time", "end_time"]:
+            normalized[column] = pd.to_datetime(
+                normalized[column], errors="coerce", utc=True
+            ).astype("string")
+        normalized["candidate_id"] = normalized["candidate_id"].astype("string")
+        return pd.MultiIndex.from_frame(normalized[unique_columns])
+
+    if existing.empty:
+        return df
+
+    existing_keys = build_keys(existing)
+    current_keys = build_keys(df)
+    return df.loc[~current_keys.isin(existing_keys)].copy()
+
+
 def _insert_if_new(engine, table_name: str, df: pd.DataFrame, unique_columns=None):
     if df is None or df.empty:
         return 0
 
     df = df.copy()
 
-    if unique_columns is not None:
+    if table_name == "fact_visit":
+        df = df.drop_duplicates(
+            subset=["start_time", "end_time", "candidate_id"]
+        ).copy()
+        df = _filter_existing_fact_visits(engine, df)
+    elif unique_columns is not None:
         df = df.drop_duplicates(subset=list(unique_columns)).copy()
     elif "candidate_id" in df.columns:
         df = df.drop_duplicates(subset=["candidate_id"]).copy()
     elif "activity_id" in df.columns and "start_time" in df.columns and "end_time" in df.columns:
         df = df.drop_duplicates(subset=["activity_id", "start_time", "end_time"]).copy()
 
-    if table_name in {"fact_visit", "fact_activity", "timeline_path"}:
+    if table_name in {"fact_activity", "timeline_path"}:
         df = _filter_new_rows_by_start_time(engine, table_name, df)
 
     if table_name == "dim_candidates":
