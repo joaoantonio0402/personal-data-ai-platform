@@ -140,7 +140,15 @@ def _load_dimensions(dim: dict):
 
     with engine.connect() as connection:
         track_ids = pd.read_sql(
-            select(DimTrack.track_id, DimTrack.track_name, DimTrack.artist_name),
+            select(
+                DimTrack.track_id,
+                DimTrack.track_name,
+                DimTrack.artist_name,
+                DimAlbum.album_name,
+            ).join(
+                DimAlbum,
+                DimTrack.album_id == DimAlbum.album_id,
+            ),
             connection,
         )
 
@@ -165,6 +173,45 @@ def load_dimensions(streams: pd.DataFrame):
     return _load_dimensions(dimensions)
 
 
+def _load_new_fact_listenings(engine, facts: pd.DataFrame):
+    """Append only unseen track/timestamp listening events."""
+    if facts is None or facts.empty:
+        return 0
+
+    facts = facts.drop_duplicates(
+        subset=["track_id", "timestamp_uts"],
+    ).copy()
+
+    with engine.connect() as connection:
+        existing_facts = pd.read_sql(
+            select(
+                FactListening.track_id,
+                FactListening.timestamp_uts,
+            ),
+            connection,
+        )
+
+    if not existing_facts.empty:
+        existing_keys = pd.MultiIndex.from_frame(
+            existing_facts[["track_id", "timestamp_uts"]]
+        )
+        fact_keys = pd.MultiIndex.from_frame(
+            facts[["track_id", "timestamp_uts"]]
+        )
+        facts = facts.loc[~fact_keys.isin(existing_keys)].copy()
+
+    if facts.empty:
+        return 0
+
+    facts.to_sql(
+        FactListening.__tablename__,
+        con=engine,
+        if_exists="append",
+        index=False,
+    )
+    return len(facts)
+
+
 def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
     """Load enriched dimensions and listening facts into the database."""
     engine = connect_to_database()
@@ -178,7 +225,7 @@ def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
     features = enriched_tracks.copy()
     features = features.merge(
         track_ids,
-        on=["track_name", "artist_name"],
+        on=["track_name", "artist_name", "album_name"],
         how="inner",
     )
     features["provider"] = "reccobeats"
@@ -227,19 +274,19 @@ def load_enriched_data(fact_listening: pd.DataFrame, dim: dict):
 
     facts = fact_listening.merge(
         track_ids,
-        on=["track_name", "artist_name"],
+        on=["track_name", "artist_name", "album_name"],
         how="inner",
     )
     fact_columns = [column.name for column in FactListening.__table__.columns]
     fact_columns.remove("listening_id")
     facts = facts[[column for column in fact_columns if column in facts]]
-    facts.to_sql(FactListening.__tablename__, con=engine, if_exists="append", index=False)
+    facts_loaded = _load_new_fact_listenings(engine, facts)
 
     return {
         "artists": len(artists),
         "albums": len(albums),
         "tracks": len(tracks),
-        "facts": len(facts),
+        "facts": facts_loaded,
     }
 
 

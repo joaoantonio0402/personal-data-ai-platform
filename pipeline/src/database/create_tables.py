@@ -151,6 +151,58 @@ def create_tables():
                 "AND tracks.recco_track_id IS NOT NULL"
             )
         )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS match_method TEXT"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS match_score DOUBLE PRECISION"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS time_distance_seconds INTEGER"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS overlap_seconds INTEGER"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ALTER COLUMN timestamp DROP NOT NULL"
+            )
+        )
+        connection.execute(
+            text(
+                "DELETE FROM fact_listening AS duplicate "
+                "USING fact_listening AS original "
+                "WHERE duplicate.listening_id > original.listening_id "
+                "AND duplicate.track_id = original.track_id "
+                "AND duplicate.timestamp_uts = original.timestamp_uts"
+            )
+        )
+        connection.execute(
+            text(
+                "CREATE UNIQUE INDEX IF NOT EXISTS "
+                "uq_fact_listening_track_timestamp "
+                "ON fact_listening (track_id, timestamp_uts)"
+            )
+        )
     migrate_legacy_track_features(engine)
 
     print("Done!")

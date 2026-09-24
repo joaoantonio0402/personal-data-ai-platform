@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy import (
     Column,
+    CheckConstraint,
     Integer,
     String,
     Float,
@@ -9,6 +10,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     Boolean,
+    Index,
     UniqueConstraint
 )
 
@@ -150,6 +152,14 @@ class EnrichmentQueue(Base):
 
 class FactListening(Base):
     __tablename__ = "fact_listening"
+    __table_args__ = (
+        Index(
+            "uq_fact_listening_track_timestamp",
+            "track_id",
+            "timestamp_uts",
+            unique=True,
+        ),
+    )
 
     listening_id = Column(Integer, primary_key=True, autoincrement=True)
     track_id = Column(Integer, ForeignKey("dim_track.track_id"), nullable=False)
@@ -319,39 +329,37 @@ class TimelinePath(Base):
 
 class FactContextEvent(Base):
     __tablename__ = "fact_context_event"
-
-
-    event_id = Column(
-        Integer,
-        primary_key=True,
-        autoincrement=True
+    __table_args__ = (
+        CheckConstraint(
+            "(visit_id IS NOT NULL) <> (activity_id IS NOT NULL)",
+            name="ck_context_event_one_google_context",
+        ),
+        UniqueConstraint(
+            "listening_id",
+            "visit_id",
+            "activity_id",
+            name="uq_context_event_relationship",
+        ),
     )
 
-
-    timestamp = Column(
-        DateTime,
-        nullable=False
-    )
-
-
+    event_id = Column(Integer, primary_key=True, autoincrement=True)
+    timestamp = Column(DateTime, nullable=True)
     listening_id = Column(
         Integer,
-        ForeignKey("fact_listening.listening_id")
+        ForeignKey("fact_listening.listening_id"),
+        nullable=False,
     )
-
-
-    visit_id = Column(
-        Integer,
-        ForeignKey("fact_visit.visit_id")
+    visit_id = Column(Integer, ForeignKey("fact_visit.visit_id"))
+    activity_id = Column(Integer, ForeignKey("fact_activity.activity_id"))
+    match_method = Column(String, nullable=False)
+    match_score = Column(Float)
+    time_distance_seconds = Column(Integer)
+    overlap_seconds = Column(Integer)
+    created_at = Column(
+        DateTime,
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
     )
-
-
-    activity_id = Column(
-        Integer,
-        ForeignKey("fact_activity.activity_id")
-    )
-
-
+    # Kept nullable for compatibility with the original table shape.
     latitude = Column(Float)
-
     longitude = Column(Float)
