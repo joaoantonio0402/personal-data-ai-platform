@@ -35,8 +35,6 @@ def extract_google_timeline(raw_path: str | Path | None = None) -> pd.DataFrame:
             continue
         df["startTime"] = pd.to_datetime(df["startTime"], utc=True)
         df["endTime"] = pd.to_datetime(df["endTime"], utc=True)
-        df["startTime"] = df["startTime"].dt.tz_convert("America/Sao_Paulo")
-        df["endTime"] = df["endTime"].dt.tz_convert("America/Sao_Paulo")
         frames.append(df)
 
     if not frames:

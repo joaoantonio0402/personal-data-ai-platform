@@ -27,17 +27,16 @@ def _filter_new_rows_by_start_time(engine, table_name: str, df: pd.DataFrame) ->
     df = df.copy()
     df["start_time"] = pd.to_datetime(df["start_time"], errors="coerce")
 
-    timezone_name = "America/Sao_Paulo"
     if getattr(df["start_time"].dt, "tz", None) is None:
-        df["start_time"] = df["start_time"].dt.tz_localize(timezone_name)
+        df["start_time"] = df["start_time"].dt.tz_localize("UTC")
     else:
-        df["start_time"] = df["start_time"].dt.tz_convert(timezone_name)
+        df["start_time"] = df["start_time"].dt.tz_convert("UTC")
 
     max_ts = pd.to_datetime(max_ts, errors="coerce")
     if getattr(max_ts, "tzinfo", None) is None:
-        max_ts = max_ts.tz_localize(timezone_name)
+        max_ts = max_ts.tz_localize("UTC")
     else:
-        max_ts = max_ts.tz_convert(timezone_name)
+        max_ts = max_ts.tz_convert("UTC")
 
     return df[df["start_time"] > max_ts].copy()
 

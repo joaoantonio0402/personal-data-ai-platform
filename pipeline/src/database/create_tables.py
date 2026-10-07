@@ -118,6 +118,168 @@ def create_tables():
     with engine.begin() as connection:
         connection.execute(
             text(
+                """
+                DO $$
+                BEGIN
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'stg_stream'
+                          AND column_name = 'timestamp_utc'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE stg_stream
+                        ALTER COLUMN timestamp_utc TYPE TIMESTAMPTZ
+                        USING timestamp_utc AT TIME ZONE 'UTC';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'fact_listening'
+                          AND column_name = 'timestamp_utc'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE fact_listening
+                        ALTER COLUMN timestamp_utc TYPE TIMESTAMPTZ
+                        USING timestamp_utc AT TIME ZONE 'UTC';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'fact_visit'
+                          AND column_name = 'start_time'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE fact_visit
+                        ALTER COLUMN start_time TYPE TIMESTAMPTZ
+                        USING start_time AT TIME ZONE 'America/Sao_Paulo';
+                        ALTER TABLE fact_visit
+                        ALTER COLUMN end_time TYPE TIMESTAMPTZ
+                        USING end_time AT TIME ZONE 'America/Sao_Paulo';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'fact_activity'
+                          AND column_name = 'start_time'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE fact_activity
+                        ALTER COLUMN start_time TYPE TIMESTAMPTZ
+                        USING start_time AT TIME ZONE 'America/Sao_Paulo';
+                        ALTER TABLE fact_activity
+                        ALTER COLUMN end_time TYPE TIMESTAMPTZ
+                        USING end_time AT TIME ZONE 'America/Sao_Paulo';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'timeline_path'
+                          AND column_name = 'start_time'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE timeline_path
+                        ALTER COLUMN start_time TYPE TIMESTAMPTZ
+                        USING start_time AT TIME ZONE 'America/Sao_Paulo';
+                        ALTER TABLE timeline_path
+                        ALTER COLUMN end_time TYPE TIMESTAMPTZ
+                        USING end_time AT TIME ZONE 'America/Sao_Paulo';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'fact_context_event'
+                          AND column_name = 'timestamp'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE fact_context_event
+                        ALTER COLUMN timestamp TYPE TIMESTAMPTZ
+                        USING timestamp AT TIME ZONE 'UTC';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'fact_context_event'
+                          AND column_name = 'created_at'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE fact_context_event
+                        ALTER COLUMN created_at TYPE TIMESTAMPTZ
+                        USING created_at AT TIME ZONE 'UTC';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'context_queue'
+                          AND column_name = 'queued_at'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE context_queue
+                        ALTER COLUMN queued_at TYPE TIMESTAMPTZ
+                        USING queued_at AT TIME ZONE 'UTC';
+                        ALTER TABLE context_queue
+                        ALTER COLUMN processed_at TYPE TIMESTAMPTZ
+                        USING processed_at AT TIME ZONE 'UTC';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'enrichment_queue'
+                          AND column_name = 'enriched_at'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE enrichment_queue
+                        ALTER COLUMN enriched_at TYPE TIMESTAMPTZ
+                        USING enriched_at AT TIME ZONE 'UTC';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM information_schema.columns
+                        WHERE table_name = 'track_audio_features'
+                          AND column_name = 'fetched_at'
+                          AND data_type = 'timestamp without time zone'
+                    ) THEN
+                        ALTER TABLE track_audio_features
+                        ALTER COLUMN fetched_at TYPE TIMESTAMPTZ
+                        USING fetched_at AT TIME ZONE 'UTC';
+                    END IF;
+                END $$;
+                """
+            )
+        )
+        connection.execute(
+            text(
+                "UPDATE stg_stream "
+                "SET timestamp_utc = to_timestamp(timestamp_uts) "
+                "WHERE timestamp_uts IS NOT NULL"
+            )
+        )
+        connection.execute(
+            text(
+                "UPDATE fact_listening "
+                "SET timestamp_utc = to_timestamp(timestamp_uts) "
+                "WHERE timestamp_uts IS NOT NULL"
+            )
+        )
+        connection.execute(
+            text(
+                "UPDATE fact_context_event AS events "
+                "SET timestamp = listenings.timestamp_utc "
+                "FROM fact_listening AS listenings "
+                "WHERE events.listening_id = listenings.listening_id"
+            )
+        )
+        connection.execute(
+            text(
                 "ALTER TABLE track_audio_features "
                 "ADD COLUMN IF NOT EXISTS popularity INTEGER"
             )
@@ -178,6 +340,60 @@ def create_tables():
         connection.execute(
             text(
                 "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS context_type TEXT"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS track_name TEXT"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS start_latitude DOUBLE PRECISION"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS start_longitude DOUBLE PRECISION"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS end_latitude DOUBLE PRECISION"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS end_longitude DOUBLE PRECISION"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS location_source TEXT"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS location_precision TEXT"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
+                "ADD COLUMN IF NOT EXISTS google_maps_url TEXT"
+            )
+        )
+        connection.execute(
+            text(
+                "ALTER TABLE fact_context_event "
                 "ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ"
             )
         )
@@ -185,6 +401,21 @@ def create_tables():
             text(
                 "ALTER TABLE fact_context_event "
                 "ALTER COLUMN timestamp DROP NOT NULL"
+            )
+        )
+        connection.execute(
+            text(
+                "DELETE FROM fact_context_event AS duplicate "
+                "USING fact_context_event AS original "
+                "WHERE duplicate.listening_id = original.listening_id "
+                "AND duplicate.event_id > original.event_id"
+            )
+        )
+        connection.execute(
+            text(
+                "CREATE UNIQUE INDEX IF NOT EXISTS "
+                "uq_context_event_listening "
+                "ON fact_context_event (listening_id)"
             )
         )
         connection.execute(

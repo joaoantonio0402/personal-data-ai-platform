@@ -589,6 +589,7 @@ def _enrich_batch(
                 "track_url",
                 "track_name",
                 "artist_name",
+                "album_name",
             ]
         ]
 

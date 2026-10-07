@@ -37,7 +37,7 @@ class StgStream(Base):
     album_name = Column(String)
     artist_mbid = Column(String)
     artist_name = Column(String)
-    timestamp_utc = Column(DateTime, nullable=False)
+    timestamp_utc = Column(DateTime(timezone=True), nullable=False)
     timestamp_uts = Column(Integer, nullable=False)
     track_url = Column(String)
     streamable = Column(Integer)
@@ -127,7 +127,10 @@ class TrackAudioFeatures(Base):
     tempo = Column(Float)
     valence = Column(Float)
     raw_response = Column(JSONB)
-    fetched_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    fetched_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+    )
 
 
 class EnrichmentQueue(Base):
@@ -146,7 +149,7 @@ class EnrichmentQueue(Base):
     type = Column(String, nullable=False)
     method = Column(String, nullable=False)
     info = Column(String)
-    enriched_at = Column(DateTime)
+    enriched_at = Column(DateTime(timezone=True))
     status = Column(String, nullable=False, default="pending")
 
 
@@ -164,7 +167,7 @@ class FactListening(Base):
     listening_id = Column(Integer, primary_key=True, autoincrement=True)
     track_id = Column(Integer, ForeignKey("dim_track.track_id"), nullable=False)
 
-    timestamp_utc = Column(DateTime, nullable=False)
+    timestamp_utc = Column(DateTime(timezone=True), nullable=False)
     timestamp_uts = Column(Integer, nullable=False)
     track_url = Column(String)
     # streamable = Column(Integer)
@@ -188,13 +191,13 @@ class FactVisit(Base):
 
 
     start_time = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False
     )
 
 
     end_time = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False
     )
 
@@ -252,13 +255,13 @@ class FactActivity(Base):
 
 
     start_time = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False
     )
 
 
     end_time = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False
     )
 
@@ -301,13 +304,13 @@ class TimelinePath(Base):
     )
 
     start_time = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False
     )
 
 
     end_time = Column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=False
     )
 
@@ -320,6 +323,30 @@ class TimelinePath(Base):
 
     duration_minutes_offset = Column(Integer)
 
+class ContextQueue(Base):
+    __tablename__ = "context_queue"
+    __table_args__ = (
+        UniqueConstraint(
+            "listening_id",
+            name="uq_context_queue_listening",
+        ),
+    )
+
+    queue_id = Column(Integer, primary_key=True, autoincrement=True)
+    listening_id = Column(
+        Integer,
+        ForeignKey("fact_listening.listening_id"),
+        nullable=False,
+    )
+    status = Column(String, nullable=False, default="pending")
+    attempts = Column(Integer, nullable=False, default=0)
+    info = Column(String)
+    queued_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    processed_at = Column(DateTime(timezone=True))
 
 
 # ==========================
@@ -340,15 +367,21 @@ class FactContextEvent(Base):
             "activity_id",
             name="uq_context_event_relationship",
         ),
+        UniqueConstraint(
+            "listening_id",
+            name="uq_context_event_listening",
+        ),
     )
 
     event_id = Column(Integer, primary_key=True, autoincrement=True)
-    timestamp = Column(DateTime, nullable=True)
+    timestamp = Column(DateTime(timezone=True), nullable=True)
     listening_id = Column(
         Integer,
         ForeignKey("fact_listening.listening_id"),
         nullable=False,
     )
+    track_name = Column(String)
+    context_type = Column(String, nullable=False)
     visit_id = Column(Integer, ForeignKey("fact_visit.visit_id"))
     activity_id = Column(Integer, ForeignKey("fact_activity.activity_id"))
     match_method = Column(String, nullable=False)
@@ -356,10 +389,17 @@ class FactContextEvent(Base):
     time_distance_seconds = Column(Integer)
     overlap_seconds = Column(Integer)
     created_at = Column(
-        DateTime,
+        DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),
         nullable=False,
     )
     # Kept nullable for compatibility with the original table shape.
     latitude = Column(Float)
     longitude = Column(Float)
+    start_latitude = Column(Float)
+    start_longitude = Column(Float)
+    end_latitude = Column(Float)
+    end_longitude = Column(Float)
+    location_source = Column(String)
+    location_precision = Column(String)
+    google_maps_url = Column(String)
